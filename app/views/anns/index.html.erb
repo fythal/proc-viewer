@@ -1,0 +1,32 @@
+<h1>Listing anns</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Pdf</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @anns.each do |ann| %>
+      <tr>
+        <% if ann.proc_path.nil? %>
+        <td><%= ann.name %></td>
+        <% else %>
+        <td><%= link_to ann.name, "#{ann.proc_path}" %></td>
+        <% end %>        
+        <td><%= link_to 'Show', ann %></td>
+        <td><%= link_to 'Edit', edit_ann_path(ann) %></td>
+        <td><%= link_to 'Destroy', ann, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ann', new_ann_path %>

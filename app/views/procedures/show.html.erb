@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Path:</strong>
+  <%= @procedure.path %>
+</p>
+
+<p>
+  <strong>Ann:</strong>
+  <%= @procedure.ann_id %>
+</p>
+
+<p>
+  <strong>Revision:</strong>
+  <%= @procedure.revision %>
+</p>
+
+<p>
+  <strong>Revised on:</strong>
+  <%= @procedure.revised_on %>
+</p>
+
+<p>
+  <strong>Prev revision:</strong>
+  <%= @procedure.prev_revision_id %>
+</p>
+
+<%= link_to 'Edit', edit_procedure_path(@procedure) %> |
+<%= link_to 'Back', procedures_path %>

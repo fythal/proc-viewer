@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-ProcViewer::Application.config.secret_key_base = 'c637008c9da3f690e5325aa9523268cf8ef26a9cf950ffe15cb4486270f4b2c5cf06dfcb4b2363a620b99c4c6297e854d77a15ae5346c2b56d1142f6eecce515'
+ProcViewer::Application.config.secret_key_base = '4fd8caf27b2cfebb88a04a94c749f4124eb761c029ce20080f0f4a9081dbf3b2206da4e7b1079330aba82bb485ffa668b085a6500154d6b51944cf1f9f2dcb79'

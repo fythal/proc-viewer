@@ -1,4 +1,8 @@
 ProcViewer::Application.routes.draw do
+  resources :procedures
+
+  resources :anns
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -7,6 +11,8 @@ ProcViewer::Application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+
+  get 'broken_objects' => 'broken_objects#index'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
