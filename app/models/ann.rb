@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class Ann < ActiveRecord::Base
 
-  validates_uniqueness_of :window, :scope => :panel, :message => "この警報窓には、すでに他の警報が割り当てられています"
+  validates_uniqueness_of :window, :scope => :panel, :message => I18n.t(:ann_already_assigned_to_other_ann)
 
   has_many :procedures
 
