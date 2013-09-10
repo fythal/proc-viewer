@@ -8,10 +8,19 @@ describe "broken_objects/index" do
     ]
   end
 
-  it "broken_anns という id の要素がある" do
-    assign(:broken_anns, anns_without_proc)
-    render
-    assert_select "#broken_anns a", :text => "Ann without proc"
-  end
+  context "@broken_anns に 1 つ以上の警報オブジェクトが割り当てられている" do
+    before(:each) do
+      assign(:broken_anns, anns_without_proc)
+    end
 
+    it "#broken_anns の要素がある (壊れた警報をグループ化するため)" do
+      render
+      assert_select "#broken_anns"
+    end
+
+    it "壊れた警報はリンクで示される" do
+      render
+      assert_select "#broken_anns a", :text => "Ann without proc"
+    end
+  end
 end
