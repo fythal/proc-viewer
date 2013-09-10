@@ -86,7 +86,7 @@ Then(/^割り当てようとした警報の警報窓の設定は変更されな�
 end
 
 Given(/^警報対応へのパスが得られない警報がある$/) do
-  @ann = Ann.create
+  @ann = Ann.create(name: "no-proc ann")
   expect(@ann.proc_path).to be_nil
 end
 
