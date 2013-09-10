@@ -19,7 +19,7 @@
 /vendor/bundler
 
 # Ignore scanned procedures
-/app/assets/procs/*.pdf
+/public/procs/*.pdf
 
 # Ignore a automatically-generated file for rerun of cucumber
 /rerun.txt
