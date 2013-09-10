@@ -205,13 +205,15 @@ ja:
   listing_ann: 警報の一覧
   new_ann: 警報の新規作成
   editing_ann: 警報の編集
+  update_ann: 更新する
+
   listing_procedures: 手順書の一覧
   new_procedure: 手順書の新規作成
   editing_procedure: 手順書の編集
   revision_number: 改訂番号
   revised_on: 改訂日
   prev_revision: 1つ前の改訂版
-  
+
   show: 詳細
   edit: 編集
   back: 戻る
@@ -222,3 +224,5 @@ ja:
   window_number: 警報窓番号
   panel: 警報パネル
   window: 警報窓窓
+
+  ann_already_assigned_to_other_ann: " この警報窓には、すでに他の警報が割り当てられています"
