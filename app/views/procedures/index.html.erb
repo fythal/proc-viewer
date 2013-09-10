@@ -1,13 +1,13 @@
-<h1>Listing procedures</h1>
+<h1><%= t(:listing_procedures) %></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Path</th>
-      <th>Ann</th>
-      <th>Revision</th>
-      <th>Revised on</th>
-      <th>Prev revision</th>
+      <th><%= t(:proc_path) %></th>
+      <th><%= t(:ann_name) %></th>
+      <th><%= t(:revision_number) %></th>
+      <th><%= t(:revised_on) %></th>
+      <th><%= t(:prev_revision) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,9 +22,9 @@
         <td><%= procedure.revision %></td>
         <td><%= procedure.revised_on %></td>
         <td><%= procedure.prev_revision_id %></td>
-        <td><%= link_to 'Show', procedure %></td>
-        <td><%= link_to 'Edit', edit_procedure_path(procedure) %></td>
-        <td><%= link_to 'Destroy', procedure, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t(:show), procedure %></td>
+        <td><%= link_to t(:edit), edit_procedure_path(procedure) %></td>
+        <td><%= link_to t(:destroy), procedure, method: :delete, data: { confirm: t(:are_you_sure) } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -32,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Procedure', new_procedure_path %>
+<%= link_to t(:new_procedure), new_procedure_path %>

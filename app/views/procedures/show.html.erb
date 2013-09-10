@@ -1,29 +1,29 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Path:</strong>
+  <strong><%=t :proc_path %>: </strong>
   <%= @procedure.path %>
 </p>
 
 <p>
-  <strong>Ann:</strong>
+  <strong><%=t :ann_name %>: </strong>
   <%= @procedure.ann_id %>
 </p>
 
 <p>
-  <strong>Revision:</strong>
+  <strong><%=t :revision_number%>: </strong>
   <%= @procedure.revision %>
 </p>
 
 <p>
-  <strong>Revised on:</strong>
+  <strong><%=t :revised_on %>: </strong>
   <%= @procedure.revised_on %>
 </p>
 
 <p>
-  <strong>Prev revision:</strong>
+  <strong><%=t :prev_revision%>: </strong>
   <%= @procedure.prev_revision_id %>
 </p>
 
-<%= link_to 'Edit', edit_procedure_path(@procedure) %> |
-<%= link_to 'Back', procedures_path %>
+<%= link_to t(:edit), edit_procedure_path(@procedure) %> |
+<%= link_to t(:back), procedures_path %>

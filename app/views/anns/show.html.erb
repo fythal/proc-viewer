@@ -1,17 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= t(:ann_name) %>: </strong>
   <%= @ann.name %>
 </p>
 
 <p>
-  <strong>Pdf:</strong>
+  <strong><%= t(:proc_path) %>: </strong>
   <%= @ann.pdf %>
 </p>
 
-<p id="ann_panel"><strong>パネル番号: </strong><%= @ann.panel or "(未設定)" %></p>
-<p id="ann_window"><strong>窓番号: </strong><%= @ann.window or "(未設定)" %></p>
+<p id="ann_panel"><strong><%= t(:panel_number) %>: </strong><%= @ann.panel or "(未設定)" %></p>
+<p id="ann_window"><strong><%= t(:window_number) %>: </strong><%= @ann.window or "(未設定)" %></p>
 
-<%= link_to 'Edit', edit_ann_path(@ann) %> |
-<%= link_to 'Back', anns_path %>
+<%= link_to t(:edit), edit_ann_path(@ann) %> |
+<%= link_to t(:back), anns_path %>
