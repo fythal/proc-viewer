@@ -53,7 +53,7 @@ describe Ann do
 
       it 'メッセージを設定する' do
         @ann.valid?
-        expect(@ann.errors[:window]).to eq(["この警報窓には、すでに他の警報が割り当てられています"])
+        expect(@ann.errors[:window]).to eq([I18n.t(:ann_already_assigned_to_other_ann)])
       end
     end
   end

@@ -16,9 +16,9 @@ describe "anns/edit" do
     assert_select "form", :action => anns_path(@ann), :method => "post" do
       assert_select "input#ann_name", :name => "ann[name]"
       assert_select "input#ann_pdf", :name => "ann[pdf]"
-      assert_select "label[for='ann_panel']", "パネル番号"
+      assert_select "label[for='ann_panel']", I18n.t(:panel_number)
       assert_select "input#ann_panel", :name => "ann[panel]"
-      assert_select "label[for='ann_window']", "窓番号"
+      assert_select "label[for='ann_window']", I18n.t(:window_number)
       assert_select "input#ann_window", :name => "ann[window]"
     end
   end
