@@ -223,6 +223,6 @@ ja:
   panel_number: 警報パネル番号
   window_number: 警報窓番号
   panel: 警報パネル
-  window: 警報窓窓
+  window: 警報窓
 
   ann_already_assigned_to_other_ann: " この警報窓には、すでに他の警報が割り当てられています"
