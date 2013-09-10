@@ -111,7 +111,7 @@ When(/^不整合なデータを表示させる$/) do
 end
 
 Then(/^パスが得られないとして、その警報名が表示される$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_selector('#broken_anns a', :text => @ann.name)
 end
 
 Given(/^警報対応へのパスにはファイルが存在しない警報がある$/) do
