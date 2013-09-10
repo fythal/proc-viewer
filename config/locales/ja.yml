@@ -226,3 +226,4 @@ ja:
   window: 警報窓
 
   ann_already_assigned_to_other_ann: " この警報窓には、すでに他の警報が割り当てられています"
+  broken_objects: 「壊れている」オブジェクトの一覧
