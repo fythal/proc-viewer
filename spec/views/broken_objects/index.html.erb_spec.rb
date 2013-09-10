@@ -23,4 +23,21 @@ describe "broken_objects/index" do
       assert_select "#broken_anns a", :text => "Ann without proc"
     end
   end
+
+  context "@broken_anns に警報オブジェクトが割り当てられていない" do
+    before(:each) do
+      assign(:broken_anns, [])
+    end
+
+    it "#broken_anns の要素がある (壊れた警報をグループ化するため)" do
+      render
+      assert_select "#broken_anns"
+    end
+
+    it "リンクの要素が存在していない" do
+      render
+      assert_select "#broken_anns a", false
+    end
+  end
+
 end
