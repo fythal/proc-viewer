@@ -1,0 +1,11 @@
+<h1><%= t(:broken_objects) %></h1>
+
+<h2><%= t(:broken_anns) %></h2>
+
+<ul id="broken_anns">
+  <% @broken_anns.each do |ann| %>
+  <li><a><%= ann.name %></a></li>
+  <% end %>
+</ul>
+
+<br>
