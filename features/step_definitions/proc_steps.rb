@@ -29,14 +29,14 @@ Given(/^警報の編集画面が表示されている$/) do
 end
 
 Given(/^警報パネルと警報窓の入力フィールドがある$/) do
-  expect(page).to have_field('パネル番号', :type => 'text')
-  expect(page).to have_field('窓番号', :type => 'text')
+  expect(page).to have_field(I18n.t(:panel_number), :type => 'text')
+  expect(page).to have_field(I18n.t(:window_number), :type => 'text')
 end
 
 When(/^警報パネルと警報窓に適切な情報を設定する$/) do
-  fill_in 'パネル番号', :with => 'n1'
-  fill_in '窓番号', :with => 'd3'
-  click_button 'Update Ann'
+  fill_in I18n.t(:panel_number), :with => 'n1'
+  fill_in I18n.t(:window_number), :with => 'd3'
+  click_button I18n.t(:update_ann)
 end
 
 Then(/^情報が更新された警報が表示される$/) do
@@ -61,13 +61,13 @@ end
 When(/^その警報窓に違う警報を割り当てようとする$/) do
   @another_ann = Ann.create!(:name => "CRD 電気故障")
   visit "/anns/#{@another_ann.to_param}/edit"
-  fill_in 'パネル番号', :with => @assigned_panel
-  fill_in '窓番号', :with => @assigned_window
-  click_button 'Update Ann'
+  fill_in I18n.t(:panel_number), :with => @assigned_panel
+  fill_in I18n.t(:window_number), :with => @assigned_window
+  click_button I18n.t(:update_ann)
 end
 
 Then(/^すでに警報が割り当てられているという注意が表示される$/) do
-  expect(page).to have_selector('#error_explanation ul li', :text => 'Window この警報窓には、すでに他の警報が割り当てられています')
+  expect(page).to have_selector('#error_explanation ul li', :text => I18n.t(:ann_already_assigned_to_other_ann))
 end
 
 Then(/^すでに割り当てられている警報の警報窓の設定は変更されない$/) do
