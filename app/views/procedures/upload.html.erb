@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%=t :original_filename %>: </strong>
+  <%= @uploaded.original_filename %>
+</p>
+
+<p>
+  <strong><%=t :content_type %>: </strong>
+  <%= @uploaded.content_type %>
+</p>
+
+<p>
+  <strong><%=t :size %>: </strong>
+  <%= @uploaded.size %>
+</p>
+
+<%= link_to t(:back), procedures_path %>

@@ -1,4 +1,6 @@
 ProcViewer::Application.routes.draw do
+  resources :panels
+
   resources :procedures
 
   resources :anns
