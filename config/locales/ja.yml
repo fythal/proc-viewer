@@ -199,9 +199,11 @@ ja:
   activerecord:
     errors:
       <<: *errors
+    attributes:
+      ann:
+        name: "警報名称"
+        proc_path: "手順書へのパス"
 
-  ann_name: 警報名称
-  proc_path: 手順書へのパス
   listing_ann: 警報の一覧
   new_ann: 警報の新規作成
   editing_ann: 警報の編集
@@ -227,3 +229,11 @@ ja:
 
   ann_already_assigned_to_other_ann: " この警報窓には、すでに他の警報が割り当てられています"
   broken_objects: 「壊れている」オブジェクトの一覧
+
+  helpers:
+    label:
+      ann:
+        name: "警報名称"
+        proc_path: "手順書へのパス"
+        panel: "警報パネル番号"
+        window: "警報窓番号"

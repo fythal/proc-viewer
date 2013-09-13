@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t(:ann_name) %>: </strong>
+  <strong><%= Ann.human_attribute_name(:name) %>: </strong>
   <%= @ann.name %>
 </p>
 
 <p>
-  <strong><%= t(:proc_path) %>: </strong>
+  <strong><%= Ann.human_attribute_name(:proc_path) %>: </strong>
   <%= @ann.pdf %>
 </p>
 
