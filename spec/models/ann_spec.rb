@@ -124,4 +124,24 @@ describe Ann do
       it "nil を返す"
     end
   end
+
+  describe "#panel=" do
+    context "警報と関連付けられたロケーションが存在しないとき" do
+      it "Panel オブジェクトと関連付けられたロケーションオブジェクトを生成する" do
+        ann = Ann.create!
+        panel = Panel.create!
+        ann.panel = panel
+
+        expect(panel.location).not_to be_nil
+      end
+
+      it "警報と関連付けられたロケーションオブジェクトが生成される"
+    end
+
+    context "警報と関連付けられたロケーションが存在するとき" do
+    end
+
+    context "すでに他のパネルに割り当てられているとき" do
+    end
+  end
 end
