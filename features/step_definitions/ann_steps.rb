@@ -8,9 +8,9 @@ When(/^警報名称を入力する$/) do
   fill_in('ann_name', with: "CRD ポンプトリップ")
 end
 
-When(/^既存の警報パネルの名称を入力する$/) do
-  @panel = Panel.create(name: "n1")
-  fill_in('ann_panel_name', @panel.name)
+When(/^既存の警報パネルの番号を入力する$/) do
+  @panel = Panel.create(number: "n1")
+  fill_in('ann_panel_number', with: @panel.number)
 end
 
 When(/^警報パネルの、警報が割り当てられていない窓のロケーションを入力する$/) do
@@ -35,7 +35,7 @@ Then(/^正常に警報が作成されたメッセージが表示されている$
 end
 
 Then(/^詳細ページでは、警報を割り当てた警報パネルへのリンクがある$/) do
-  expect(page).to have_link(@panel.name)
+  expect(page).to have_link(@panel.number)
 end
 
 Then(/^詳細ページでは、警報の手順書へのリンクがある$/) do
