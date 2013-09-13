@@ -58,7 +58,7 @@ describe Ann do
     end
   end
 
-
+  
   context '警報にパネル番号が設定されているが、窓番号は設定されていない' do
     before(:each) do
       @ann = Ann.create(panel: "n1")
@@ -112,7 +112,10 @@ describe Ann do
     context "警報がパネルに割り当てられているとき" do
       it "割り当てらえている警報パネルの番号を返す" do
         panel = Panel.create!(number: "n1")
-        ann = Ann.create!(panel: panel, location: "a1")
+#        ann = Ann.create!(panel: panel, location: "a1")
+        ann = Ann.create!
+        ann.panel = panel
+        ann.location = "a1"
         expect(ann.panel_number).to eq("n1")
       end
     end
