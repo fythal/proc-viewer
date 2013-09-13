@@ -108,4 +108,17 @@ describe Ann do
     end
   end
 
+  describe '#panel_number' do
+    context "警報がパネルに割り当てられているとき" do
+      it "割り当てらえている警報パネルの番号を返す" do
+        panel = Panel.create!(number: "n1")
+        ann = Ann.create!(panel: panel, location: "a1")
+        expect(ann.panel_number).to eq("n1")
+      end
+    end
+
+    context "警報がパネルに割り当てられていないとき" do
+      it "nil を返す"
+    end
+  end
 end
