@@ -23,3 +23,6 @@
 
 # Ignore a automatically-generated file for rerun of cucumber
 /rerun.txt
+
+# Ignore procedure files for test
+/features/procs
