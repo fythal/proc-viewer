@@ -5,7 +5,7 @@ Given(/^警報の新規作成画面が表示されている$/) do
 end
 
 When(/^警報名称を入力する$/) do
-  fill_in('ann_name', "CRD ポンプトリップ")
+  fill_in('ann_name', with: "CRD ポンプトリップ")
 end
 
 When(/^既存の警報パネルの名称を入力する$/) do
