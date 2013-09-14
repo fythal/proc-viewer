@@ -154,11 +154,25 @@ describe AnnsController do
         response.should redirect_to(ann)
       end
 
-      it "警報をパネルに割り当てる" do
+      it "@panel に Panel オブジェクトを代入する" do
         ann = Ann.create! valid_attributes
-        attributes = valid_attributes.merge(:panel => "n1")
+        attributes = valid_attributes.merge(:panel_number => "n1")
         put :update, {:id => ann.to_param, :ann => attributes}, valid_session
-        expect(assigns(:ann).panel).to eq("n1")
+        expect(assigns(:panel)).to be_kind_of(Panel)
+      end
+
+      it "@panel はフォームに入力した同じパネル番号を持つ" do
+        ann = Ann.create! valid_attributes
+        attributes = valid_attributes.merge(:panel_number => "n1")
+        put :update, {:id => ann.to_param, :ann => attributes}, valid_session
+         expect(assigns(:panel).number).to eq("n1")
+      end
+
+      it "警報は @panel に割り当てられている" do
+        ann = Ann.create! valid_attributes
+        attributes = valid_attributes.merge(:panel_number => "n1")
+        put :update, {:id => ann.to_param, :ann => attributes}, valid_session
+        expect(assigns(:panel).anns).to include(ann)
       end
 
       it "警報を窓に割り当てる" do
