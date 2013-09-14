@@ -25,7 +25,7 @@ describe AnnsController do
   # Ann. As you add validations to Ann, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "name" => "HPCS 電気故障", "pdf" => "ann-a1.pdf" }
+    { "name" => "HPCS 電気故障" }
   end
 
   # This should return the minimal set of values that should be in the session
