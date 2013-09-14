@@ -51,7 +51,7 @@ end
 group :test do
   gem "factory_girl_rails"
     # テスト用オブジェクト生成に使われるフィクスチャーのライブラリ
-  gem "cucumber-rails"
+  gem "cucumber-rails", :require => false
   gem "capybara"
     # ユーザーからの HTTP リクエストをシミュレートする
   gem "database_cleaner", '< 1.1.0'
