@@ -2,19 +2,15 @@
 require 'spec_helper'
 
 describe "anns/show" do
-  context "警報はパネルと窓にアサインされている" do
+  context "警報がパネルにアサインされている" do
     before(:each) do
-      @ann = assign(:ann, stub_model(Ann, :name => "Name", :pdf => "Pdf",
-                                     :panel => "n1", :window => "a1"))
+      @panel = assign(:panel, stub_model(Panel, :id => 1, :number => "n1"))
+      @ann = assign(:ann, stub_model(Ann, :name => "Name", :panel => @panel))
     end
 
-    it "renders attributes in <p>" do
+    it "パネルへのリンクを描画する" do
       render
-      # Run the generator again with the --webrat flag if you want to use webrat matchers
-      rendered.should match(/Name/)
-      rendered.should match(/Pdf/)
-      rendered.should match(/<p\b.*\bid=[""']ann_panel[""''].*パネル番号:.*n1/)
-      rendered.should match(/<p\b.*\bid=[""']ann_window[""''].*窓番号:.*a1/)
+      assert_select('a[href=?]', panel_path(@panel)) #, {text: @panel.number})
     end
   end
 
@@ -26,10 +22,7 @@ describe "anns/show" do
     it "renders attributes in <p>" do
       render
       # Run the generator again with the --webrat flag if you want to use webrat matchers
-      rendered.should match(/Name/)
-      rendered.should match(/Pdf/)
-      rendered.should match(/<p\b.*\bid=[""']ann_panel[""''].*パネル番号:.*\(未設定\)/)
-      rendered.should match(/<p\b.*\bid=[""']ann_window[""''].*窓番号:.*\(未設定\)/)
+      assert_select('p', :text => /未設定/)
     end
   end
 end

@@ -10,7 +10,15 @@
   <%= @ann.pdf %>
 </p>
 
-<p id="ann_panel"><strong><%= t(:panel_number) %>: </strong><%= @ann.panel or "(未設定)" %></p>
+<p id="ann_panel">
+  <strong><%= t(:panel_number) %>: </strong>
+  <% if @panel %>
+  <%= link_to @panel.number, panel_path(@panel) %>
+  <% else %>
+  (未設定)
+  <% end %>
+</p>
+
 <p id="ann_window"><strong><%= t(:window_number) %>: </strong><%= @ann.window or "(未設定)" %></p>
 
 <%= link_to t(:edit), edit_ann_path(@ann) %> |
