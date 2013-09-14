@@ -237,4 +237,7 @@ ja:
         name: "警報名称"
         proc_path: "手順書へのパス"
         panel: "警報パネル番号"
+        panel_number: "警報パネル番号"
         window: "警報窓番号"
+        panel_location: "警報窓番号"
+        procedure: "手順書"
