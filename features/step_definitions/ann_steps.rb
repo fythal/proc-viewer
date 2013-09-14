@@ -19,7 +19,7 @@ When(/^警報パネルの、警報が割り当てられていない窓のロケ�
 end
 
 When(/^警報の手順書をアップロードする$/) do
-  attach_file(:ann_procedure, Rails.root.join('feature', 'procs', 'ann-n1-c6.pdf'))
+  attach_file(:ann_procedure, Rails.root.join('features', 'procs', 'ann-n1-c6.pdf'))
 end
 
 When(/^警報の新規作成ボタンをクリックする$/) do
