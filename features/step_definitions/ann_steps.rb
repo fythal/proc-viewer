@@ -15,7 +15,7 @@ end
 
 When(/^警報パネルの、警報が割り当てられていない窓のロケーションを入力する$/) do
   expect(@panel.assigned?("a1")).to be_false
-  fill_in('ann_panel_location', "a1")
+  fill_in('ann_panel_location', with: "a1")
 end
 
 When(/^警報の手順書をアップロードする$/) do
