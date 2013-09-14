@@ -99,6 +99,13 @@ describe AnnsController do
         assigns(:ann).should be_persisted
       end
 
+      it "割り当てられたパネルを @panel に代入する" do
+        attributes = valid_attributes.merge(:panel_number => "n1")
+        post :create, {:ann => attributes}, valid_session
+        assigns(:panel).should be_a(Panel)
+        assigns(:panel).should be_persisted
+      end
+
       it "redirects to the created ann" do
         post :create, {:ann => valid_attributes}, valid_session
         response.should redirect_to(Ann.last)

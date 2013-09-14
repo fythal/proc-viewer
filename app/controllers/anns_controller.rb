@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class AnnsController < ApplicationController
   before_action :set_ann, only: [:show, :edit, :update, :destroy]
 
@@ -30,6 +31,12 @@ class AnnsController < ApplicationController
   # POST /anns.json
   def create
     @ann = Ann.new(ann_params)
+
+    # パネルの指定があった場合、警報へのパネルの割り当てを行う
+    if panel_params[:panel_number]
+      @panel = Panel.find_or_create_by!(number: panel_params[:panel_number])
+      @ann.panel = @panel
+    end
 
     respond_to do |format|
       if @ann.save
@@ -75,5 +82,9 @@ class AnnsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ann_params
       params.require(:ann).permit(:name, :pdf, :panel, :window)
+    end
+
+    def panel_params
+      params.require(:ann).permit(:panel_number)
     end
 end
