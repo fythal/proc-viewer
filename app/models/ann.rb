@@ -4,6 +4,8 @@ class Ann < ActiveRecord::Base
   validates_uniqueness_of :window, :scope => :panel, :message => I18n.t(:ann_already_assigned_to_other_ann)
 
   has_many :procedures
+  has_one :location
+  has_one :panel, through: :location
 
   def proc_path
     return nil if procedures.empty?
