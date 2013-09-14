@@ -23,7 +23,8 @@ When(/^警報の手順書をアップロードする$/) do
 end
 
 When(/^警報の新規作成ボタンをクリックする$/) do
-  click_button I18n.t(:create_ann)
+#  click_button I18n.t(:create_ann)
+  click_button "Create Ann"
 end
 
 Then(/^警報の詳細ページが表示される$/) do
