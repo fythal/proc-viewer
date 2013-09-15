@@ -106,6 +106,18 @@ describe AnnsController do
         assigns(:panel).should be_persisted
       end
 
+      it "@panel はフォームに入力した同じパネル番号を持つ" do
+        attributes = valid_attributes.merge(:panel_number => "n1")
+        post :create, {:ann => attributes}, valid_session
+        expect(assigns(:panel).number).to eq("n1")
+      end
+
+      it "警報は @panel に割り当てられている" do
+        attributes = valid_attributes.merge(:panel_number => "n1")
+        post :create, {:ann => attributes}, valid_session
+        expect(assigns(:panel).anns.last).to eq(assigns(:ann))
+      end
+
       it "redirects to the created ann" do
         post :create, {:ann => valid_attributes}, valid_session
         response.should redirect_to(Ann.last)
@@ -165,7 +177,7 @@ describe AnnsController do
         ann = Ann.create! valid_attributes
         attributes = valid_attributes.merge(:panel_number => "n1")
         put :update, {:id => ann.to_param, :ann => attributes}, valid_session
-         expect(assigns(:panel).number).to eq("n1")
+        expect(assigns(:panel).number).to eq("n1")
       end
 
       it "警報は @panel に割り当てられている" do
