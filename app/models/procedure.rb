@@ -10,4 +10,8 @@ class Procedure < ActiveRecord::Base
     end
     proc
   end
+
+  def file_path
+    path and Rails.public_path.join(path.sub(%r|^/|, "")).to_s
+  end
 end
