@@ -37,11 +37,20 @@ describe "anns/show" do
     end
 
     it "手順書へのリンクがある" do
-      assert_select "a[href=?]", "/foo/bar.pdf"
+      render
+      assert_select "a[href=?]", "/procs/bar.pdf"
     end
 
     it "手順書へのリンクにはファイル名が表示されている" do
-      assert_select "a[href=?]", "/foo/bar.pdf", :text => "bar.pdf"
+      render
+      assert_select "a[href=?]", "/procs/bar.pdf", :text => "bar.pdf"
+    end
+
+    it "手順書へのリンクは #ann_procedure 要素の中に入っている" do
+      render
+      assert_select "#ann_procedure" do
+        assert_select "a[href=?]", "/procs/bar.pdf"
+      end
     end
   end
 end
