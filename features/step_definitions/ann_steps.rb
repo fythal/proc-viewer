@@ -13,9 +13,19 @@ When(/^既存の警報パネルの番号を入力する$/) do
   fill_in('ann_panel_number', with: @panel.number)
 end
 
+When(/^存在していない警報パネルの番号を入力する$/) do
+  @panel_number = "n2"
+  fill_in('ann_panel_number', with: @panel_number)
+end
+
 When(/^警報パネルの、警報が割り当てられていない窓のロケーションを入力する$/) do
   expect(@panel.assigned?("a1")).to be_false
   fill_in('ann_panel_location', with: "a1")
+end
+
+When(/^警報パネルの窓のロケーションを入力する$/) do
+  @panel_location = "a1"
+  fill_in('ann_panel_location', with: @panel_location)
 end
 
 When(/^警報の手順書をアップロードする$/) do
@@ -39,8 +49,16 @@ Then(/^詳細ページでは、警報を割り当てた警報パネルへのリ�
   expect(page).to have_link(@panel.number)
 end
 
+Then(/^詳細ページでは、新規に作成された警報パネルへのリンクがある$/) do
+  expect(page).to have_link(@panel_number)
+end
+
 Then(/^詳細ページでは、警報の手順書へのリンクがある$/) do
   ann_id = (current_path.match(%r|/anns/(\d)+|) and $~[1])
   ann = Ann.find(ann_id.to_i)
   expect(page).to have_link(ann.procedure.path.sub(%r|^.*/|, ''), href: ann.procedure.path)
+end
+
+Then(/^詳細ページでは、警報を割り当てた窓のロケーションが表示される$/) do
+  expect(page).to have_selector('#ann_window', :text => @panel_location)
 end
