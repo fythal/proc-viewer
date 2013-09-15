@@ -28,4 +28,20 @@ describe "anns/show" do
       end
     end
   end
+
+  context "警報に手順書が関連付けられている" do
+    before(:each) do
+      assign(:ann, stub_model(Ann,
+                              :name => "Name",
+                              :procedure => stub_model(Procedure, :path => "/procs/bar.pdf")))
+    end
+
+    it "手順書へのリンクがある" do
+      assert_select "a[href=?]", "/foo/bar.pdf"
+    end
+
+    it "手順書へのリンクにはファイル名が表示されている" do
+      assert_select "a[href=?]", "/foo/bar.pdf", :text => "bar.pdf"
+    end
+  end
 end
