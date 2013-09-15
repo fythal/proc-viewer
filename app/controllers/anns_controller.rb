@@ -52,6 +52,11 @@ class AnnsController < ApplicationController
   # PATCH/PUT /anns/1
   # PATCH/PUT /anns/1.json
   def update
+    if panel_params[:panel_number]
+      @panel = Panel.find_or_create_by!(number: panel_params[:panel_number])
+      @ann.panel = @panel
+    end
+
     respond_to do |format|
       if @ann.update(ann_params)
         format.html { redirect_to @ann, notice: 'Ann was successfully updated.' }
