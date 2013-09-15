@@ -117,6 +117,17 @@ describe Ann do
   #       end
   #     end
 
+  describe "#procedure" do
+    context '手順書が割り当てられている' do
+      it "手順書を返す"
+      it "最新の手順書を返す"
+    end
+
+    context "手順書が割り当てられていない" do
+      it "nil を返す"
+    end
+  end
+
   #     context '手順書が割り当てられている' do
   #       before(:each) do
   #         @proc = Procedure.create(ann: @ann, path: "/assets/procs/foo-bar.pdf")
