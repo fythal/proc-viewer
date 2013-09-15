@@ -42,5 +42,5 @@ end
 Then(/^詳細ページでは、警報の手順書へのリンクがある$/) do
   ann_id = (current_path.match(%r|/anns/(\d)+|) and $~[1])
   ann = Ann.find(ann_id.to_i)
-  expect(page).to have_link(ann.procedure.path)
+  expect(page).to have_link(ann.procedure.path.sub(%r|^.*/|, ''), href: ann.procedure.path)
 end
