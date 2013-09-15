@@ -23,7 +23,10 @@
   <% end %>
 </p>
 
-<p id="ann_window"><strong><%= t(:window_number) %>: </strong><%= @ann.window or "(未設定)" %></p>
+<p id="ann_window">
+  <strong><%= t(:window_number) %>: </strong>
+  <%= @ann.location or "(未設定)" %>
+</p>
 
 <%= link_to t(:edit), edit_ann_path(@ann) %> |
 <%= link_to t(:back), anns_path %>

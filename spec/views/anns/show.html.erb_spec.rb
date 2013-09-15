@@ -53,4 +53,17 @@ describe "anns/show" do
       end
     end
   end
+
+  context "警報の場所を示す @location が設定されている" do
+    before(:each) do
+      location = stub_model(Location, to_s: "a1")
+      assign(:ann, stub_model(Ann, location: location))
+    end
+
+    it "警報の場所を #ann_window に表示する" do
+      render
+      assert_select "#ann_window", :text => /a1/
+    end
+  end
+
 end
