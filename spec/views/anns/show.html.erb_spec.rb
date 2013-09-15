@@ -60,9 +60,9 @@ describe "anns/show" do
       assign(:ann, stub_model(Ann, location: location))
     end
 
-    it "警報の場所を #ann_window に表示する" do
+    it "警報の場所を #ann_panel_location に表示する" do
       render
-      assert_select "#ann_window", :text => /a1/
+      assert_select "#ann_panel_location", :text => /a1/
     end
   end
 
