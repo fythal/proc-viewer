@@ -208,11 +208,17 @@ describe AnnsController do
         expect(assigns(:panel).anns).to include(ann)
       end
 
-      it "警報を窓に割り当てる" do
+      it "警報を割り当てるためにパネルと窓を指定する" do
         ann = Ann.create! valid_attributes
-        attributes = valid_attributes.merge(:window => "a1")
+        attributes = valid_attributes.merge(panel_number: "n1", panel_location: "a1")
         put :update, {:id => ann.to_param, :ann => attributes}, valid_session
-        expect(assigns(:ann).window).to eq("a1")
+        expect(assigns(:ann).location.to_s).to eq("a1")
+      end
+
+      it "警報をパネルを指定しないで窓に割り当てる" do
+        ann = Ann.create! valid_attributes
+        attributes = valid_attributes.merge(:panel_location => "a1")
+        expect { put :update, {:id => ann.to_param, :ann => attributes}, valid_session }.to raise_error(RuntimeError)
       end
     end
 
