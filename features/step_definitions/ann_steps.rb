@@ -40,5 +40,7 @@ Then(/^詳細ページでは、警報を割り当てた警報パネルへのリ�
 end
 
 Then(/^詳細ページでは、警報の手順書へのリンクがある$/) do
-  expect(page).to have_link(@ann.procedure.filename)
+  ann_id = (current_path.match(%r|/anns/(\d)+|) and $~[1])
+  ann = Ann.find(ann_id.to_i)
+  expect(page).to have_link(ann.procedure.filename)
 end
