@@ -40,6 +40,18 @@ class AnnsController < ApplicationController
 
     respond_to do |format|
       if @ann.save
+
+        if procedure_params[:procedure]
+          # 手順書についての処理
+          uploaded = procedure_params[:procedure]
+          path = File.join('/procs', uploaded.original_filename.to_s + Time.now.strftime('-%Y-%m-%d-%H_%M_%S') + ".pdf").to_s
+          procedure = Procedure.new(path: path, ann: @ann)
+          File.open(procedure.file_path, "wb") do |file|
+            file.write(uploaded.read)
+          end
+          procedure.save
+        end
+
         format.html { redirect_to @ann, notice: 'Ann was successfully created.' }
         format.json { render action: 'show', status: :created, location: @ann }
       else
@@ -79,18 +91,22 @@ class AnnsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ann
-      @ann = Ann.find(params[:id])
-      @panel = @ann.panel
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ann
+    @ann = Ann.find(params[:id])
+    @panel = @ann.panel
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def ann_params
-      params.require(:ann).permit(:name, :pdf, :panel, :window)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def ann_params
+    params.require(:ann).permit(:name, :pdf, :panel, :window)
+  end
 
-    def panel_params
-      params.require(:ann).permit(:panel_number)
-    end
+  def panel_params
+    params.require(:ann).permit(:panel_number)
+  end
+
+  def procedure_params
+    params.require(:ann).permit(:procedure)
+  end
 end
