@@ -5,9 +5,13 @@
   <%= @ann.name %>
 </p>
 
-<p>
-  <strong><%= Ann.human_attribute_name(:proc_path) %>: </strong>
-  <%= @ann.pdf %>
+<p id="ann_procedure">
+  <strong><%= t(:ann_procedure) %>: </strong>
+  <% if @ann.procedure %>
+  <%= link_to @ann.procedure.path.sub(%r|.*/|, ''), @ann.procedure.path %>
+  <% else %>
+  (未設定)
+  <% end %>
 </p>
 
 <p id="ann_panel">
