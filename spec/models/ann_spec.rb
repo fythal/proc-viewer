@@ -118,13 +118,26 @@ describe Ann do
   #     end
 
   describe "#procedure" do
+    before(:each) do
+      @ann = Ann.create!
+    end
+
     context '手順書が割り当てられている' do
-      it "手順書を返す"
-      it "最新の手順書を返す"
+      it "手順書を返す" do
+        @ann.procedures << Procedure.create!
+        expect(@ann.procedure).to be_kind_of(Procedure)
+      end
+      it "最新の手順書を返す" do
+        procedure = Procedure.create!
+        @ann.procedures << procedure
+        expect(@ann.procedure).to eq(procedure)
+      end
     end
 
     context "手順書が割り当てられていない" do
-      it "nil を返す"
+      it "nil を返す" do
+        expect(@ann.procedure).to be_nil
+      end
     end
   end
 

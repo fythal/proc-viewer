@@ -37,6 +37,10 @@ class Ann < ActiveRecord::Base
     procedures.first.latest_revision.path
   end
 
+  def procedure
+    procedures.last.latest_revision rescue nil
+  end
+
   def panel_number
     panel.number rescue nil
   end
