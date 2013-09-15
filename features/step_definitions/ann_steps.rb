@@ -60,5 +60,5 @@ Then(/^詳細ページでは、警報の手順書へのリンクがある$/) do
 end
 
 Then(/^詳細ページでは、警報を割り当てた窓のロケーションが表示される$/) do
-  expect(page).to have_selector('#ann_window', :text => @panel_location)
+  expect(page).to have_selector('#ann_panel_location', :text => @panel_location)
 end
