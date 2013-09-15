@@ -106,24 +106,23 @@ describe AnnsController do
           Rack::Test::UploadedFile.new(test_document, "text/pdf")
         end
 
-        attributes = valid_attributes.merge(procedure: {title: "Attachment Title", attachment: file_attachment})
+        attributes = valid_attributes.merge(procedure: file_attachment)
         post :create, {:ann => attributes}, valid_session
 
         expect(assigns(:ann).procedure).not_to be_nil
       end
 
       it "警報にアップロードした手順書のファイルが関連付けられている" do
-
         def file_attachment
           test_document = Rails.root.join('features', 'procs', 'ann-n1-c6.pdf')
           Rack::Test::UploadedFile.new(test_document, "text/pdf")
         end
 
-        attributes = valid_attributes.merge(procedure: {title: "Attachment Title", attachment: file_attachment})
+        attributes = valid_attributes.merge(procedure: file_attachment)
         post :create, {:ann => attributes}, valid_session
 
         procedure_file_size = File.size(Rails.root.join('features', 'procs', 'ann-n1-c6.pdf'))
-        assigned_procedure_file_size = File.size(assigns(:ann).procedure.path)
+        assigned_procedure_file_size = File.size(assigns(:ann).procedure.file_path)
         expect(assigned_procedure_file_size).to eq(procedure_file_size)
       end
 
