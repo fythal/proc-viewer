@@ -38,6 +38,15 @@ class AnnsController < ApplicationController
       @ann.panel = @panel
     end
 
+    # パネルの場所を指定した場合、関連する Location オブジェクトに値を設定
+    if panel_params[:panel_location]
+      if panel_params[:panel_number].nil?
+        raise I18n.t(:assigning_a_location_with_no_panel)
+      else
+        @ann.location.location = panel_params[:panel_location]
+      end
+    end
+
     respond_to do |format|
       if @ann.save
 
@@ -99,11 +108,11 @@ class AnnsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ann_params
-    params.require(:ann).permit(:name, :pdf, :panel, :window)
+    params.require(:ann).permit(:name, :pdf, :panel)
   end
 
   def panel_params
-    params.require(:ann).permit(:panel_number)
+    params.require(:ann).permit(:panel_number, :panel_location)
   end
 
   def procedure_params
