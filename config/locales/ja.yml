@@ -230,6 +230,7 @@ ja:
   ann_procedure: "手順書"
 
   ann_already_assigned_to_other_ann: " この警報窓には、すでに他の警報が割り当てられています"
+  assigning_a_location_with_no_panel: "警報パネルが指定されていないのに窓を指定しても無意味です"
   broken_objects: 「壊れている」オブジェクトの一覧
 
   helpers:
