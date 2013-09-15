@@ -78,6 +78,15 @@ class AnnsController < ApplicationController
       @ann.panel = @panel
     end
 
+    # パネルの場所を指定した場合、関連する Location オブジェクトに値を設定
+    if panel_params[:panel_location]
+      if panel_params[:panel_number].nil?
+        raise I18n.t(:assigning_a_location_with_no_panel)
+      else
+        @ann.location.location = panel_params[:panel_location]
+      end
+    end
+
     respond_to do |format|
       if @ann.update(ann_params)
         format.html { redirect_to @ann, notice: 'Ann was successfully updated.' }
