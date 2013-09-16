@@ -61,6 +61,17 @@ class Ann < ActiveRecord::Base
     location.location rescue nil
   end
 
+  def assign(panel_and_location)
+    panel = panel_and_location[:panel]
+    panel = Panel.find_or_create_by(number: panel)
+    location = panel_and_location[:location]
+
+    self.panel.destroy if self.panel
+    self.panel = panel
+    self.location = location
+    self.location.save
+  end
+
   after_save do |ann|
     # 警報にパネル番号と窓が設定されている
     if !ann.panel.nil? and !ann.window.nil?

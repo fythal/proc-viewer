@@ -117,6 +117,57 @@ describe Ann do
   #       end
   #     end
 
+
+  # 警報パネルと窓に警報を割り当てる
+  describe "#assign(panel_and_location)" do
+    before(:each) do
+      @ann = Ann.create!(name: "foo")
+      @new_number = "n1"
+      @new_location = "a1"
+      @proc = Proc.new { @ann.assign(panel: @new_number, location: @new_location) }
+    end
+
+    context "存在していない警報パネルに割り当てる" do
+      it "Location オブジェクトが関連付ける" do
+        @proc.call
+        expect(@ann.location).to be_kind_of(Location)
+      end
+      it "Locaiton オブジェクトの location 属性を設定する" do
+        @proc.call
+        expect(@ann.location.location).to eq(@new_location)
+      end
+      it "Locaiton オブジェクトをデータベースに保存する" do
+        expect { @proc.call }.to change(Location, :count).by(1)
+      end
+      it "警報パネルを新規に生成する" do
+        expect { @proc.call }.to change(Panel, :count).by(1)
+      end
+    end
+
+    context "既存の警報パネルに割り当てる" do
+      before(:each) do
+        @panel = Panel.create!(number: @new_number)
+      end
+      it "警報パネルを既存の警報パネルに割り当てる" do
+        @proc.call
+        expect(@ann.panel).to eq(@panel)
+      end
+      it "警報パネルは新規に生成されない" do
+        expect { @proc.call }.to change(Panel, :count).by(0)
+      end
+    end
+
+    context "すでに警報パネルが割り当てられている" do
+      before(:each) do
+        @ann.panel = Panel.create!(number: @new_number + "xxx")
+      end
+      it "他のパネルを割り当てると、元のパネルに destroy を送る" do
+        @ann.panel.should_receive(:destroy)
+        @proc.call
+      end
+    end
+  end
+
   describe "#procedure" do
     before(:each) do
       @ann = Ann.create!
