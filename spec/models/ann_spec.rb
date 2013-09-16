@@ -188,6 +188,20 @@ describe Ann do
         expect(@ann.errors[:panel_location]).not_to be_empty
       end
     end
+
+    describe "警報パネルの番号は正しく指定されるが、場所は nil が指定される" do
+      it "false を返す" do
+        return_value = @ann.assign(panel: @new_number, location: nil)
+        expect(return_value).to be_false
+      end
+      it "警報パネルオブジェクトは作成されない" do
+        expect {@ann.assign(panel: @new_number, location: nil)}.to change(Panel, :count).by(0)
+      end
+      it "@ann の panel_location 属性にエラーが設定される" do
+        @ann.assign(panel: @new_number, location: nil)
+        expect(@ann.errors[:panel_location]).not_to be_empty
+      end
+    end
   end
 
   describe "#procedure" do
