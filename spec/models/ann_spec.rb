@@ -142,6 +142,9 @@ describe Ann do
       it "警報パネルを新規に生成する" do
         expect { @proc.call }.to change(Panel, :count).by(1)
       end
+      it "true を返す" do
+        expect { @proc.call }.to be_true
+      end
     end
 
     context "既存の警報パネルに割り当てる" do
