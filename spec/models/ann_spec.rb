@@ -305,6 +305,54 @@ describe Ann do
     end
   end
 
+
+  #
+  # 疑似属性 panel_number と panel_location についてのスペック
+  #
+  context "警報に関連する Location オブジェクトがない" do
+    describe "#panel_number"
+    describe "#panel_number="
+    describe "#panel_location"
+    describe "#panel_location="
+    describe "#valid?"
+  end
+
+  context "警報と関連する Location オブジェクトがある" do
+    context "location 属性が設定されていない" do
+      describe "#panel_number"
+      describe "#panel_number="
+      describe "#panel_location"
+      describe "#panel_location="
+      describe "#valid?"
+    end
+
+    context "location 属性が設定されている" do
+      describe "#panel_number"
+      describe "#panel_number="
+      describe "#panel_location"
+      describe "#panel_location="
+      describe "#valid?"
+    end
+  end
+
+  context "警報と関連する Location オブジェクトと Panel オブジェクトがある" do
+    context "location 属性が設定されていない" do
+      describe "#panel_number"
+      describe "#panel_number="
+      describe "#panel_location"
+      describe "#panel_location="
+      describe "#valid?"
+    end
+
+    context "location 属性が設定されている" do
+      describe "#panel_number"
+      describe "#panel_number="
+      describe "#panel_location"
+      describe "#panel_location="
+      describe "#valid?"
+    end
+  end
+
   describe "#panel_location" do
     context "Location の関連がされているとき" do
       it "Location の location 属性が返される" do
