@@ -31,11 +31,8 @@ class AnnsController < ApplicationController
   # POST /anns.json
   def create
     @ann = Ann.new(ann_params)
-    if panel_params[:panel_number] and panel_params[:panel_number]
-      if @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
-        @panel = @ann.panel
-      end
-    end
+    @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
+    @panel = @ann.panel
 
     respond_to do |format|
       if @ann.save
