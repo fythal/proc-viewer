@@ -63,8 +63,13 @@ class Ann < ActiveRecord::Base
 
   def assign(panel_and_location)
     panel = panel_and_location[:panel]
-    panel = Panel.find_or_create_by(number: panel)
     location = panel_and_location[:location]
+    if location.nil?
+      self.errors.add(:panel_location, :blank)
+      return false
+    end
+
+    panel = Panel.find_or_create_by(number: panel)
 
     self.panel.destroy if self.panel
     self.panel = panel
