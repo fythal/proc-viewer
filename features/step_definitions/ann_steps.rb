@@ -41,6 +41,10 @@ Then(/^警報の詳細ページが表示される$/) do
   expect(current_path).to match %r|^/anns/[0-9]+$|
 end
 
+Then(/^警報の新規作成画面が表示される$/) do
+  expect(current_path).to eq("/anns/new")
+end
+
 Then(/^正常に警報が作成されたメッセージが表示されている$/) do
   expect(page).to have_selector('p#notice', text: "Ann was successfully created.")
 end
