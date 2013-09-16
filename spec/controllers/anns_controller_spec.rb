@@ -151,44 +151,59 @@ describe AnnsController do
         post :create, {:ann => valid_ann_and_panel_attributes}, valid_session
         response.should redirect_to(Ann.last)
       end
-    end
 
+      describe "手順書のアップロードをした場合" do
+        it "新しい手順書オブジェクトを作成する" do
+          attributes = valid_ann_attributes.merge(attributes_for_procedure)
+          expect { post :create, {:ann => attributes}, valid_session }.to change(Procedure, :count).by(1)
+        end
 
-    describe "手順書のアップロードをした場合" do
-      it "新しい手順書オブジェクトを作成する" do
-        attributes = valid_ann_attributes.merge(attributes_for_procedure)
-        expect { post :create, {:ann => attributes}, valid_session }.to change(Procedure, :count).by(1)
+        it "警報に手順書オブジェクトが関連付けられている" do
+          attributes = valid_ann_attributes.merge(attributes_for_procedure)
+          post :create, {:ann => attributes}, valid_session
+          expect(assigns(:ann).procedure).not_to be_nil
+        end
       end
 
-      it "警報に手順書オブジェクトが関連付けられている" do
-        attributes = valid_ann_attributes.merge(attributes_for_procedure)
-        post :create, {:ann => attributes}, valid_session
-        expect(assigns(:ann).procedure).not_to be_nil
+      describe "警報パネルの番号は指定するが、場所は指定しなかった場合" do
+        before(:each) do
+          @attributes = valid_ann_and_panel_attributes
+          @attributes.delete(:panel_location)
+        end
+        it "新しい Panel オブジェクトを作成しない" do
+          expect { post :create, {:ann => @attributes}, valid_session }.to change(Panel, :count).by(0)
+        end
+        it "警報は警報パネルとは関連付けられていない" do
+          post :create, {:ann => @attributes}, valid_session
+          expect(assigns(:ann).panel).to be_nil
+        end
+        it "警報の :panel_location にエラーを設定する"
+        it "警報の新規作成の画面を再描画する"
       end
     end
+
+
+    describe "警報の保存に失敗した場合 (不正な値を設定する等)" do
+      before(:each) do
+        Ann.any_instance.stub(:save).and_return(false)
+        post :create, {:ann => { "name" => "invalid value" }}, valid_session
+      end
+
+      it "assigns a newly created but unsaved ann as @ann" do
+        assigns(:ann).should be_a_new(Ann)
+      end
+
+      it "re-renders the 'new' template" do
+        response.should render_template("new")
+      end
+
+      # it "警報をパネルを指定しないで窓に割り当てる" do
+      #   ann = Ann.create! valid_ann_attributes
+      #   attributes = valid_ann_attributes.merge(:panel_location => "a1")
+      #   expect { put :create, {:id => ann.to_param, :ann => attributes}, valid_session }.to raise_error(RuntimeError)
+      # end
+    end
   end
-
-  describe "警報の保存に失敗した場合 (不正な値を設定する等)" do
-    before(:each) do
-      Ann.any_instance.stub(:save).and_return(false)
-      post :create, {:ann => { "name" => "invalid value" }}, valid_session
-    end
-
-    it "assigns a newly created but unsaved ann as @ann" do
-      assigns(:ann).should be_a_new(Ann)
-    end
-
-    it "re-renders the 'new' template" do
-      response.should render_template("new")
-    end
-
-    # it "警報をパネルを指定しないで窓に割り当てる" do
-    #   ann = Ann.create! valid_ann_attributes
-    #   attributes = valid_ann_attributes.merge(:panel_location => "a1")
-    #   expect { put :create, {:id => ann.to_param, :ann => attributes}, valid_session }.to raise_error(RuntimeError)
-    # end
-  end
-
 
   describe "PUT update" do
     describe "with valid params" do
