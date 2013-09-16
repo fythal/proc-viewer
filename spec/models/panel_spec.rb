@@ -18,4 +18,41 @@ describe Panel do
       end
     end
   end
+
+  describe "#destroy" do
+    before(:each) do
+      @panel = Panel.create
+      @panel_id = @panel.id
+    end
+
+    context "警報が関連付けられているとき" do
+      before(:each) do
+        @panel.stub(:anns).and_return([stub_model(Ann)])
+      end
+
+      it "削除操作をキャンセルする" do
+        expect(@panel.destroy).to be_false
+      end
+
+      it "データベースにパネルは残っている" do
+        @panel.destroy
+        expect { Panel.find(@panel_id) }.not_to raise_error
+      end
+    end
+
+    context "警報が関連付けられていないとき" do
+      before(:each) do
+        @panel.stub(:anns).and_return([])
+      end
+
+      it "削除操作が成功する" do
+        expect(@panel.destroy).to be_true
+      end
+
+      it "データベースにパネルは残っていない" do
+        @panel.destroy
+        expect { Panel.find(@panel_id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end
