@@ -177,8 +177,14 @@ describe AnnsController do
           post :create, {:ann => @attributes}, valid_session
           expect(assigns(:ann).panel).to be_nil
         end
-        it "警報の :panel_location にエラーを設定する"
-        it "警報の新規作成の画面を再描画する"
+        it "警報の :panel_location にエラーを設定する" do
+          post :create, {:ann => @attributes}, valid_session
+          expect(assigns(:ann).errors[:panel_location]).not_to be_empty
+        end
+        it "警報の新規作成の画面を再描画する" do
+          post :create, {:ann => @attributes}, valid_session
+          response.should render_template("new")
+        end
       end
     end
 
