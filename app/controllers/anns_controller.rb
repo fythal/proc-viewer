@@ -31,19 +31,9 @@ class AnnsController < ApplicationController
   # POST /anns.json
   def create
     @ann = Ann.new(ann_params)
-
-    # パネルの指定があった場合、警報へのパネルの割り当てを行う
-    if panel_params[:panel_number]
-      @panel = Panel.find_or_create_by!(number: panel_params[:panel_number])
-      @ann.panel = @panel
-    end
-
-    # パネルの場所を指定した場合、関連する Location オブジェクトに値を設定
-    if panel_params[:panel_location]
-      if panel_params[:panel_number].nil?
-        raise I18n.t(:assigning_a_location_with_no_panel)
-      else
-        @ann.location.location = panel_params[:panel_location]
+    if panel_params[:panel_number] and panel_params[:panel_number]
+      if @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
+        @panel = @ann.panel
       end
     end
 
@@ -73,17 +63,9 @@ class AnnsController < ApplicationController
   # PATCH/PUT /anns/1
   # PATCH/PUT /anns/1.json
   def update
-    if panel_params[:panel_number]
-      @panel = Panel.find_or_create_by!(number: panel_params[:panel_number])
-      @ann.panel = @panel
-    end
-
-    # パネルの場所を指定した場合、関連する Location オブジェクトに値を設定
-    if panel_params[:panel_location]
-      if panel_params[:panel_number].nil?
-        raise I18n.t(:assigning_a_location_with_no_panel)
-      else
-        @ann.location.location = panel_params[:panel_location]
+    if panel_params[:panel_number] and panel_params[:panel_number]
+      if @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
+        @panel = @ann.panel
       end
     end
 
@@ -112,7 +94,6 @@ class AnnsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_ann
     @ann = Ann.find(params[:id])
-    @panel = @ann.panel
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
