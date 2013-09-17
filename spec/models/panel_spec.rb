@@ -2,18 +2,27 @@
 require 'spec_helper'
 
 describe Panel do
+
+  def valid_panel_attributes
+    { number: "n1"}
+  end
+
+  def valid_location_attributes
+    { location: "a1"}
+  end
+
   describe "#assigned?(loc)" do
     context "関連する Location オブジェクトの中で loc を location 属性に持っているものがある" do
       it "true を返す" do
-        panel = Panel.create
-        panel.locations << Location.create(location: "a1")
+        panel = Panel.create!(valid_panel_attributes)
+        panel.locations << Location.create(valid_location_attributes)
         expect(panel.assigned?("a1")).to be_true
       end
     end
 
     context "関連する Location オブジェクトの中で loc を location 属性に持っているものがない" do
       it "false を返す" do
-        panel = Panel.create
+        panel = Panel.create!(valid_panel_attributes)
         expect(panel.assigned?("a1")).to be_false
       end
     end
@@ -21,7 +30,7 @@ describe Panel do
 
   describe "#destroy" do
     before(:each) do
-      @panel = Panel.create
+      @panel = Panel.create!(valid_panel_attributes)
       @panel_id = @panel.id
     end
 
