@@ -1,1 +1,1 @@
-json.extract! @panel, :name, :created_at, :updated_at
+json.extract! @panel, :number, :created_at, :updated_at
