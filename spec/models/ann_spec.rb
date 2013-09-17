@@ -391,21 +391,4 @@ describe Ann do
       end
     end
   end
-
-  describe "ensure_no_errors_on_panel_location" do
-    context "Ann オブジェクトの errors に panel_location に関するエラーが設定されていない" do
-      it "true を返す" do
-        ann = Ann.create!(valid_ann_attributes)
-        expect(ann.send(:ensure_no_errors_on_panel_location)).to be_true
-      end
-    end
-    context "Ann オブジェクトの errors に panel_location に関するエラーが設定されている" do
-      it "false を返す" do
-        ann = Ann.create!(valid_ann_attributes)
-        ann.errors.add(:panel_location, :blank)
-        expect(ann.send(:ensure_no_errors_on_panel_location)).to be_false
-      end
-    end
-  end
-
 end
