@@ -7,6 +7,11 @@ class Ann < ActiveRecord::Base
   has_one :location
   has_one :panel, through: :location
 
+  before_validation :ensure_no_errors_on_panel_location
+
+  validates :name, presence: true
+  validates :name, uniqueness: true
+
   def initialize(attributes = nil, &block)
     panel_number = nil
     location_number = nil
