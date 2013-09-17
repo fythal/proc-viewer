@@ -2,14 +2,22 @@
 require 'spec_helper'
 
 describe Ann do
+  def valid_ann_attributes
+    { name: "HPCS 電気故障" }
+  end
+
+  def valid_ann_location
+    "a1"
+  end
+
   describe 'initialize' do
     context 'name: のみが指定されたとき' do
       before(:each) do
-        @ann = Ann.new(name:"HPCS 電気故障")
+        @ann = Ann.new(valid_ann_attributes)
       end
 
       it "名称を返す" do
-        expect(@ann.name).to eq("HPCS 電気故障")
+        expect(@ann.name).to eq(valid_ann_attributes[:name])
       end
     end
 
@@ -121,7 +129,7 @@ describe Ann do
   # 警報パネルと窓に警報を割り当てる
   describe "#assign(panel_and_location)" do
     before(:each) do
-      @ann = Ann.create!(name: "foo")
+      @ann = Ann.create!(valid_ann_attributes)
       @new_number = "n1"
       @new_location = "a1"
       @proc = Proc.new { @ann.assign(panel: @new_number, location: @new_location) }
@@ -206,7 +214,7 @@ describe Ann do
 
   describe "#procedure" do
     before(:each) do
-      @ann = Ann.create!
+      @ann = Ann.create!(valid_ann_attributes)
     end
 
     context '手順書が割り当てられている' do
@@ -255,7 +263,7 @@ describe Ann do
   #   describe "#panel=" do
   #     context "警報と関連付けられたロケーションが存在しないとき" do
   #       it "Panel オブジェクトと関連付けられたロケーションオブジェクトを生成する" do
-  #         ann = Ann.create!
+  #         ann = Ann.create!(valid_ann_attributes)
   #         panel = Panel.create!
   #         ann.panel = panel
 
@@ -278,7 +286,7 @@ describe Ann do
         panel = Panel.create!(number: "n1")
 
         # ann = Ann.create!(panel: panel, location: "a1")
-        ann = Ann.create!
+        ann = Ann.create!(valid_ann_attributes)
         ann.panel = panel
         ann.location = "a1"
 
@@ -288,7 +296,7 @@ describe Ann do
 
     context "警報がパネルに割り当てられていないとき" do
       it "nil を返す" do
-        ann = Ann.create!
+        ann = Ann.create!(valid_ann_attributes)
         expect(ann.panel_number).to be_nil
       end
     end
@@ -298,7 +306,7 @@ describe Ann do
   describe "#location=" do
     context "引数が文字列のとき" do
       it "Location の location 属性が引数の文字列に値が設定される" do
-        ann = Ann.create
+        ann = Ann.create(valid_ann_attributes)
         ann.location = "a1"
         expect(ann.location.location).to eq("a1")
       end
@@ -328,7 +336,7 @@ describe Ann do
 
     context "location 属性が設定されている" do
       before(:each) do
-        @ann = Ann.create!(name:"HPCS 電気故障")
+        @ann = Ann.create!(valid_ann_attributes)
         location = Location.create!(location: "a1")
         @ann.location = location
       end
@@ -369,7 +377,7 @@ describe Ann do
   describe "#panel_location" do
     context "Location の関連がされているとき" do
       it "Location の location 属性が返される" do
-        ann = Ann.create
+        ann = Ann.create!(valid_ann_attributes)
         ann.location = Location.new(location: "a1")
 
         expect(ann.panel_location).to eq("a1")
@@ -378,7 +386,7 @@ describe Ann do
 
     context "Location の関連がされていないとき" do
       it "nil が返される" do
-        ann = Ann.create
+        ann = Ann.create!(valid_ann_attributes)
         expect(ann.panel_location).to be_nil
       end
     end
@@ -387,13 +395,13 @@ describe Ann do
   describe "ensure_no_errors_on_panel_location" do
     context "Ann オブジェクトの errors に panel_location に関するエラーが設定されていない" do
       it "true を返す" do
-        ann = Ann.create!
+        ann = Ann.create!(valid_ann_attributes)
         expect(ann.send(:ensure_no_errors_on_panel_location)).to be_true
       end
     end
     context "Ann オブジェクトの errors に panel_location に関するエラーが設定されている" do
       it "false を返す" do
-        ann = Ann.create!
+        ann = Ann.create!(valid_ann_attributes)
         ann.errors.add(:panel_location, :blank)
         expect(ann.send(:ensure_no_errors_on_panel_location)).to be_false
       end
