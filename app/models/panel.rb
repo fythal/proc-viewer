@@ -4,6 +4,9 @@ class Panel < ActiveRecord::Base
 
   before_destroy :ensure_not_referenced_by_any_ann
 
+  validates :number, presence: true
+  validates :number, uniqueness: true
+
   def assigned?(loc)
     Location.exists?(['location = ? and panel_id = ?', loc, self]) ? true : false
   end
