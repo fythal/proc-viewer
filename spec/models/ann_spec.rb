@@ -327,11 +327,24 @@ describe Ann do
     end
 
     context "location 属性が設定されている" do
+      before(:each) do
+        @ann = Ann.create!(name:"HPCS 電気故障")
+        location = Location.create!(location: "a1")
+        @ann.location = location
+      end
       describe "#panel_number"
       describe "#panel_number="
-      describe "#panel_location"
+      describe "#panel_location" do
+        it "関連付けられた Location オブジェクトの location 属性を返す" do
+          expect(@ann.panel_location).to eq("a1")
+        end
+      end
       describe "#panel_location="
-      describe "#valid?"
+      describe "#valid?" do
+        it "false を返す" do
+          expect(@ann.valid?).to be_false
+        end
+      end
     end
   end
 
