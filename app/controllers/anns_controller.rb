@@ -32,7 +32,7 @@ class AnnsController < ApplicationController
   def create
     @ann = Ann.new(ann_params)
     @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
-    @panel = @ann.panel
+    @panel = @ann.location.panel
 
     respond_to do |format|
       if @ann.save
