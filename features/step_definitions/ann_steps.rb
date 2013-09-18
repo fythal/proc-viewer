@@ -42,7 +42,8 @@ Then(/^警報の詳細ページが表示される$/) do
 end
 
 Then(/^警報の新規作成画面が表示される$/) do
-  expect(current_path).to eq("/anns/new")
+  expect(response_headers["Set-Cookie"]).to match /request_method=POST;/
+  expect(current_path).to eq(anns_path)
 end
 
 Then(/^正常に警報が作成されたメッセージが表示されている$/) do
