@@ -9,6 +9,7 @@ class Ann < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: true
+  validate :panel_and_location_if_assigned
 
   def initialize(attributes = nil, &block)
     panel_number = nil
@@ -97,5 +98,21 @@ class Ann < ActiveRecord::Base
         end
       end
     end
+  end
+
+  private
+
+  def panel_and_location_if_assigned
+    return true if location.nil?
+
+    if panel.nil?
+      errors.add(:panel_number, :blank)
+    end
+
+    if location.location.blank?
+      errors.add(:panel_location, :blank)
+    end
+
+    errors.empty?
   end
 end
