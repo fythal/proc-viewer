@@ -382,7 +382,17 @@ describe Ann do
   end
 
   describe "#panel_and_location_if_assigned" do
-    context "警報に関連する Location オブジェクトがない"
+    context "警報に関連する Location オブジェクトがない (パネルに割り当てられていない)" do
+      it "true を返す" do
+        ann = Ann.new(valid_ann_attributes)
+        expect(ann.send(:panel_and_location_if_assigned)).to be_true
+      end
+      it "errors が発生していない" do
+        ann = Ann.new(valid_ann_attributes)
+        ann.send(:panel_and_location_if_assigned)
+        expect(ann.errors).to be_empty
+      end
+    end
 
     context "警報と関連する Location オブジェクトがある" do
       context "location 属性が設定されていない"
