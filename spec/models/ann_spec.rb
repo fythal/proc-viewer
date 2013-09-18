@@ -84,18 +84,6 @@ describe Ann do
 
   #       @ann.window = "a1"
   #     end
-
-  #     describe '#valid?' do
-  #       it 'エラーを発生させる' do
-  #         @ann.valid?
-  #         @ann.should have(1).error_on(:window)
-  #       end
-
-  #       it 'メッセージを設定する' do
-  #         @ann.valid?
-  #         expect(@ann.errors[:window]).to eq([I18n.t(:ann_already_assigned_to_other_ann)])
-  #       end
-  #     end
   #   end
 
   
@@ -332,7 +320,6 @@ describe Ann do
     describe "#panel_number="
     describe "#panel_location"
     describe "#panel_location="
-    describe "#valid?"
   end
 
   context "警報と関連する Location オブジェクトがある" do
@@ -341,7 +328,6 @@ describe Ann do
       describe "#panel_number="
       describe "#panel_location"
       describe "#panel_location="
-      describe "#valid?"
     end
 
     context "location 属性が設定されている" do
@@ -358,11 +344,6 @@ describe Ann do
         end
       end
       describe "#panel_location="
-      describe "#valid?" do
-        it "false を返す" do
-          expect(@ann.valid?).to be_false
-        end
-      end
     end
   end
 
@@ -372,7 +353,6 @@ describe Ann do
       describe "#panel_number="
       describe "#panel_location"
       describe "#panel_location="
-      describe "#valid?"
     end
 
     context "location 属性が設定されている" do
@@ -380,7 +360,6 @@ describe Ann do
       describe "#panel_number="
       describe "#panel_location"
       describe "#panel_location="
-      describe "#valid?"
     end
   end
 
@@ -399,6 +378,32 @@ describe Ann do
         ann = Ann.create!(valid_ann_attributes)
         expect(ann.panel_location).to be_nil
       end
+    end
+  end
+
+  describe "#panel_and_location_if_assigned" do
+    context "警報に関連する Location オブジェクトがない"
+
+    context "警報と関連する Location オブジェクトがある" do
+      context "location 属性が設定されていない"
+      context "location 属性が設定されている" do
+        before(:each) do
+          @ann = Ann.create!(valid_ann_attributes)
+          @ann.build_location(location: "a1")
+        end
+        it "false を返す" do
+          expect(@ann.send(:panel_and_location_if_assigned)).to be_false
+        end
+        it "panel_number 属性についてエラーが設定されている" do
+          @ann.send(:panel_and_location_if_assigned)
+          expect(@ann.errors[:panel_number]).not_to be_empty
+        end
+      end
+    end
+
+    context "警報と関連する Location オブジェクトと Panel オブジェクトがある" do
+      context "location 属性が設定されていない"
+      context "location 属性が設定されている"
     end
   end
 end
