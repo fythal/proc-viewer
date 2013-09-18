@@ -85,14 +85,14 @@ describe PanelsController do
     #   it "assigns a newly created but unsaved panel as @panel" do
     #     # Trigger the behavior that occurs when invalid params are submitted
     #     Panel.any_instance.stub(:save).and_return(false)
-    #     post :create, {:panel => { "name" => "invalid value" }}, valid_session
+    #     post :create, {:panel => { "number" => "invalid value" }}, valid_session
     #     assigns(:panel).should be_a_new(Panel)
     #   end
 
     #   it "re-renders the 'new' template" do
     #     # Trigger the behavior that occurs when invalid params are submitted
     #     Panel.any_instance.stub(:save).and_return(false)
-    #     post :create, {:panel => { "name" => "invalid value" }}, valid_session
+    #     post :create, {:panel => { "number" => "invalid value" }}, valid_session
     #     response.should render_template("new")
     #   end
     # end
@@ -106,8 +106,8 @@ describe PanelsController do
         # specifies that the Panel created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Panel.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => panel.to_param, :panel => { "name" => "MyString" }}, valid_session
+        Panel.any_instance.should_receive(:update).with({ "number" => "MyString" })
+        put :update, {:id => panel.to_param, :panel => { "number" => "MyString" }}, valid_session
       end
 
       it "assigns the requested panel as @panel" do
@@ -128,7 +128,7 @@ describe PanelsController do
     #     panel = Panel.create! valid_attributes
     #     # Trigger the behavior that occurs when invalid params are submitted
     #     Panel.any_instance.stub(:save).and_return(false)
-    #     put :update, {:id => panel.to_param, :panel => { "name" => "invalid value" }}, valid_session
+    #     put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
     #     assigns(:panel).should eq(panel)
     #   end
 
@@ -136,7 +136,7 @@ describe PanelsController do
     #     panel = Panel.create! valid_attributes
     #     # Trigger the behavior that occurs when invalid params are submitted
     #     Panel.any_instance.stub(:save).and_return(false)
-    #     put :update, {:id => panel.to_param, :panel => { "name" => "invalid value" }}, valid_session
+    #     put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
     #     response.should render_template("edit")
     #   end
     # end
