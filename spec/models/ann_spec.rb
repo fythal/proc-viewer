@@ -145,10 +145,18 @@ describe Ann do
         expect(@ann.location.location).to eq(@new_location)
       end
       it "Locaiton オブジェクトをデータベースに保存する" do
-        expect { @proc.call }.to change(Location, :count).by(1)
+        expect { @proc.call }.to change(Location, :count).by(0)
       end
-      it "警報パネルを新規に生成する" do
-        expect { @proc.call }.to change(Panel, :count).by(1)
+      it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
+        @proc.call
+        expect(@ann.location.panel).not_to be_nil
+      end
+      it "警報パネルオブジェクトは作成する。panel メソッドで直接アクセスできない" do
+        @proc.call
+        expect(@ann.panel).to be_nil
+      end
+      it "警報パネルオブジェクトはデータベースには保存されていない" do
+        expect { @proc.call }.to change(Panel, :count).by(0)
       end
       it "true を返す" do
         expect { @proc.call }.to be_true
@@ -161,7 +169,7 @@ describe Ann do
       end
       it "警報パネルを既存の警報パネルに割り当てる" do
         @proc.call
-        expect(@ann.panel).to eq(@panel)
+        expect(@ann.location.panel).to eq(@panel)
       end
       it "警報パネルは新規に生成されない" do
         expect { @proc.call }.to change(Panel, :count).by(0)
@@ -190,15 +198,26 @@ describe Ann do
       it "false を返す" do
         expect(@return_value).to be_false
       end
-      it "警報パネルオブジェクトは作成される" do
-        expect(@ann.panel).not_to be_nil
+      it "Location オブジェクトが作成される" do
+        expect(@ann.location).not_to be_nil
       end
-      it "警報パネルオブジェクトはデータベースには保存されていない" do
-        expect(@ann.panel).to be_new_record
-        expect {@ann.assign(@params)}.to change(Panel, :count).by(0)
+      it "Location オブジェクトの locaiton 属性は空文字である" do
+        expect(@ann.location.location).to eq("")
+      end
+      it "Location オブジェクトはデータベースには保存されていない" do
+        expect(@ann.location).to be_new_record
       end
       it "@ann の panel_location 属性にエラーが設定される" do
         expect(@ann.errors[:panel_location]).not_to be_empty
+      end
+      it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
+        expect(@ann.location.panel).not_to be_nil
+      end
+      it "警報パネルオブジェクトは作成する。panel メソッドで直接アクセスできない" do
+        expect(@ann.panel).to be_nil
+      end
+      it "警報パネルオブジェクトはデータベースには保存されていない" do
+        expect(@ann.location.panel).to be_new_record
       end
     end
   end

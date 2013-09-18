@@ -66,19 +66,18 @@ class Ann < ActiveRecord::Base
   end
 
   def assign(panel_and_location)
-    panel = panel_and_location[:panel]
+    number = panel_and_location[:panel]
     location = panel_and_location[:location]
-    if location.nil?
+
+    loc = self.build_location(location: location)
+    new_panel = Panel.find_or_initialize_by(number: number)
+    self.panel.destroy if !self.panel.nil? and self.panel != new_panel
+    loc.panel = new_panel
+
+    if location.blank?
       self.errors.add(:panel_location, :blank)
       return false
     end
-
-    panel = Panel.find_or_create_by(number: panel)
-
-    self.panel.destroy if self.panel
-    self.panel = panel
-    self.location = location
-    self.location.save
   end
 
   after_save do |ann|
