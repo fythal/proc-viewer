@@ -258,25 +258,14 @@ describe Ann do
   #   end
 
 
-  #   describe "#panel=" do
-  #     context "警報と関連付けられたロケーションが存在しないとき" do
-  #       it "Panel オブジェクトと関連付けられたロケーションオブジェクトを生成する" do
-  #         ann = Ann.create!(valid_ann_attributes)
-  #         panel = Panel.create!
-  #         ann.panel = panel
+  describe "#panel=" do
+    it "例外 NoMethodError が発生する" do
+      ann = Ann.create!(name: "foo")
+      panel = Panel.create!(number: "bar")
+      expect { ann.panel = panel }.to raise_error(NoMethodError)
+    end
+  end
 
-  #         expect(panel.location).not_to be_nil
-  #       end
-
-  #       it "警報と関連付けられたロケーションオブジェクトが生成される"
-  #     end
-
-  #     context "警報と関連付けられたロケーションが存在するとき" do
-  #     end
-
-  #     context "すでに他のパネルに割り当てられているとき" do
-  #     end
-  #   end
 
   describe '#panel_number' do
     context "警報がパネルに割り当てられているとき" do
