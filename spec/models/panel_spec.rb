@@ -77,6 +77,13 @@ describe Panel do
       end
     end
 
+    describe "場所に空白が指定される" do
+      it "Location にエラーを設定する" do
+        @panel.assign(@ann, to: "")
+        expect(@ann.errors[:panel_location]).not_to be_empty
+      end
+    end
+
     # context "すでに警報パネルが割り当てられている" do
     #   before(:each) do
     #     @ann.panel = Panel.create!(number: @new_number + "xxx")
