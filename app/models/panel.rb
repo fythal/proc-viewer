@@ -7,6 +7,20 @@ class Panel < ActiveRecord::Base
   validates :number, presence: true
   validates :number, uniqueness: true
 
+  def self.assign(ann, panel_and_location_hash)
+    panel_number = panel_and_location_hash.delete(:panel)
+    panel = find_or_initialize_by(number: panel_number)
+    panel.assign(ann, panel_and_location_hash)
+  end
+
+  def assign(ann, location_hash)
+    return false unless location = location_hash.delete(:to)
+    raise InvalidArgument, "Unknown #{location_hash.keys.size == 1 ? "key" : "keys"}: #{location_hash.keys.join(", ")}" unless location_hash.size == 0
+    ann.location = Location.new(ann: ann, panel: self, location: location)
+    ann.panel(true)
+    ann.location
+  end
+
   def assigned?(loc)
     Location.exists?(['location = ? and panel_id = ?', loc, self]) ? true : false
   end

@@ -26,11 +26,8 @@ class Ann < ActiveRecord::Base
     super
 
     unless panel_number.nil?
-      self.panel = Panel.new(number: panel_number)
-    end
-
-    unless (location.nil?)
-      self.location.location = location_number
+      panel = Panel.find_or_initialize_by(number: panel_number)
+      panel.assign(self, location: location_number)
     end
 
     self
@@ -47,6 +44,10 @@ class Ann < ActiveRecord::Base
 
   def panel_number
     panel.number rescue nil
+  end
+
+  def panel=(new_panel)
+    raise NoMethodError
   end
 
   def location=(loc)
@@ -69,10 +70,17 @@ class Ann < ActiveRecord::Base
     number = panel_and_location[:panel]
     location = panel_and_location[:location]
 
-    loc = self.build_location(location: location)
+    if self.location.nil?
+      self.build_location(location: location)
+    else
+      self.location.location = location
+    end
     new_panel = Panel.find_or_initialize_by(number: number)
-    self.panel.destroy if !self.panel.nil? and self.panel != new_panel
-    loc.panel = new_panel
+    if self.panel.nil?
+      self.location.panel = new_panel
+    else
+      self.panel = new_panel
+    end
 
     if location.blank?
       self.errors.add(:panel_location, :blank)
@@ -104,13 +112,13 @@ class Ann < ActiveRecord::Base
   def panel_and_location_if_assigned
     return true if location.nil?
 
-    if panel.nil?
+    if location.panel.nil? and panel.nil?
       errors.add(:panel_number, :blank)
     end
 
-    if location.location.blank?
-      errors.add(:panel_location, :blank)
-    end
+    # if location.location.blank?
+    #   errors.add(:panel_location, :blank)
+    # end
 
     errors.empty?
   end
