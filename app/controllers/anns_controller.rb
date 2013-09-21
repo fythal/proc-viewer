@@ -61,7 +61,6 @@ class AnnsController < ApplicationController
   # PATCH/PUT /anns/1.json
   def update
     if panel_params[:panel_number] and panel_params[:panel_location]
-      #      @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
       Panel.assign(@ann, panel: panel_params[:panel_number], to: panel_params[:panel_location])
     end
 
