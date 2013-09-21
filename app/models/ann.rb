@@ -94,6 +94,14 @@ class Ann < ActiveRecord::Base
       errors.add(:panel_number, :blank)
     end
 
+    begin
+      if location.panel.number.blank? and panel.number.blank?
+        errors.add(:panel_number, :blank)
+      end
+    rescue NoMethodError
+      errors.add(:panel_number, :blank)
+    end
+
     if location.location.blank?
       errors.add(:panel_location, :blank)
     end
