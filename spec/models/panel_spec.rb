@@ -28,37 +28,51 @@ describe Panel do
       @ann = Ann.create!(valid_ann_attributes)
     end
 
-    context "指定した番号を持つパネルが存在していない" do
-      before(:each) do
-        expect(Panel.find_by_number(valid_panel_attributes[:number])).to be_nil
-        @new_location = "a1"
-        @proc = Proc.new { Panel.assign(@ann, panel: valid_panel_number, to: @new_location) }
+    describe "パネルの番号を指定する" do
+      describe "指定した番号のパネルが存在している"      # その場合は Panel#assign でスペックを規定
+
+      describe "指定した番号のパネルは存在していない" do
+        before(:each) do
+          expect(Panel.find_by_number(valid_panel_attributes[:number])).to be_nil
+          @new_location = "a1"
+          @proc = Proc.new { Panel.assign(@ann, panel: valid_panel_number, to: @new_location) }
+        end
+        it "Location オブジェクトが関連付ける" do
+          @proc.call
+          expect(@ann.location).to be_kind_of(Location)
+        end
+        it "Locaiton オブジェクトの location 属性を設定する" do
+          @proc.call
+          expect(@ann.location.location).to eq(@new_location)
+        end
+        it "新規の Locaiton オブジェクトをデータベースに保存する" do
+          expect { @proc.call }.to change(Location, :count).by(1)
+        end
+        it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
+          @proc.call
+          expect(@ann.location.panel).not_to be_nil
+        end
+        it "警報パネルオブジェクトは作成する。Ann#panel メソッドで直接アクセスできる" do
+          @proc.call
+          expect(@ann.panel).not_to be_nil
+          expect(@ann.panel.number).to eq(valid_panel_number)
+        end
+        it "警報パネルオブジェクトはデータベースには保存されていない" do
+          expect { @proc.call }.to change(Panel, :count).by(1)
+        end
+        it "true を返す" do
+          expect { @proc.call }.to be_true
+        end
       end
-      it "Location オブジェクトが関連付ける" do
-        @proc.call
-        expect(@ann.location).to be_kind_of(Location)
-      end
-      it "Locaiton オブジェクトの location 属性を設定する" do
-        @proc.call
-        expect(@ann.location.location).to eq(@new_location)
-      end
-      it "新規の Locaiton オブジェクトをデータベースに保存する" do
-        expect { @proc.call }.to change(Location, :count).by(1)
-      end
-      it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
-        @proc.call
-        expect(@ann.location.panel).not_to be_nil
-      end
-      it "警報パネルオブジェクトは作成する。Ann#panel メソッドで直接アクセスできる" do
-        @proc.call
-        expect(@ann.panel).not_to be_nil
-        expect(@ann.panel.number).to eq(valid_panel_number)
-      end
-      it "警報パネルオブジェクトはデータベースには保存されていない" do
-        expect { @proc.call }.to change(Panel, :count).by(1)
-      end
-      it "true を返す" do
-        expect { @proc.call }.to be_true
+    end
+
+    describe "パネルの番号に空白を指定する" do
+      describe "パネルの場所に空白を指定する" do
+        it "false を返す"
+        it "警報の location を nil にする"
+        it "警報の panel を nil にする"
+        it "Panel オブジェクトを生成しない"
+        it "Location オブジェクトを生成しない"
       end
     end
   end
