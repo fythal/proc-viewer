@@ -19,7 +19,7 @@ class Panel < ActiveRecord::Base
     begin
       ann.location = Location.new(ann: ann, panel: self, location: location)
     rescue ActiveRecord::RecordNotSaved
-      ann.errors.add(:panel_location, :blank)
+      return false
     end
     ann.errors.add(:panel_location, :blank) if ann.location and !ann.location.valid?
     ann.panel(true)
