@@ -10,7 +10,19 @@ class Panel < ActiveRecord::Base
   def self.assign(ann, panel_and_location_hash)
     panel_number = panel_and_location_hash.delete(:panel)
     panel = find_or_initialize_by(number: panel_number)
-    panel.assign(ann, panel_and_location_hash)
+    if panel.valid?
+      panel.assign(ann, panel_and_location_hash)
+    else
+      return false unless location = panel_and_location_hash.delete(:to)
+      raise InvalidArgument, "Unknown #{panel_and_location_hash.keys.size == 1 ? "key" : "keys"}: #{panel_and_location_hash.keys.join(", ")}" unless panel_and_location_hash.size == 0
+      return false if location.blank?
+      begin
+        ann.location = Location.new(ann: ann, panel: nil, location: location)
+      rescue ActiveRecord::RecordNotSaved
+        return false
+      end
+      return ann.location
+    end
   end
 
   def assign(ann, location_hash)
