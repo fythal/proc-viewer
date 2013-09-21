@@ -68,11 +68,29 @@ describe Panel do
 
     describe "パネルの番号に空白を指定する" do
       describe "パネルの場所に空白を指定する" do
-        it "false を返す"
-        it "警報の location を nil にする"
-        it "警報の panel を nil にする"
-        it "Panel オブジェクトを生成しない"
-        it "Location オブジェクトを生成しない"
+        describe "警報は保存されていない" do
+          before(:each) do
+            @ann = Ann.new(valid_ann_attributes)
+          end
+
+          it "false を返す" do
+            expect(Panel.assign(@ann, panel: "", to: "")).to be_false
+          end
+          it "警報の location を nil にする" do
+            Panel.assign(@ann, panel: "", to: "")
+            expect(@ann.location).to be_nil
+          end
+          it "警報の panel を nil にする" do
+            Panel.assign(@ann, panel: "", to: "")
+            expect(@ann.panel).to be_nil
+          end
+          it "Panel オブジェクトを生成しない" do
+            expect { Panel.assign(@ann, panel: "", to: "") }.to change(Panel, :count).by(0)
+          end
+          it "Location オブジェクトを生成しない" do
+            expect { Panel.assign(@ann, panel: "", to: "") }.to change(Location, :count).by(0)
+          end
+        end
       end
     end
   end
