@@ -323,6 +323,13 @@ describe Ann do
       end
     end
 
+    describe "警報パネルの番号が空白である" do
+      it "false を返す" do
+        ann = Ann.new(valid_ann_attributes)
+        Panel.assign(ann, panel: "", to: valid_ann_location)
+        expect(ann.valid?).to be_false
+      end
+    end
     context "警報と関連する Location オブジェクトと Panel オブジェクトがある" do
       context "location 属性が設定されていない"
       context "location 属性が設定されている"
