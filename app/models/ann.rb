@@ -88,24 +88,36 @@ class Ann < ActiveRecord::Base
   private
 
   def panel_and_location_if_assigned
-    return true if location.nil?
+    errors.add(:panel_number, :blank) if panel_number_blank?
+    errors.add(:panel_location, :blank) if panel_location_blank?
 
-    if location.panel.nil? and panel.nil?
-      errors.add(:panel_number, :blank)
+    case errors.count
+    when 0
+      return true
+    when 1
+      return false
+    when 2
+      errors.clear
+      return true
     end
+  end
 
+  def panel_number_blank?
     begin
-      if location.panel.number.blank? and panel.number.blank?
-        errors.add(:panel_number, :blank)
-      end
+      return true if location.panel.nil? and panel.nil?
+      return true if location.panel.number.blank? and panel.number.blank?
     rescue NoMethodError
-      errors.add(:panel_number, :blank)
+      return true
     end
+    false
+  end
 
-    if location.location.blank?
-      errors.add(:panel_location, :blank)
+  def panel_location_blank?
+    begin
+      return true if location.location.blank?
+    rescue NoMethodError
+      return true
     end
-
-    errors.empty?
+    false
   end
 end
