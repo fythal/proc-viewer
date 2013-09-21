@@ -81,7 +81,6 @@ describe AnnsController do
   end
 
   describe "POST create" do
-
     describe "正常な警報のパラメータを与えた場合" do
       it "新しい Ann オブジェクトを作成する" do
         expect {
@@ -132,9 +131,14 @@ describe AnnsController do
         assigns(:panel).should be_persisted
       end
 
-      it "@ann と @panel は関連付けられている" do
+      it "@ann と @panel は #location を仲介して関連付けられている" do
         post :create, {:ann => valid_ann_and_panel_attributes}, valid_session
-        expect(assigns(:ann).panel).to eq(assigns(:panel))
+        expect(assigns(:ann).location.panel).to eq(assigns(:panel))
+      end
+
+      it "@ann と @panel は直接関連付けられていない" do
+        post :create, {:ann => valid_ann_and_panel_attributes}, valid_session
+        expect(assigns(:ann).panel).to be_nil
       end
 
       it "@panel はフォームに入力した同じパネル番号を持つ" do
@@ -151,43 +155,20 @@ describe AnnsController do
         post :create, {:ann => valid_ann_and_panel_attributes}, valid_session
         response.should redirect_to(Ann.last)
       end
-
-      describe "手順書のアップロードをした場合" do
-        it "新しい手順書オブジェクトを作成する" do
-          attributes = valid_ann_attributes.merge(attributes_for_procedure)
-          expect { post :create, {:ann => attributes}, valid_session }.to change(Procedure, :count).by(1)
-        end
-
-        it "警報に手順書オブジェクトが関連付けられている" do
-          attributes = valid_ann_attributes.merge(attributes_for_procedure)
-          post :create, {:ann => attributes}, valid_session
-          expect(assigns(:ann).procedure).not_to be_nil
-        end
-      end
-
-      describe "警報パネルの番号は指定するが、場所は指定しなかった場合" do
-        before(:each) do
-          @attributes = valid_ann_and_panel_attributes
-          @attributes.delete(:panel_location)
-        end
-        it "新しい Panel オブジェクトを作成しない" do
-          expect { post :create, {:ann => @attributes}, valid_session }.to change(Panel, :count).by(0)
-        end
-        it "警報は警報パネルとは関連付けられていない" do
-          post :create, {:ann => @attributes}, valid_session
-          expect(assigns(:ann).panel).to be_nil
-        end
-        it "警報の :panel_location にエラーを設定する" do
-          post :create, {:ann => @attributes}, valid_session
-          expect(assigns(:ann).errors[:panel_location]).not_to be_empty
-        end
-        it "警報の新規作成の画面を再描画する" do
-          post :create, {:ann => @attributes}, valid_session
-          response.should render_template("new")
-        end
-      end
     end
 
+    describe "手順書のアップロードをした場合" do
+      it "新しい手順書オブジェクトを作成する" do
+        attributes = valid_ann_attributes.merge(attributes_for_procedure)
+        expect { post :create, {:ann => attributes}, valid_session }.to change(Procedure, :count).by(1)
+      end
+
+      it "警報に手順書オブジェクトが関連付けられている" do
+        attributes = valid_ann_attributes.merge(attributes_for_procedure)
+        post :create, {:ann => attributes}, valid_session
+        expect(assigns(:ann).procedure).not_to be_nil
+      end
+    end
 
     describe "警報の保存に失敗した場合 (不正な値を設定する等)" do
       before(:each) do
@@ -230,37 +211,41 @@ describe AnnsController do
         assigns(:ann).should eq(ann)
       end
 
+      describe "@panel の代入" do
+        it "警報がパネルに割り当てられていなければ、@panel に nil を代入する" do
+          ann = Ann.create! valid_ann_attributes
+          ann.stub(:panel).and_return(nil)
+          put :update, {:id => ann.to_param, :ann => valid_ann_attributes}, valid_session
+          expect(assigns(:panel)).to be_nil
+        end
+
+        it "警報がパネルに割り当てられていれば、@panel にパネルをセットする" do
+          ann = Ann.create! valid_ann_attributes
+          panel = Panel.create! number: valid_ann_and_panel_attributes[:panel_number]
+          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
+          expect(assigns(:panel)).to eq(panel)
+        end
+      end
+
       it "redirects to the ann" do
         ann = Ann.create! valid_ann_attributes
         put :update, {:id => ann.to_param, :ann => valid_ann_attributes}, valid_session
         response.should redirect_to(ann)
       end
 
-      it "@panel に Panel オブジェクトを代入する" do
-        ann = Ann.create! valid_ann_attributes
-        put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-        expect(assigns(:panel)).to be_kind_of(Panel)
-      end
+      describe "パラメータに警報パネルとその場所を与える" do
+        it "@panel に警報パネルのパラメータが設定されている" do
+          ann = Ann.create! valid_ann_attributes
+          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
+          expect(assigns(:panel).number).to eq(valid_panel_attributes[:panel_number])
+        end
 
-      it "@panel はフォームに入力した同じパネル番号を持つ" do
-        ann = Ann.create! valid_ann_attributes
-        put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-        expect(assigns(:panel).number).to eq("n1")
+        it "@panel.location.location に警報パネルの場所のパラメータが設定されている" do
+          ann = Ann.create! valid_ann_attributes
+          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
+          expect(assigns(:panel).locations.map(&:location)).to include(valid_panel_attributes[:panel_location])
+        end
       end
-
-      it "警報は @panel に割り当てられている" do
-        ann = Ann.create! valid_ann_attributes
-        put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-        expect(assigns(:panel).anns).to include(ann)
-      end
-
-      it "警報を割り当てるためにパネルと窓を指定する" do
-        ann = Ann.create! valid_ann_attributes
-        attributes = valid_ann_attributes.merge(panel_number: "n1", panel_location: "a1")
-        put :update, {:id => ann.to_param, :ann => attributes}, valid_session
-        expect(assigns(:ann).location.to_s).to eq("a1")
-      end
-
     end
 
     describe "with invalid params" do

@@ -31,8 +31,8 @@ class AnnsController < ApplicationController
   # POST /anns.json
   def create
     @ann = Ann.new(ann_params)
-    @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
-    @panel = @ann.location.panel
+    Panel.assign(@ann, panel: panel_params[:panel_number], to: panel_params[:panel_location])
+    @panel = @ann.location.panel rescue nil
 
     respond_to do |format|
       if @ann.save
@@ -60,11 +60,12 @@ class AnnsController < ApplicationController
   # PATCH/PUT /anns/1
   # PATCH/PUT /anns/1.json
   def update
-    if panel_params[:panel_number] and panel_params[:panel_number]
-      if @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
-        @panel = @ann.panel
-      end
+    if panel_params[:panel_number] and panel_params[:panel_location]
+      #      @ann.assign(panel: panel_params[:panel_number], location: panel_params[:panel_location])
+      Panel.assign(@ann, panel: panel_params[:panel_number], to: panel_params[:panel_location])
     end
+
+    @panel = @ann.panel
 
     respond_to do |format|
       if @ann.update(ann_params)
