@@ -67,3 +67,21 @@ end
 Then(/^詳細ページでは、警報を割り当てた窓のロケーションが表示される$/) do
   expect(page).to have_selector('#ann_panel_location', :text => @panel_location)
 end
+
+Then(/^窓の場所は空白ではいけない旨のエラーが表示される$/) do
+  expect(page).to have_selector('#error_explanation li', :text => "Panel locationを入力してください。")
+end
+
+Then(/^警報パネルは空白ではいけない旨のエラーが表示される$/) do
+  expect(page).to have_selector('#error_explanation li', :text => "Panel numberを入力してください。")
+end
+
+Then(/^窓の場所のフィールドが色付される$/) do
+  expect(page).to have_selector('.field_with_errors label[for="ann_panel_location"]')
+  expect(page).to have_selector('.field_with_errors input#ann_panel_location')
+end
+
+Then(/^警報パネルのフィールドが色付される$/) do
+  expect(page).to have_selector('.field_with_errors label[for="ann_panel_number"]')
+  expect(page).to have_selector('.field_with_errors input#ann_panel_number')
+end
