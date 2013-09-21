@@ -78,9 +78,20 @@ describe Panel do
     end
 
     describe "場所に空白が指定される" do
-      it "Location にエラーを設定する" do
-        @panel.assign(@ann, to: "")
-        expect(@ann.errors[:panel_location]).not_to be_empty
+      describe "警報が保存されている場合" do
+        it "Location にエラーを設定する" do
+          @panel.assign(@ann, to: "")
+          expect(@ann.errors[:panel_location]).not_to be_empty
+        end
+      end
+
+      describe "警報とパネルが保存されていない場合" do
+        it "Location にエラーを設定する" do
+          @ann = Ann.new(valid_ann_attributes)
+          @panel = Panel.new(valid_panel_attributes)
+          @panel.assign(@ann, to: "")
+          expect(@ann.errors[:panel_location]).not_to be_empty
+        end
       end
     end
 

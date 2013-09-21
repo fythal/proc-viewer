@@ -116,9 +116,9 @@ class Ann < ActiveRecord::Base
       errors.add(:panel_number, :blank)
     end
 
-    # if location.location.blank?
-    #   errors.add(:panel_location, :blank)
-    # end
+    if location.location.blank?
+      errors.add(:panel_location, :blank)
+    end
 
     errors.empty?
   end
