@@ -33,7 +33,6 @@ class Panel < ActiveRecord::Base
     rescue ActiveRecord::RecordNotSaved
       return false
     end
-    ann.errors.add(:panel_location, :blank) if ann.location and !ann.location.valid?
     ann.panel(true)
     ann.location
   end
