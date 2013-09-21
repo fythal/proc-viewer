@@ -16,7 +16,11 @@ class Panel < ActiveRecord::Base
   def assign(ann, location_hash)
     return false unless location = location_hash.delete(:to)
     raise InvalidArgument, "Unknown #{location_hash.keys.size == 1 ? "key" : "keys"}: #{location_hash.keys.join(", ")}" unless location_hash.size == 0
-    ann.location = Location.new(ann: ann, panel: self, location: location)
+    begin
+      ann.location = Location.new(ann: ann, panel: self, location: location)
+    rescue ActiveRecord::RecordNotSaved
+      ann.errors.add(:panel_location, :blank)
+    end
     ann.panel(true)
     ann.location
   end
