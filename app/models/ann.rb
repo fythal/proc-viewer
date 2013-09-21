@@ -43,7 +43,7 @@ class Ann < ActiveRecord::Base
   end
 
   def panel_number
-    panel.number rescue nil
+    panel.number rescue location.panel.number rescue nil
   end
 
   def panel=(new_panel)

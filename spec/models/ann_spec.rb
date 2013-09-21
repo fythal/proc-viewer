@@ -194,10 +194,20 @@ describe Ann do
   describe '#panel_number' do
     context "警報がパネルに割り当てられているとき" do
       it "割り当てらえている警報パネルの番号を返す" do
-        panel = Panel.create!(valid_panel_attributes)
-
-        # ann = Ann.create!(panel: panel, location: "a1")
         ann = Ann.create!(valid_ann_attributes)
+
+        panel = Panel.create!(valid_panel_attributes)
+        panel.assign(ann, to: valid_ann_location)
+
+        expect(ann.panel_number).to eq(valid_panel_number)
+      end
+    end
+
+    describe "未保存の警報がパネルに割り当てられているとき" do
+      it "割り当てらえている警報パネルの番号を返す" do
+        ann = Ann.new(valid_ann_attributes)
+
+        panel = Panel.new(valid_panel_attributes)
         panel.assign(ann, to: valid_ann_location)
 
         expect(ann.panel_number).to eq(valid_panel_number)
@@ -294,7 +304,7 @@ describe Ann do
   end
 
   describe "#panel_and_location_if_assigned" do
-    context "警報に関連する Location オブジェクトがない (パネルに割り当てられていない)" do
+    context "保存されていない警報について、関連する Location オブジェクトがない (パネルに割り当てられていない)" do
       it "true を返す" do
         ann = Ann.new(valid_ann_attributes)
         expect(ann.send(:panel_and_location_if_assigned)).to be_true
@@ -306,7 +316,7 @@ describe Ann do
       end
     end
 
-    context "警報と関連する Location オブジェクトがある" do
+    context "保存された警報について、関連する Location オブジェクトがある" do
       context "location 属性が設定されていない"
       context "location 属性が設定されている" do
         before(:each) do
@@ -330,6 +340,69 @@ describe Ann do
         expect(ann.valid?).to be_false
       end
     end
+
+    describe "警報パネルの番号と場所が空白である" do
+      it "true を返す" do
+        ann = Ann.new(valid_ann_attributes)
+        Panel.assign(ann, panel: "", to: "")
+        expect(ann).to be_valid
+      end
+    end
+
+    describe "警報が保存されていない" do
+      context "Location オブジェクトがない" do
+        describe "Panel オブジェクトがない"
+        describe "Panel オブジェクトがある" do
+          describe "警報は number が設定されている"
+          describe "警報は number が設定されていない"
+        end
+      end
+
+      context "警報と関連する Location オブジェクトがある" do
+        context "location 属性が設定されていない" do
+          describe "Panel オブジェクトがない"
+          describe "Panel オブジェクトがある" do
+            describe "警報は number が設定されている"
+            describe "警報は number が設定されていない"
+          end
+        end
+        context "location 属性が設定されている" do
+          describe "Panel オブジェクトがない"
+          describe "Panel オブジェクトがある" do
+            describe "警報は number が設定されている"
+            describe "警報は number が設定されていない"
+          end
+        end
+      end
+    end
+
+    describe "警報が保存されている" do
+      context "Location オブジェクトがない" do
+        describe "Panel オブジェクトがない"
+        describe "Panel オブジェクトがある" do
+          describe "警報は number が設定されている"
+          describe "警報は number が設定されていない"
+        end
+      end
+
+      context "警報と関連する Location オブジェクトがある" do
+        context "location 属性が設定されていない" do
+          describe "Panel オブジェクトがない"
+          describe "Panel オブジェクトがある" do
+            describe "警報は number が設定されている"
+            describe "警報は number が設定されていない"
+          end
+        end
+        context "location 属性が設定されている" do
+          describe "Panel オブジェクトがない"
+          describe "Panel オブジェクトがある" do
+            describe "警報は number が設定されている"
+            describe "警報は number が設定されていない"
+          end
+        end
+      end
+    end
+
     context "警報と関連する Location オブジェクトと Panel オブジェクトがある" do
       context "location 属性が設定されていない"
       context "location 属性が設定されている"
