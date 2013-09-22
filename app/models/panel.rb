@@ -7,34 +7,21 @@ class Panel < ActiveRecord::Base
   validates :number, presence: true
   validates :number, uniqueness: true
 
-  def self.assign(ann, panel_and_location_hash)
-    panel_number = panel_and_location_hash.delete(:panel)
-    panel = find_or_initialize_by(number: panel_number)
-    if panel.valid?
-      panel.assign(ann, panel_and_location_hash)
-    else
-      return false unless location = panel_and_location_hash.delete(:to)
-      raise InvalidArgument, "Unknown #{panel_and_location_hash.keys.size == 1 ? "key" : "keys"}: #{panel_and_location_hash.keys.join(", ")}" unless panel_and_location_hash.size == 0
-      return false if location.blank?
-      begin
-        ann.location = Location.new(ann: ann, panel: nil, location: location)
-      rescue ActiveRecord::RecordNotSaved
-        return false
-      end
-      return ann.location
-    end
-  end
+  def self.assign(ann, panel_and_location)
+    panel = relating(panel_and_location[:panel])
+    location = Location.new(ann: ann, panel: panel, location: panel_and_location[:to])
 
-  def assign(ann, location_hash)
-    return false unless location = location_hash.delete(:to)
-    raise InvalidArgument, "Unknown #{location_hash.keys.size == 1 ? "key" : "keys"}: #{location_hash.keys.join(", ")}" unless location_hash.size == 0
     begin
-      ann.location = Location.new(ann: ann, panel: self, location: location)
+      ann.location = location
     rescue ActiveRecord::RecordNotSaved
       return false
     end
     ann.panel(true)
-    ann.location
+    ann.location.valid?
+  end
+
+  def assign(ann, location_hash)
+    Panel.assign(ann, location_hash.merge(panel: self))
   end
 
   def assigned?(loc)
@@ -42,6 +29,17 @@ class Panel < ActiveRecord::Base
   end
 
   private
+
+  def self.relating(specifier)
+    case specifier
+    when Panel
+      specifier
+    when String
+      find_or_initialize_by(number: specifier)
+    else
+      nil
+    end
+  end
 
   def ensure_not_referenced_by_any_ann
     if anns.empty?

@@ -24,71 +24,77 @@ describe Panel do
   #
 
   describe "Panel.assign(ann, panel_and_location)" do
-    before(:each) do
-      @ann = Ann.create!(valid_ann_attributes)
-    end
+    describe "警報は保存されていない" do
+      before(:each) { @ann = Ann.new(valid_ann_attributes) }
 
-    describe "パネルの番号を指定する" do
-      describe "指定した番号のパネルが存在している"      # その場合は Panel#assign でスペックを規定
-
-      describe "指定した番号のパネルは存在していない" do
-        before(:each) do
-          expect(Panel.find_by_number(valid_panel_attributes[:number])).to be_nil
-          @new_location = "a1"
-          @proc = Proc.new { Panel.assign(@ann, panel: valid_panel_number, to: @new_location) }
+      describe "パネルの番号は空白、場所は空白を指定する" do
+        def params
+          { panel: "", to: ""}
         end
-        it "Location オブジェクトが関連付ける" do
-          @proc.call
+
+        it "false を返す" do
+          expect(Panel.assign(@ann, params)).to be_false
+        end
+        it "警報の location には invalid な Locaiton オブジェクトを設定" do
+          Panel.assign(@ann, params)
           expect(@ann.location).to be_kind_of(Location)
+          expect(@ann.location).not_to be_valid
         end
-        it "Locaiton オブジェクトの location 属性を設定する" do
-          @proc.call
-          expect(@ann.location.location).to eq(@new_location)
+        it "警報の panel には invalid な Panel オブジェクトを設定" do
+          Panel.assign(@ann, params)
+          expect(@ann.location.panel).to be_kind_of(Panel)
+          expect(@ann.location.panel).not_to be_valid
         end
-        it "新規の Locaiton オブジェクトをデータベースに保存する" do
-          expect { @proc.call }.to change(Location, :count).by(1)
+        it "Panel オブジェクトを生成しない" do
+          expect { Panel.assign(@ann, params) }.to change(Panel, :count).by(0)
         end
-        it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
-          @proc.call
-          expect(@ann.location.panel).not_to be_nil
-        end
-        it "警報パネルオブジェクトは作成する。Ann#panel メソッドで直接アクセスできる" do
-          @proc.call
-          expect(@ann.panel).not_to be_nil
-          expect(@ann.panel.number).to eq(valid_panel_number)
-        end
-        it "警報パネルオブジェクトはデータベースには保存されていない" do
-          expect { @proc.call }.to change(Panel, :count).by(1)
-        end
-        it "true を返す" do
-          expect { @proc.call }.to be_true
+        it "Location オブジェクトを生成しない" do
+          expect { Panel.assign(@ann, params) }.to change(Location, :count).by(0)
         end
       end
     end
 
-    describe "パネルの番号に空白を指定する" do
-      describe "パネルの場所に空白を指定する" do
-        describe "警報は保存されていない" do
+    describe "警報は保存されている" do
+      before(:each) { @ann = Ann.create!(valid_ann_attributes) }
+
+      describe "パネルの番号を指定する" do
+        describe "指定した番号のパネルが存在している"      # その場合は Panel#assign でスペックを規定
+        describe "指定した番号のパネルは存在していない" do
           before(:each) do
-            @ann = Ann.new(valid_ann_attributes)
+            expect(Panel.find_by_number(valid_panel_attributes[:number])).to be_nil
+            def new_location
+              "a1"
+            end
+            def params
+              { panel: valid_panel_number, to: new_location }
+            end
           end
 
-          it "false を返す" do
-            expect(Panel.assign(@ann, panel: "", to: "")).to be_false
+          it "Location オブジェクトが関連付ける" do
+            Panel.assign(@ann, params)
+            expect(@ann.location).to be_kind_of(Location)
           end
-          it "警報の location を nil にする" do
-            Panel.assign(@ann, panel: "", to: "")
-            expect(@ann.location).to be_nil
+          it "Locaiton オブジェクトの location 属性を設定する" do
+            Panel.assign(@ann, params)
+            expect(@ann.location.location).to eq(new_location)
           end
-          it "警報の panel を nil にする" do
-            Panel.assign(@ann, panel: "", to: "")
-            expect(@ann.panel).to be_nil
+          it "新規の Locaiton オブジェクトをデータベースに保存する" do
+            expect {Panel.assign(@ann, params)}.to change(Location, :count).by(1)
           end
-          it "Panel オブジェクトを生成しない" do
-            expect { Panel.assign(@ann, panel: "", to: "") }.to change(Panel, :count).by(0)
+          it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
+            Panel.assign(@ann, params)
+            expect(@ann.location.panel).not_to be_nil
           end
-          it "Location オブジェクトを生成しない" do
-            expect { Panel.assign(@ann, panel: "", to: "") }.to change(Location, :count).by(0)
+          it "警報パネルオブジェクトは作成する。Ann#panel メソッドで直接アクセスできる" do
+            Panel.assign(@ann, params)
+            expect(@ann.panel).not_to be_nil
+            expect(@ann.panel.number).to eq(valid_panel_number)
+          end
+          it "警報パネルオブジェクトはデータベースには保存されていない" do
+            expect { Panel.assign(@ann, params) }.to change(Panel, :count).by(1)
+          end
+          it "true を返す" do
+            expect { Panel.assign(@ann, params) }.to be_true
           end
         end
       end
@@ -182,13 +188,12 @@ describe Panel do
     # end
   end
 
-
   describe "Panel.assigned?(panel_and_location)" do
     describe "既存のパネルの空いている場所を指定" do
-      it "false を返す"
+      # it "false を返す"
     end
     describe "既存のパネルの合いていない場所を指定" do
-      it "true を返す"
+      # it "true を返す"
     end
     describe "既存のパネルに対して、場所指定が空白の場合" do
     end
