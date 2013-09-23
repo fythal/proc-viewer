@@ -85,3 +85,12 @@ Then(/^警報パネルのフィールドが色付される$/) do
   expect(page).to have_selector('.field_with_errors label[for="ann_panel_number"]')
   expect(page).to have_selector('.field_with_errors input#ann_panel_number')
 end
+
+Then(/^手順書は割り当てられていないメッセージが表示される$/) do
+  expect(page).to have_selector('#ann_procedure', text: %r|\(未設定\)|)
+end
+
+Then(/^警報パネルの番号と場所は設定されていないメッセージが表示される$/) do
+  expect(page).to have_selector('#ann_panel', text: %r|\(未設定\)|)
+  expect(page).to have_selector('#ann_panel_location', text: %r|\(未設定\)|)
+end
