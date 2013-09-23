@@ -11,28 +11,6 @@ class Ann < ActiveRecord::Base
   validates :name, uniqueness: true
   validate :panel_and_location_if_assigned
 
-  def initialize(attributes = nil, &block)
-    panel_number = nil
-    location_number = nil
-
-    if attributes.is_a?(Hash) and attributes[:panel].is_a?(String)
-      panel_number = attributes.delete(:panel)
-    end
-
-    if attributes.is_a?(Hash) and attributes[:location].is_a?(String)
-      location_number = attributes.delete(:location)
-    end
-
-    super
-
-    unless panel_number.nil?
-      panel = Panel.find_or_initialize_by(number: panel_number)
-      panel.assign(self, location: location_number)
-    end
-
-    self
-  end
-
   def proc_path
     return nil if procedures.empty?
     procedures.first.latest_revision.path
