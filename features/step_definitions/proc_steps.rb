@@ -53,7 +53,7 @@ When(/^その警報の編集画面を表示させる$/) do
 end
 
 When(/^手順書の新規作成のリンクをクリックする$/) do
-  click_link('Create Procedure')
+  click_link I18n.t("new_procedure_for_the_ann")
 end
 
 Then(/^情報が更新された警報が表示される$/) do
