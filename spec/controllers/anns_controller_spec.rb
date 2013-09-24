@@ -63,6 +63,17 @@ describe AnnsController do
       get :show, {:id => ann.to_param}, valid_session
       assigns(:ann).should eq(ann)
     end
+
+    context "要求された警報に対し、警報パネルが関連付けられている" do
+      it "警報パネルを @panel に割り当てる" do
+        ann = Ann.create! valid_ann_attributes
+        panel = Panel.create! number: valid_panel_attributes[:panel_number]
+        Panel.assign(ann, panel: panel.number, to: "a1")
+
+        get :show, {:id => ann.to_param}, valid_session
+        assigns(:panel).should eq(panel)
+      end
+    end
   end
 
   describe "GET new" do
