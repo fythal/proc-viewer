@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class AnnsController < ApplicationController
   before_action :set_ann, only: [:show, :edit, :update, :destroy]
+  before_action :set_panel, only: [:show]
 
   # GET /anns
   # GET /anns.json
@@ -91,6 +92,10 @@ class AnnsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_ann
     @ann = Ann.find(params[:id])
+  end
+
+  def set_panel
+    @panel = @ann.panel
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
