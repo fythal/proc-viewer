@@ -24,8 +24,8 @@ describe "anns/edit" do
       assert_select "input#ann_panel_location", :name => "ann[panel_location]"
 
       # 手順書
-      assert_select "label[for='ann_procedure']", I18n.t("helpers.label.ann.procedure")
-      assert_select "input[type='file']#ann_procedure", :name => "ann[procedure]"
+      assert_select "label[for='new_ann_procedure']", I18n.t("helpers.label.ann.new_ann_procedure")
+      assert_select "a#new_ann_procedure[href=?]", new_ann_procedure(@ann)
     end
   end
 end
