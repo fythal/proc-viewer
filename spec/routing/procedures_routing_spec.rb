@@ -11,6 +11,10 @@ describe ProceduresController do
       get("/procedures/new").should route_to("procedures#new")
     end
 
+    it "routes to #new with ann" do
+      get("/anns/1/procedures/new").should route_to("procedures#new", :ann_id => "1")
+    end
+
     it "routes to #show" do
       get("/procedures/1").should route_to("procedures#show", :id => "1")
     end
