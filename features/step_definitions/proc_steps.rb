@@ -5,6 +5,10 @@ Given(/^「HPCS 電気故障」という警報がある$/) do
   @ann.save
 end
 
+Given(/^ある警報がある$/) do
+  steps %{ Given 「HPCS 電気故障」という警報がある }
+end
+
 Given(/^その警報には、スキャンされた手順が関連づけられている$/) do
   procedure = Procedure.create!(ann: @ann)
 end
@@ -42,6 +46,14 @@ When(/^警報パネルと警報窓に適切な情報を設定する$/) do
   fill_in I18n.t(:window_number), :with => 'd3'
   # click_button I18n.t(:update_ann)
   click_button "Update Ann"
+end
+
+When(/^その警報の編集画面を表示させる$/) do
+  visit "/anns/#{@ann.to_param}/edit"
+end
+
+When(/^手順書の新規作成のリンクをクリックする$/) do
+  click_link('Create Procedure')
 end
 
 Then(/^情報が更新された警報が表示される$/) do
@@ -140,4 +152,28 @@ end
 
 Then(/^その警報対応へのリンクも表示され、どの警報のものか確認できる$/) do
   pending # express the regexp above with the code you wish you had
+end
+
+Then(/^手順書の新規作成の画面が表示される$/) do
+  expect(page.current_path).to eq(new_ann_procedure(@ann))
+end
+
+Then(/^手順書を割り当てる警報が判別できるように、画面に警報の名称が表示される$/) do
+  expect(page).to have_selector('#ann_name', text: @ann.name)
+end
+
+Then(/^改定番号を入力するフィールドがある$/) do
+  expect(page).to have_field('#procedure_revision')
+end
+
+Then(/^改訂日を入力するフィールドがある$/) do
+  expect(page).to have_field('#procedure_revised_on')
+end
+
+Then(/^手順書の過去のリビジョンを選択できるセレクトボックスが表示されている$/) do
+  expect(page).to have_select('#procedure_prev_revision_id')
+end
+
+Then(/^リビジョンのセレクトボックスのデフォルト値は、その警報の最新の手順書のリビジョンである$/) do
+  expect(page).to have_select('#procedure_prev_revision_id', :selected => @ann.procedure.id)
 end
