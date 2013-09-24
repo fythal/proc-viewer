@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe ProceduresController do
@@ -26,6 +28,12 @@ describe ProceduresController do
     it "assigns a new procedure as @procedure" do
       get :new, {}, valid_session
       assigns(:procedure).should be_a_new(Procedure)
+    end
+
+    it "パスに警報が入っていたときは @ann をアサインする" do
+      Ann.stub(:find).and_return(stub_model(Ann, :name => "MyAnnName"))
+      get :new, {ann_id: "1"}, valid_session
+      expect(assigns(:ann)).to be_kind_of(Ann)
     end
   end
 

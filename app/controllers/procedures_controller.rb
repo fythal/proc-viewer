@@ -15,6 +15,7 @@ class ProceduresController < ApplicationController
   # GET /procedures/new
   def new
     @procedure = Procedure.new
+    @ann = Ann.find(params[:ann_id]) if params[:ann_id]
   end
 
   # GET /procedures/1/edit
