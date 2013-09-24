@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe "procedures/new" do
@@ -22,5 +23,11 @@ describe "procedures/new" do
       assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"
       assert_select "input#procedure_prev_revision_id[name=?]", "procedure[prev_revision_id]"
     end
+  end
+
+  it "警報 @ann が代入されていれば、警報名称を表示する" do
+    assign(:ann, stub_model(Ann, :name => "MyAnnName"))
+    render
+    assert_select "p", /MyAnnName/
   end
 end
