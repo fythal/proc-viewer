@@ -155,7 +155,7 @@ Then(/^その警報対応へのリンクも表示され、どの警報のもの�
 end
 
 Then(/^手順書の新規作成の画面が表示される$/) do
-  expect(page.current_path).to eq(new_ann_procedure(@ann))
+  expect(page.current_path).to eq(new_ann_procedure_path(@ann))
 end
 
 Then(/^手順書を割り当てる警報が判別できるように、画面に警報の名称が表示される$/) do
