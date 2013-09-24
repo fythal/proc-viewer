@@ -1,5 +1,12 @@
 <h1><%=t :new_procedure %></h1>
 
+<% if @ann %>
+<p>
+  <strong><%= Ann.human_attribute_name(:name) %>: </strong>
+  <%= @ann.name %>
+</p>
+<% end %>
+  
 <%= render 'form' %>
 
 <%= link_to 'Back', procedures_path %>
