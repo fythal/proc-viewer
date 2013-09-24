@@ -6,6 +6,10 @@ Given(/^「HPCS 電気故障」という警報がある$/) do
 end
 
 Given(/^その警報には、スキャンされた手順が関連づけられている$/) do
+  procedure = Procedure.create!(ann: @ann)
+end
+
+Given(/^その警報には、スキャンされた手順が関連づけられている$/) do
   @ann.panel = "n1"
   @ann.window = "c6"
   @ann.save
@@ -36,6 +40,7 @@ end
 When(/^警報パネルと警報窓に適切な情報を設定する$/) do
   fill_in I18n.t(:panel_number), :with => 'n1'
   fill_in I18n.t(:window_number), :with => 'd3'
+  # click_button I18n.t(:update_ann)
   click_button "Update Ann"
 end
 
@@ -50,20 +55,19 @@ end
 Given(/^ある警報窓にすでに警報が割り当てられている$/) do
   steps %{
     Given 「HPCS 電気故障」という警報がある
-    Given その警報には、スキャンされた手順が関連づけられている
   }
-  @assigned_panel = @ann.panel
-  @assigned_window = @ann.window
-  expect(@assigned_panel).not_to be_nil
-  expect(@assigned_window).not_to be_nil
+  Panel.assign(@ann, panel: "n1", to: "a1")
+  expect(@ann.panel).not_to be_nil
+  expect(@ann.location).not_to be_nil
 end
 
 When(/^その警報窓に違う警報を割り当てようとする$/) do
   @another_ann = Ann.create!(:name => "CRD 電気故障")
   visit "/anns/#{@another_ann.to_param}/edit"
-  fill_in I18n.t(:panel_number), :with => @assigned_panel
-  fill_in I18n.t(:window_number), :with => @assigned_window
-  click_button I18n.t(:update_ann)
+  fill_in I18n.t(:panel_number), :with => @ann.panel.number
+  fill_in I18n.t(:window_number), :with => @ann.location.location
+  # click_button I18n.t(:update_ann)
+  click_button "Update Ann"
 end
 
 Then(/^すでに警報が割り当てられているという注意が表示される$/) do
