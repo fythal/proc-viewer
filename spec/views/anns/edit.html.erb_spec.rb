@@ -22,10 +22,9 @@ describe "anns/edit" do
       # 警報窓番号
       assert_select "label[for='ann_panel_location']", I18n.t("helpers.label.ann.panel_location")
       assert_select "input#ann_panel_location", :name => "ann[panel_location]"
-
-      # 手順書
-      assert_select "label[for='new_ann_procedure']", I18n.t("helpers.label.ann.new_ann_procedure")
-      assert_select "a#new_ann_procedure[href=?]", new_ann_procedure(@ann)
     end
+
+    # 手順書
+    assert_select "a[href=?]", new_ann_procedure_path(@ann), I18n.t("new_procedure_for_the_ann")
   end
 end

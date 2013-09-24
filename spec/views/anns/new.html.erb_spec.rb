@@ -18,7 +18,6 @@ describe "anns/new" do
       assert_select "input#ann_name", :name => "ann[name]"
       assert_select "input#ann_panel_number", :name => "ann[panel_number]"
       assert_select "input#ann_panel_location", :name => "ann[panel_location]"
-      assert_select "input#ann_procedure[type=?]", "file"
     end
   end
 end
