@@ -2,5 +2,7 @@
 
 <%= render 'form' %>
 
+<%= link_to t(:new_procedure_for_the_ann), new_ann_procedure_path(@ann) %><br/><br/>
+
 <%= link_to t(:show), @ann %> |
 <%= link_to t(:back), anns_path %>
