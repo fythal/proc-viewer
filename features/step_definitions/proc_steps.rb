@@ -36,15 +36,15 @@ end
 When(/^警報パネルと警報窓に適切な情報を設定する$/) do
   fill_in I18n.t(:panel_number), :with => 'n1'
   fill_in I18n.t(:window_number), :with => 'd3'
-  click_button I18n.t(:update_ann)
+  click_button "Update Ann"
 end
 
 Then(/^情報が更新された警報が表示される$/) do
   expect(page.status_code).to eq(200)
   expect(page.current_path).to eq(ann_path(@ann))
 
-  expect(page).to have_selector('p#ann_panel', :text => 'n1')
-  expect(page).to have_selector('p#ann_window', :text => 'd3')
+  expect(page).to have_selector('#ann_panel', :text => 'n1')
+  expect(page).to have_selector('#ann_panel_location', :text => 'd3')
 end
 
 Given(/^ある警報窓にすでに警報が割り当てられている$/) do
