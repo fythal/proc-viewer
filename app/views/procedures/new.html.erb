@@ -1,7 +1,7 @@
 <h1><%=t :new_procedure %></h1>
 
 <% if @ann %>
-<p>
+<p id="ann_name">
   <strong><%= Ann.human_attribute_name(:name) %>: </strong>
   <%= @ann.name %>
 </p>

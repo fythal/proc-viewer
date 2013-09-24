@@ -28,6 +28,6 @@ describe "procedures/new" do
   it "警報 @ann が代入されていれば、警報名称を表示する" do
     assign(:ann, stub_model(Ann, :name => "MyAnnName"))
     render
-    assert_select "p", /MyAnnName/
+    assert_select "#ann_name", /MyAnnName/
   end
 end
