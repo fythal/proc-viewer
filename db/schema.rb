@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130913120250) do
+ActiveRecord::Schema.define(version: 20130925122659) do
 
   create_table "anns", force: true do |t|
     t.string   "name"
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20130913120250) do
     t.integer  "ann_id"
     t.integer  "revision"
     t.string   "revised_on"
-    t.integer  "prev_revision_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
