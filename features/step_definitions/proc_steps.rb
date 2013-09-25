@@ -175,10 +175,6 @@ Then(/^改訂日を入力するフィールドがある$/) do
   expect(page).to have_field('procedure_revised_on')
 end
 
-Then(/^手順書の過去のリビジョンを選択できるセレクトボックスが表示されている$/) do
-  expect(page).to have_select('procedure_prev_revision_id')
-end
-
-Then(/^リビジョンのセレクトボックスのデフォルト値は、その警報の最新の手順書のリビジョンである$/) do
-  expect(page).to have_select('procedure_prev_revision_id', :selected => @ann.procedure.id)
+Then(/^最新の手順書の改定番号 (\d+) が表示される$/) do |prev_revision|
+  expect(page).to have_selector('#prev_revision', text: prev_revision)
 end
