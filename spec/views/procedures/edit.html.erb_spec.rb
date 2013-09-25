@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe "procedures/edit" do
@@ -20,7 +21,6 @@ describe "procedures/edit" do
       assert_select "input#procedure_ann_id[name=?]", "procedure[ann_id]"
       assert_select "input#procedure_revision[name=?]", "procedure[revision]"
       assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"
-      assert_select "input#procedure_prev_revision_id[name=?]", "procedure[prev_revision_id]"
     end
   end
 end
