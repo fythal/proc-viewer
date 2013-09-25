@@ -20,16 +20,12 @@
     <%= f.number_field :ann_id %>
   </div>
   <div class="field">
-    <%= f.label t(:revision_number) %><br>
+    <%= f.label :revision, t(:revision_number) %><br>
     <%= f.text_field :revision %>
   </div>
   <div class="field">
-    <%= f.label t(:revised_on) %><br>
+    <%= f.label :revised_on, t(:revised_on) %><br>
     <%= f.text_field :revised_on %>
-  </div>
-  <div class="field">
-    <%= f.label :prev_revision_id %><br>
-    <%= f.number_field :prev_revision_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

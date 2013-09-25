@@ -9,4 +9,10 @@
   
 <%= render 'form' %>
 
+<% if @ann %>
+<p id="prev_revision">
+  <strong>登録済み手順書の最新改定番号: </strong>
+  <%= @ann.procedure.nil? ? "(手順書なし)" : @ann.procedure.revision %></p>
+<% end %>
+
 <%= link_to 'Back', procedures_path %>
