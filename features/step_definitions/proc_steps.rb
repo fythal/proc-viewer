@@ -163,17 +163,17 @@ Then(/^手順書を割り当てる警報が判別できるように、画面に�
 end
 
 Then(/^改定番号を入力するフィールドがある$/) do
-  expect(page).to have_field('#procedure_revision')
+  expect(page).to have_field('procedure_revision')
 end
 
 Then(/^改訂日を入力するフィールドがある$/) do
-  expect(page).to have_field('#procedure_revised_on')
+  expect(page).to have_field('procedure_revised_on')
 end
 
 Then(/^手順書の過去のリビジョンを選択できるセレクトボックスが表示されている$/) do
-  expect(page).to have_select('#procedure_prev_revision_id')
+  expect(page).to have_select('procedure_prev_revision_id')
 end
 
 Then(/^リビジョンのセレクトボックスのデフォルト値は、その警報の最新の手順書のリビジョンである$/) do
-  expect(page).to have_select('#procedure_prev_revision_id', :selected => @ann.procedure.id)
+  expect(page).to have_select('procedure_prev_revision_id', :selected => @ann.procedure.id)
 end
