@@ -8,7 +8,6 @@ describe "procedures/edit" do
       :ann_id => 1,
       :revision => "",
       :revised_on => "MyString",
-      :prev_revision_id => 1
     ))
   end
 

@@ -8,7 +8,6 @@ describe "procedures/new" do
       :ann_id => 1,
       :revision => "",
       :revised_on => "MyString",
-      :prev_revision_id => 1
     ).as_new_record)
   end
 

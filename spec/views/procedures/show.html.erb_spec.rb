@@ -7,7 +7,6 @@ describe "procedures/show" do
       :ann_id => 1,
       :revision => "",
       :revised_on => "Revised On",
-      :prev_revision_id => 2
     ))
   end
 
@@ -18,6 +17,5 @@ describe "procedures/show" do
     rendered.should match(/1/)
     rendered.should match(//)
     rendered.should match(/Revised On/)
-    rendered.should match(/2/)
   end
 end
