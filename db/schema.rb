@@ -11,14 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130925122659) do
+ActiveRecord::Schema.define(version: 20130925124117) do
 
   create_table "anns", force: true do |t|
     t.string   "name"
-    t.string   "pdf"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "window"
   end
 
   create_table "locations", force: true do |t|

@@ -7,7 +7,6 @@
       <th><%= t(:ann_name) %></th>
       <th><%= t(:revision_number) %></th>
       <th><%= t(:revised_on) %></th>
-      <th><%= t(:prev_revision) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -21,7 +20,6 @@
         <td><%= procedure.ann_id %></td>
         <td><%= procedure.revision %></td>
         <td><%= procedure.revised_on %></td>
-        <td><%= procedure.prev_revision_id %></td>
         <td><%= link_to t(:show), procedure %></td>
         <td><%= link_to t(:edit), edit_procedure_path(procedure) %></td>
         <td><%= link_to t(:destroy), procedure, method: :delete, data: { confirm: t(:are_you_sure) } %></td>

@@ -20,10 +20,5 @@
   <%= @procedure.revised_on %>
 </p>
 
-<p>
-  <strong><%=t :prev_revision%>: </strong>
-  <%= @procedure.prev_revision_id %>
-</p>
-
 <%= link_to t(:edit), edit_procedure_path(@procedure) %> |
 <%= link_to t(:back), procedures_path %>
