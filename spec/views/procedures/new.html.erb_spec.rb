@@ -20,6 +20,7 @@ describe "procedures/new" do
       assert_select "input#procedure_ann_id[name=?]", "procedure[ann_id]"
       assert_select "input#procedure_revision[name=?]", "procedure[revision]"
       assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"
+      assert_select "input#procedure_file[name=?][type=?]", "procedure[file]", "file"
     end
   end
 
