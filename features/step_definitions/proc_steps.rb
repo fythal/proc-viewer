@@ -19,6 +19,11 @@ Given(/^その警報には、スキャンされた手順が関連づけられて
   @ann.save
 end
 
+Given(/^その警報には、改定番号 (\d+) の手順書が割り当てられている$/) do |proc_number|
+  proc_number = proc_number.to_i
+  @ann.procedures << Procedure.create(revision: proc_number)
+end
+
 When(/^「(.*)」というキーワードを入力する$/) do |keyword|
   visit "/anns?keyword=#{URI.encode(keyword)}"
 end
