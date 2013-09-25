@@ -17,7 +17,7 @@ class Ann < ActiveRecord::Base
   end
 
   def procedure
-    procedures.last.latest_revision rescue nil
+    Procedure.where('ann_id = ?', self).order(:revision).last
   end
 
   def panel_number
