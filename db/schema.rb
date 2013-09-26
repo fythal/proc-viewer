@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130925124117) do
+ActiveRecord::Schema.define(version: 20130926120612) do
 
   create_table "anns", force: true do |t|
     t.string   "name"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20130925124117) do
     t.string   "path"
     t.integer  "ann_id"
     t.integer  "revision"
-    t.string   "revised_on"
+    t.datetime "revised_on", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
