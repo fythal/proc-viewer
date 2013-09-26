@@ -41,4 +41,10 @@ describe "procedures/show" do
 
     assert_select('a[href=?]', edit_ann_path(@ann), text: I18n.t(:editing_ann) )
   end
+
+  it "手順書ファイルへのリンクを表示する" do
+    render
+
+    assert_select('a[href=?]', @procedure.path, text: @procedure.path )
+  end
 end

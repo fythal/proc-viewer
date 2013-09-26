@@ -2,7 +2,7 @@
 
 <p id="path">
   <strong><%=t :proc_path %>: </strong>
-  <%= @procedure.path.blank? ? t(:no_ann_assigned) : @procedure.path %>
+  <%= @procedure.path.blank? ? t(:no_ann_assigned) : link_to(@procedure.path, @procedure.path) %>
 </p>
 
 <p id="ann_name">
