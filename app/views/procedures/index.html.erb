@@ -3,10 +3,10 @@
 <table>
   <thead>
     <tr>
-      <th><%= t(:proc_path) %></th>
       <th><%= t(:ann_name) %></th>
-      <th><%= t(:revision_number) %></th>
+      <th><%= t(:revision) %></th>
       <th><%= t(:revised_on) %></th>
+      <th><%= t(:proc_path) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,10 +16,10 @@
   <tbody>
     <% @procedures.each do |procedure| %>
       <tr>
-        <td><%= procedure.path %></td>
-        <td><%= procedure.ann_id %></td>
+        <td><%= procedure.ann ? procedure.ann.name : t("no_ann_assigned") %></td>
         <td><%= procedure.revision %></td>
-        <td><%= procedure.revised_on %></td>
+        <td><%= procedure.revised_on ? procedure.revised_on.to_date : t(:not_assigned) %></td>
+        <td><%= procedure.path.blank? ? t("no_path_for_procedure") : procedure.path.sub(%r|.*/|, "") %></td>
         <td><%= link_to t(:show), procedure %></td>
         <td><%= link_to t(:edit), edit_procedure_path(procedure) %></td>
         <td><%= link_to t(:destroy), procedure, method: :delete, data: { confirm: t(:are_you_sure) } %></td>

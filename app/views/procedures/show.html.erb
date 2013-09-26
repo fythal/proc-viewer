@@ -1,24 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<p id="path">
   <strong><%=t :proc_path %>: </strong>
-  <%= @procedure.path %>
+  <%= @procedure.path.blank? ? t(:no_ann_assigned) : @procedure.path %>
 </p>
 
-<p>
+<p id="ann_name">
   <strong><%=t :ann_name %>: </strong>
-  <%= @procedure.ann_id %>
+  <%= @ann ? @ann.name : t(:no_ann_assigned) %>
 </p>
 
-<p>
+<p id="revision">
   <strong><%=t :revision_number%>: </strong>
   <%= @procedure.revision %>
 </p>
 
-<p>
+<p id="revised_on">
   <strong><%=t :revised_on %>: </strong>
-  <%= @procedure.revised_on %>
+  <%= @procedure.revised_on ? @procedure.revised_on.to_date : t(:not_assigned) %>
 </p>
 
+<% if session[:return_to] %>
+<%= link_to "Back to Editing Ann", session[:return_to] %> |
+<% end %>
 <%= link_to t(:edit), edit_procedure_path(@procedure) %> |
 <%= link_to t(:back), procedures_path %>
