@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe ProceduresController do
 
-  let(:valid_attributes) { { "path" => "MyString" } }
+  let(:valid_attributes) { { "revision" => "0" } }
 
   let(:valid_session) { {} }
 
@@ -111,8 +111,8 @@ describe ProceduresController do
         # specifies that the Procedure created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Procedure.any_instance.should_receive(:update).with({ "path" => "MyString" })
-        put :update, {:id => procedure.to_param, :procedure => { "path" => "MyString" }}, valid_session
+        Procedure.any_instance.should_receive(:update).with({ "revision" => "1" })
+        put :update, {:id => procedure.to_param, :procedure => { "revision" => "1" }}, valid_session
       end
 
       it "assigns the requested procedure as @procedure" do
