@@ -47,21 +47,41 @@ describe ProceduresController do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new Procedure" do
-        expect {
+      describe "警報のサブリソースとして手順書を新規作成" do
+        before(:each) do
+          @ann = stub_model(Ann, :id => 27)
+        end
+        it "新しい手順書を作成する" do
+          expect { post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session}.to change(Procedure, :count).by(1)
+        end
+
+        it "新しく作成した手順書を @procedure に代入する" do
+          post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session
+          assigns(:procedure).should be_a(Procedure)
+          assigns(:procedure).should be_persisted
+        end
+
+        it "作成した手順書の詳細ページへリダイレクトする" do
+          post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session
+          response.should redirect_to(ann_procedure_path(@ann, assigns(:procedure)))
+        end
+      end
+
+      describe "手順書を新規作成 (警報のサブリソースではない)" do
+        it "creates a new Procedure" do
+          expect { post :create, {:procedure => valid_attributes}, valid_session }.to change(Procedure, :count).by(1)
+        end
+
+        it "assigns a newly created procedure as @procedure" do
           post :create, {:procedure => valid_attributes}, valid_session
-        }.to change(Procedure, :count).by(1)
-      end
+          assigns(:procedure).should be_a(Procedure)
+          assigns(:procedure).should be_persisted
+        end
 
-      it "assigns a newly created procedure as @procedure" do
-        post :create, {:procedure => valid_attributes}, valid_session
-        assigns(:procedure).should be_a(Procedure)
-        assigns(:procedure).should be_persisted
-      end
-
-      it "redirects to the created procedure" do
-        post :create, {:procedure => valid_attributes}, valid_session
-        response.should redirect_to(Procedure.last)
+        it "redirects to the created procedure" do
+          post :create, {:procedure => valid_attributes}, valid_session
+          response.should redirect_to(Procedure.last)
+        end
       end
     end
 
