@@ -20,8 +20,8 @@
   <%= @procedure.revised_on ? @procedure.revised_on.to_date : t(:not_assigned) %>
 </p>
 
-<% if session[:return_to] %>
-<%= link_to "Back to Editing Ann", session[:return_to] %> |
+<% if @ann %>
+<%= link_to t(:editing_ann), edit_ann_path(@ann) %> |
 <% end %>
 <%= link_to t(:edit), edit_procedure_path(@procedure) %> |
 <%= link_to t(:back), procedures_path %>
