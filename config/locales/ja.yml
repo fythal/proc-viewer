@@ -217,7 +217,13 @@ ja:
   revision_number: 改訂番号
   revised_on: 改訂日
   prev_revision: 1つ前の改訂版
-
+  no_ann_assigned: "(割り当て警報なし)"
+  no_path_for_procedure: "(パスなし)"
+  proc_path: "手順書ファイルのパス"
+  ann_name: "警報名称"
+  revision: "改訂番号"
+  not_assigned: "N/A"
+  
   show: 詳細
   edit: 編集
   back: 戻る
