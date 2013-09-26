@@ -13,10 +13,10 @@
   <tbody>
     <% @anns.each do |ann| %>
       <tr>
-        <% if ann.proc_path.nil? %>
-        <td><%= ann.name %></td>
+        <% if ann.procedure %>
+        <td><%= link_to ann.name, "#{ann.procedure.path}" %></td>
         <% else %>
-        <td><%= link_to ann.name, "#{ann.proc_path}" %></td>
+        <td><%= ann.name %></td>
         <% end %>        
         <td><%= link_to t(:show), ann %></td>
         <td><%= link_to t(:edit), edit_ann_path(ann) %></td>

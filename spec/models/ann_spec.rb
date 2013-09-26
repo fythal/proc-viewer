@@ -75,29 +75,6 @@ describe Ann do
     end
   end
 
-  #   describe 'ann.proc_path' do
-  #     context 'panel と window が設定されている' do
-  #       it "pdf ファイルへのリンクが返される" do
-  #         ann = Ann.create!({:panel => "n1", :window => "c6"})
-  #         expect(ann.proc_path).to eq("/assets/procs/ann-n1-c6.pdf")
-  #       end
-  #     end
-
-  #     context 'window が設定されていない' do
-  #       it "nil が返される" do
-  #         ann = Ann.create!({:panel => "n1"})
-  #         expect(ann.proc_path).to be_nil
-  #       end
-  #     end
-
-  #     context 'panel が設定されていない' do
-  #       it "nil が返される" do
-  #         ann = Ann.create!({:window => "c6"})
-  #         expect(ann.proc_path).to be_nil
-  #       end
-  #     end
-  #   end
-
   #   context '設定した窓のところにすでに他の警報が割り当てられている' do
   #     before(:each) do
   #       @ann   = Ann.create!(:panel => "n1")
@@ -128,9 +105,6 @@ describe Ann do
   #           expect(@ann.procedures).not_to be_empty
   #         end
 
-  #         it "手順書のパスはパネル番号と窓番号から自動的に設定される" do
-  #           expect(@ann.proc_path).to eq("/assets/procs/ann-n1-a1.pdf")
-  #         end
   #       end
   #     end
 
@@ -174,9 +148,6 @@ describe Ann do
   #           expect(@ann.procedures).to eq([@proc])
   #         end
 
-  #         it "手順書のパスは変わらない" do
-  #           expect(@ann.proc_path).to eq("/assets/procs/foo-bar.pdf")
-  #         end
   #       end
   #     end
   #   end
