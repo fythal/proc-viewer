@@ -1,4 +1,4 @@
-<%= form_for(@procedure) do |f| %>
+<%= form_for(@ann ? [@ann, @procedure] : @procedure) do |f| %>
   <% if @procedure.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@procedure.errors.count, "error") %> prohibited this procedure from being saved:</h2>
