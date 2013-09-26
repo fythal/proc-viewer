@@ -50,6 +50,7 @@ describe ProceduresController do
       describe "警報のサブリソースとして手順書を新規作成" do
         before(:each) do
           @ann = stub_model(Ann, :id => 27)
+          Ann.stub(:find).with("27").and_return(@ann)
         end
         it "新しい手順書を作成する" do
           expect { post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session}.to change(Procedure, :count).by(1)

@@ -1,5 +1,6 @@
 class ProceduresController < ApplicationController
   before_action :set_procedure, only: [:show, :edit, :update, :destroy]
+  before_action :set_ann, only: [:create]
 
   # GET /procedures
   # GET /procedures.json
@@ -25,11 +26,17 @@ class ProceduresController < ApplicationController
   # POST /procedures
   # POST /procedures.json
   def create
-    @procedure = Procedure.new(procedure_params)
+    @procedure = Procedure.new(procedure_params.merge({:ann_id => @ann}))
 
     respond_to do |format|
       if @procedure.save
-        format.html { redirect_to @procedure, notice: 'Procedure was successfully created.' }
+        format.html do
+          if @ann
+            redirect_to [@ann, @procedure], notice: 'Procedure was successfully created.'
+          else
+            redirect_to @procedure, notice: 'Procedure was successfully created.'
+          end
+        end
         format.json { render action: 'show', status: :created, location: @procedure }
       else
         format.html { render action: 'new' }
@@ -68,8 +75,12 @@ class ProceduresController < ApplicationController
       @procedure = Procedure.find(params[:id])
     end
 
+    def set_ann
+      @ann = (params[:ann_id] ? Ann.find(params[:ann_id]) : nil)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def procedure_params
-      params.require(:procedure).permit(:path, :ann_id, :revision, :revised_on, :prev_revision_id)
+      params.require(:procedure).permit(:revision, :revised_on, :prev_revision_id)
     end
 end
