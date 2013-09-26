@@ -204,11 +204,15 @@ Then(/^手順書の詳細画面が表示される$/) do
 end
 
 Then(/^警報の編集画面に戻るためのリンクがある$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_link('Back to Editing Ann', edit_ann_path(@ann))
 end
 
 Then(/^改定番号が表示されている$/) do
   pending # express the regexp above with the code you wish you had
+end
+
+Then(/^改定番号の (\d+) が表示されている$/) do |revision|
+  expect(page).to have_selector('#revision', text: revision)
 end
 
 Then(/^手順書を表示するリンクがある$/) do
