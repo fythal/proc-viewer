@@ -11,14 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label t(:proc_path) %><br>
-    <%= f.text_field :path %>
-  </div>
+  <% if @ann.nil? %>
   <div class="field">
     <%= f.label :ann_id %><br>
     <%= f.number_field :ann_id %>
   </div>
+  <% end %>
   <div class="field">
     <%= f.label :revision, t(:revision_number) %><br>
     <%= f.text_field :revision %>

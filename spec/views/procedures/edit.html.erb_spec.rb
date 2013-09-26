@@ -16,7 +16,6 @@ describe "procedures/edit" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", procedure_path(@procedure), "post" do
-      assert_select "input#procedure_path[name=?]", "procedure[path]"
       assert_select "input#procedure_ann_id[name=?]", "procedure[ann_id]"
       assert_select "input#procedure_revision[name=?]", "procedure[revision]"
       assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"

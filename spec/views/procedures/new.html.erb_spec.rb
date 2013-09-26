@@ -17,7 +17,6 @@ describe "procedures/new" do
       render
 
       assert_select "form[action=?][method=?]", ann_procedures_path(@ann), "post" do
-        # assert_select "input#procedure_path[name=?]", "procedure[path]"
         # assert_select "input#procedure_ann_id[name=?]", "procedure[ann_id]"
         assert_select "input#procedure_revision[name=?]", "procedure[revision]"
         assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"
@@ -56,7 +55,6 @@ describe "procedures/new" do
       render
 
       assert_select "form[action=?][method=?]", procedures_path, "post" do
-        assert_select "input#procedure_path[name=?]", "procedure[path]"
         assert_select "input#procedure_ann_id[name=?]", "procedure[ann_id]"
         assert_select "input#procedure_revision[name=?]", "procedure[revision]"
         assert_select "input#procedure_revised_on[name=?]", "procedure[revised_on]"
