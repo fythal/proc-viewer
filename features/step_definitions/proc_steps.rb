@@ -204,7 +204,7 @@ Then(/^手順書の詳細画面が表示される$/) do
 end
 
 Then(/^警報の編集画面に戻るためのリンクがある$/) do
-  expect(page).to have_link('Back to Editing Ann', edit_ann_path(@ann))
+  expect(page).to have_link(I18n.t(:editing_ann), edit_ann_path(@ann))
 end
 
 Then(/^改定番号が表示されている$/) do
@@ -216,5 +216,9 @@ Then(/^改定番号の (\d+) が表示されている$/) do |revision|
 end
 
 Then(/^手順書を表示するリンクがある$/) do
+  expect(page).to have_link(@ann.procedure.path, text: @ann.procedure.path)
+end
+
+Then(/^手順書ファイル名は自動設定され、警報の割り当て場所と改定番号 (\d+) が含まれている$/) do |arg1|
   pending # express the regexp above with the code you wish you had
 end
