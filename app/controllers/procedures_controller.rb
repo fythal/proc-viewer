@@ -26,7 +26,7 @@ class ProceduresController < ApplicationController
   # POST /procedures
   # POST /procedures.json
   def create
-    @procedure = Procedure.new(procedure_params.merge({:ann_id => @ann}))
+    @procedure = Procedure.new(procedure_params.merge({:ann_id => @ann.to_param}))
 
     if params[:procedure][:file]
       @procedure.write(params[:procedure][:file])
