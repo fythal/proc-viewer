@@ -215,10 +215,12 @@ Then(/^改定番号の (\d+) が表示されている$/) do |revision|
   expect(page).to have_selector('#revision', text: revision)
 end
 
-Then(/^手順書を表示するリンクがある$/) do
-  expect(page).to have_link(@ann.procedure.path, text: @ann.procedure.path)
+Then(/^手順書のファイル名が表示され、それはファイルへのリンクとなっている$/) do
+  expect(page).to have_link(@ann.procedure.filename, @ann.procedure.path)
 end
 
-Then(/^手順書ファイル名は自動設定され、警報の割り当て場所と改定番号 (\d+) が含まれている$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then(/^手順書ファイル名は自動設定され、警報パネルの割り当て場所 (\s*(\S+)\s*の\s*(\S+)\s*) と改定番号\s*(\d+)\s*が含まれている$/) do |panel, locaiton, revision|
+  page.assert_selector('#path a', :text => /#{panel}/)
+  page.assert_selector('#path a', :text => /#{location}/)
+  page.assert_selector('#path a', :text => /#{revision}/)
 end
