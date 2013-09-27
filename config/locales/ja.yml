@@ -219,7 +219,7 @@ ja:
   prev_revision: 1つ前の改訂版
   no_ann_assigned: "(割り当て警報なし)"
   no_path_for_procedure: "(パスなし)"
-  proc_path: "手順書ファイルのパス"
+  proc_path: "手順書ファイル"
   ann_name: "警報名称"
   revision: "改訂番号"
   not_assigned: "N/A"
