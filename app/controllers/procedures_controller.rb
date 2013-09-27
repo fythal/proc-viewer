@@ -1,6 +1,6 @@
 class ProceduresController < ApplicationController
   before_action :set_procedure, only: [:show, :edit, :update, :destroy]
-  before_action :set_ann, only: [:create]
+  before_action :set_ann, only: [:show, :create]
 
   # GET /procedures
   # GET /procedures.json
@@ -27,6 +27,10 @@ class ProceduresController < ApplicationController
   # POST /procedures.json
   def create
     @procedure = Procedure.new(procedure_params.merge({:ann_id => @ann}))
+
+    if params[:procedure][:file]
+      @procedure.write(params[:procedure][:file])
+    end
 
     respond_to do |format|
       if @procedure.save
@@ -70,17 +74,17 @@ class ProceduresController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_procedure
-      @procedure = Procedure.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_procedure
+    @procedure = Procedure.find(params[:id])
+  end
 
-    def set_ann
-      @ann = (params[:ann_id] ? Ann.find(params[:ann_id]) : nil)
-    end
+  def set_ann
+    @ann = (params[:ann_id] ? Ann.find(params[:ann_id]) : nil)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def procedure_params
-      params.require(:procedure).permit(:revision, :revised_on, :prev_revision_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def procedure_params
+    params.require(:procedure).permit(:revision, :revised_on, :prev_revision_id)
+  end
 end
