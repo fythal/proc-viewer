@@ -33,7 +33,7 @@ describe "procedures/show" do
     assert_select('#ann_name', text: /foo-bar/)
     assert_select('#revision', text: /9/)
     assert_select('#revised_on', text: /2013-01-01/)
-    assert_select('#path', text: %r|/foo/bar.pdf|)
+    assert_select('#path', text: %r|\bbar.pdf\b|)
   end
 
   it "警報の編集画面へのリンクを表示する" do
@@ -45,6 +45,6 @@ describe "procedures/show" do
   it "手順書ファイルへのリンクを表示する" do
     render
 
-    assert_select('a[href=?]', @procedure.path, text: @procedure.path )
+    assert_select('a[href=?]', @procedure.path, text: @procedure.filename)
   end
 end
