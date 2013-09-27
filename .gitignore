@@ -26,3 +26,7 @@
 
 # Ignore procedure files for test
 /features/procs
+
+# Ignore personal notes
+TODO
+PROGRESS
