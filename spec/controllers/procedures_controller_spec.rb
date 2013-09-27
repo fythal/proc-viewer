@@ -52,6 +52,7 @@ describe ProceduresController do
           @ann = stub_model(Ann, :id => 27)
           Ann.stub(:find).with("27").and_return(@ann)
         end
+
         it "新しい手順書を作成する" do
           expect { post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session}.to change(Procedure, :count).by(1)
         end
@@ -65,6 +66,16 @@ describe ProceduresController do
         it "作成した手順書の詳細ページへリダイレクトする" do
           post :create, {:procedure => valid_attributes, :ann_id => @ann.id}, valid_session
           response.should redirect_to(ann_procedure_path(@ann, assigns(:procedure)))
+        end
+
+        describe "手順書のファイルのアップロード" do
+          it "Procedure オブジェクトに write メソッドとともに手順書ファイルを渡す" do
+            @file = double("UploadedFile")
+            @attributes = valid_attributes.merge({file: @file})
+            Procedure.any_instance.should_receive(:write).with(@file.to_s)
+
+            post :create, { :procedure => @attributes, :ann_id => "27" }
+          end
         end
       end
 
