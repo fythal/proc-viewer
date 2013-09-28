@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-Given(/^「HPCS 電気故障」という警報がある$/) do
-  @ann = Ann.new(name:"HPCS 電気故障")
+Given(/^「(.+)」という警報がある$/) do |name|
+  @ann = Ann.new(name: name)
   @ann.save
 end
 
@@ -69,10 +69,6 @@ Given(/^ある警報窓にすでに警報が割り当てられている$/) do
   expect(@ann.location).not_to be_nil
 end
 
-When(/^「(.*)」というキーワードを入力する$/) do |keyword|
-  visit "/anns?keyword=#{URI.encode(keyword)}"
-end
-
 When(/^警報パネルと警報窓に適切な情報を設定する$/) do
   fill_in I18n.t(:panel_number), :with => 'n1'
   fill_in I18n.t(:window_number), :with => 'd3'
@@ -132,6 +128,10 @@ end
 
 Then(/^「(.*)」の警報がリストアップされる$/) do |name|
   expect(page).to have_content(name)
+end
+
+Then(/^「(.*)」の警報はリストアップされない$/) do |name|
+  expect(page).not_to have_content(name)
 end
 
 Then(/^その警報名称の部分はリンクとなっており、スキャンされた手順にアクセスできる$/) do
