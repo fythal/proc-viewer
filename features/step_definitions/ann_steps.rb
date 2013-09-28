@@ -41,6 +41,10 @@ When(/^警報の一覧のページを表示する$/) do
   visit(anns_url)
 end
 
+When(/^アプリケーションのページを表示する$/) do
+  visit(anns_url)
+end
+
 Then(/^警報の詳細ページが表示される$/) do
   expect(current_path).to match %r|^/anns/[0-9]+$|
 end
