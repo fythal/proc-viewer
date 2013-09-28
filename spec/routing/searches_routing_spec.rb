@@ -16,7 +16,7 @@ describe SearchesController do
     end
 
     it "routes to #edit" do
-      get("/users/1/searchesg/edit").should route_to("searches#edit", :user_id => "1")
+      get("/users/1/searches/2/edit").should route_to("searches#edit", :user_id => "1", :id => "2")
     end
 
     it "routes to #create" do
