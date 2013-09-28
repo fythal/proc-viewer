@@ -11,3 +11,7 @@
  *= require_self
  *= require_tree .
  */
+
+div#search_field { position: right; width: 100%; }
+div#search_field form { float: right; }
+div#clearer { clear: right; }
