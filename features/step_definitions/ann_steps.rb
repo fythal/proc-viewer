@@ -41,6 +41,10 @@ Then(/^警報の詳細ページが表示される$/) do
   expect(current_path).to match %r|^/anns/[0-9]+$|
 end
 
+Then(/^検索結果のページが表示される$/) do
+  pending
+end
+
 Then(/^警報の新規作成画面が表示される$/) do
   expect(response_headers["Set-Cookie"]).to match /request_method=POST;/
   expect(current_path).to eq(anns_path)

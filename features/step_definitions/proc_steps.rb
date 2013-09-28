@@ -15,6 +15,12 @@ end
 
 Given(/^その警報には、スキャンされた手順が関連づけられている$/) do
   pending
+  visit new_ann_procedure_path(@ann)
+  fill_in I18n.t(:panel_number), :with => 'n1'
+  fill_in I18n.t(:window_number), :with => 'd3'
+  # click_button I18n.t(:update_ann)
+  attach_file 'procedure_file', Rails.root.join('features', 'procs', 'ann-n1-c6.pdf')
+  click_button "Update Ann"
   procedure = Procedure.create!(ann: @ann)
 end
 
