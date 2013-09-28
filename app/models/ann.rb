@@ -11,6 +11,10 @@ class Ann < ActiveRecord::Base
   validates :name, uniqueness: true
   validate :panel_and_location_if_assigned
 
+  def procedure_header
+    "ann-#{panel.nil? ? "zz" : panel.number}-#{location.nil? ? "zz" : location.location}"
+  end
+
   def proc_path
     return nil if procedures.empty?
     procedures.first.latest_revision.path

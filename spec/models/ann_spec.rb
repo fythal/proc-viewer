@@ -379,4 +379,26 @@ describe Ann do
       context "location 属性が設定されている"
     end
   end
+
+  describe "#procedure_header" do
+    context "警報パネルに割り当てられている場合" do
+      before(:each) do
+        @ann = Ann.create!(name: "CRD")
+        Panel.assign(@ann, panel: "m1", to: "a1")
+      end
+      it "'ann' で始まる文字列を返す" do
+        expect(@ann.procedure_header).to match /^ann/
+      end
+      it "警報パネルの名称や場所が含まれる文字列を返す" do
+        expect(@ann.procedure_header).to match /-m1-a1/
+      end
+    end
+
+    context "警報パネルに割り当てられていない場合" do
+      it "\"ann-zz-zz\" を返す" do
+        ann = Ann.create!(name: "CRD")
+        expect(ann.procedure_header).to match /^ann-zz-zz/
+      end
+    end
+  end
 end

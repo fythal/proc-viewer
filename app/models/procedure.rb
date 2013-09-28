@@ -23,7 +23,7 @@ class Procedure < ActiveRecord::Base
 
   def write(uploaded_file)
     pathname = Pathname.new("/procs")
-    self.path = pathname.join("ann-#{Time.now.strftime('%Y-%m-%d-%H_%M_%S')}.pdf").to_s
+    self.path = pathname.join("#{ann.procedure_header}-#{revision ? "r%03d" % revision : "r999"}-#{Time.now.strftime('%Y-%m-%d-%H_%M_%S')}.pdf").to_s
     File.open(self.system_path, 'wb') do |file|
       file.write(uploaded_file.read)
     end

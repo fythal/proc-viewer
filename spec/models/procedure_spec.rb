@@ -56,7 +56,48 @@ describe Procedure do
       expect(@procedure.path).to be_nil
       @procedure.write @tempfile
       expect(@procedure.path).to be_kind_of String
+    end
+
+    it "手順書の path 属性のパスにファイルが存在する" do
+      expect(@procedure.path).to be_nil
+      @procedure.write @tempfile
       expect(File.exist?(@procedure.system_path)).to be_true
+    end
+
+    it "手順書のファイル名は \"ann\" で始まる" do
+      expect(@procedure.path).to be_nil
+      @procedure.write @tempfile
+      expect(@procedure.system_path).to match %r|^.*/ann[^/]*$|
+    end
+
+    it "手順書のファイル名は、警報パネルの名称と場所を含んでいる" do
+      expect(@procedure.path).to be_nil
+      @procedure.write @tempfile
+      expect(@procedure.system_path).to match %r|^.*/[^/]*-n1-a1-[^/]*$|
+    end
+
+    it "手順書のファイル名は、手順書の改定番号を含んでいる" do
+      expect(@procedure.path).to be_nil
+      @procedure.write @tempfile
+      expect(@procedure.system_path).to match %r|^.*/[^/]*-r006-[^/]*$|
+    end
+
+    context "手順書の改定番号が設定されていないとき" do
+      it "手順書のファイル名の手順書の改定番号の部分は \"r999\" となる" do
+        @procedure.revision = nil
+        @procedure.write @tempfile
+        expect(@procedure.system_path).to match %r|^.*/[^/]*-r999-[^/]*$|
+      end
+    end
+
+    context "警報が警報パネルに配置されていないとき" do
+      it "警報パネルの情報の部分は zz-zz となる" do
+        @ann.location.destroy
+        @ann.location(true)
+        @ann.panel(true)
+        @procedure.write @tempfile
+        expect(@procedure.system_path).to match %r|^.*/[^/]*-zz-zz-[^/]*$|
+      end
     end
   end
 end
