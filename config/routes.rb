@@ -7,6 +7,10 @@ ProcViewer::Application.routes.draw do
     resources :procedures
   end
 
+  resources :users do
+    resources :searches
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
