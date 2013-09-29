@@ -15,6 +15,6 @@ Then(/^ログインの画面にリダイレクトされる$/) do
   expect(current_path).to eq("/logins/new")
 end
 
-Then(/^「ようこそ、foo さん」と画面に表示される$/) do
-  pending # express the regexp above with the code you wish you had
+Then(/^「(ようこそ、.*?さん)」と画面に表示される$/) do |msg|
+  expect(page).to have_content msg
 end
