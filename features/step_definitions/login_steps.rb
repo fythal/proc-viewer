@@ -3,10 +3,6 @@
 Given(/^そのパソコンにはユーザーの記録が残っていない$/) do
 end
 
-When(/^システムにアクセスする$/) do
-  visit(anns_url)
-end
-
-Then(/^ログインの画面が表示される$/) do
-  expect(current_path).to match %r|^/login$|
+Then(/^ログインの画面にリダイレクトされる$/) do
+  expect(current_path).to eq("/logins/new")
 end
