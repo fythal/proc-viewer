@@ -8,12 +8,16 @@ class ApplicationController < ActionController::Base
   protected
 
   def identify_user
-    unless loggin_correctly
+    unless current_user
       redirect_to new_login_url, notice: "Please log in"
     end
   end
 
-  def loggin_correctly
-    !session[:login].nil? and session[:login].kind_of?(Login) and session[:login].valid?
+  def current_user
+    begin
+      @_current_user ||= session[:current_login_id] && Login.find_by_id(session[:current_login_id]).user
+    rescue NoMethodError
+      nil
+    end
   end
 end
