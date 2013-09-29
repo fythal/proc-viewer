@@ -7,6 +7,7 @@ ProcViewer::Application.routes.draw do
     resources :procedures
   end
 
+  resources :searches
   resources :users do
     resources :searches
   end
