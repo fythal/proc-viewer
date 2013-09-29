@@ -3,6 +3,8 @@ class AnnsController < ApplicationController
   before_action :set_ann, only: [:show, :edit, :update, :destroy]
   before_action :set_panel, only: [:show]
 
+  skip_before_action :identify_user
+
   # GET /anns
   # GET /anns.json
   def index

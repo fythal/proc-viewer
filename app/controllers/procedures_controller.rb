@@ -2,6 +2,8 @@ class ProceduresController < ApplicationController
   before_action :set_procedure, only: [:show, :edit, :update, :destroy]
   before_action :set_ann, only: [:show, :create]
 
+  skip_before_action :identify_user
+
   # GET /procedures
   # GET /procedures.json
   def index

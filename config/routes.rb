@@ -11,7 +11,7 @@ ProcViewer::Application.routes.draw do
     resources :searches
   end
 
-  resources :logins, only: :new
+  resources :logins, only: [:new, :create, :show]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
