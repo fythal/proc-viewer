@@ -17,3 +17,7 @@ end
 Then(/^検索結果のページが表示される$/) do
   expect(current_path).to match %r|^/users/\d+/searches/\d+$|
 end
+
+Then(/^検索結果が画面に表示される$/) do
+  expect(current_path).to match %r|^/searches/\d+$|
+end

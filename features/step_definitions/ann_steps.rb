@@ -4,6 +4,10 @@ Given(/^警報の新規作成画面が表示されている$/) do
   visit(new_ann_url)
 end
 
+Given(/^警報の一覧のページが表示されている$/) do
+  visit(anns_url)
+end
+
 When(/^警報名称を入力する$/) do
   fill_in('ann_name', with: "CRD ポンプトリップ")
 end
