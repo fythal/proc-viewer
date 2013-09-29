@@ -19,7 +19,7 @@ describe LoginsController do
 
   describe "POST create" do
     def attributes
-      { "user_id" => "1", "search" => { "keywords" => "foo" } }
+      {"login" => {"user_id" => "1", "new_user_name" => ""}, "search" => {"keywords" => "foo"}}
     end
     before(:each) do
       User.stub(:find).with("1").and_return(stub_model(Ann, id: 1, name: "foo"))
@@ -28,12 +28,17 @@ describe LoginsController do
     it "Login オブジェクトを生成する" do
       expect { post :create, attributes, {} }.to change(Login, :count).by(1)
     end
-    it "session に Login オブジェクトを格納する" do
+    it "session に現在のログインの id を格納する" do
       post :create, attributes, {}
-      expect(session[:login]).to be_kind_of(Login)
+      expect(session[:current_login_id]).not_to be_nil
+    end
+    it "flash にウェルカムメッセージを設定する" do
+      post :create, attributes, {}
+      expect(flash[:notice]).to match(/ようこそ、.* さん/)
     end
     it "検索の途中であれば検索結果の画面にリダイレクトする" do
-      response.should redirect_to(search_url(1))
+      post :create, attributes, {}
+      response.should redirect_to(assigns[:search])
     end
   end
 end
