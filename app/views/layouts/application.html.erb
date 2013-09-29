@@ -12,6 +12,7 @@
     <div id="search_field">
       <%= form_for :search, url: user_searches_path(1) do |f| %>
       検索: <%= f.text_field :keywords %>
+      <%= f.submit %>
       <% end %>
     </div>
 
