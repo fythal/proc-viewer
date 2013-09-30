@@ -17,6 +17,12 @@ Given(/^警報パネルに割り当てられていない警報がある$/) do
   expect(@ann.panel).to be_nil
 end
 
+Given(/^その警報には (\d+)年(\d+)月(\d+)日改訂で改定番号 (\d+) の手順書がアップロードされている$/) do |year, month, day, revision|
+  revised_on = Date.new(year.to_i, month.to_i, day.to_i)
+  revision = revision.to_i
+  @ann.procedures.create!(revised_on: revised_on, revision: revision)
+end
+
 When(/^警報名称を入力する$/) do
   fill_in('ann_name', with: "CRD ポンプトリップ")
 end
@@ -60,6 +66,10 @@ end
 
 When(/^アプリケーションのページを表示する$/) do
   visit(anns_url)
+end
+
+When(/^警報の詳細ページを表示する$/) do
+  visit(ann_path(@ann))
 end
 
 Then(/^警報の詳細ページが表示される$/) do
@@ -127,4 +137,12 @@ end
 Then(/^警報パネルの番号は "(.*?)"、警報の場所は "(.*?)" となっている$/) do |number, location|
   expect(page).to have_selector '#ann_panel', text: %r|#{number}|
   expect(page).to have_selector '#ann_panel_location', text: %r|#{location}|
+end
+
+Then(/^その警報の手順書として、改定番号 (\d+)、改訂日(\d+)年(\d+)月(\d+)日、(.*) から始まるファイル名が表示される$/) do |revision, year, month, day, fileheader|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^(\d+) つの手順書のファイル名はリンクとなっており、手順書を表示できるようになっている$/) do |procedures|
+  pending # express the regexp above with the code you wish you had
 end
