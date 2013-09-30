@@ -19,7 +19,7 @@ describe LoginsController do
 
   describe "POST create" do
     def attributes
-      {"login" => {"user_id" => "1", "new_user_name" => ""}, "search" => {"keywords" => "foo"}}
+      {"login" => {"user_id" => "1", "new_user_name" => ""}}
     end
     before(:each) do
       User.stub(:find).with("1").and_return(stub_model(Ann, id: 1, name: "foo"))
@@ -37,6 +37,7 @@ describe LoginsController do
       expect(flash[:notice]).to match(/ようこそ、.* さん/)
     end
     it "検索の途中であれば検索結果の画面にリダイレクトする" do
+      session[:search_keywords] = "foo"
       post :create, attributes, {}
       response.should redirect_to(assigns[:search])
     end

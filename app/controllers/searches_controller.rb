@@ -25,7 +25,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:keywords)
+    params.permit(search: [:keywords])[:search]
   end
 
   def set_search

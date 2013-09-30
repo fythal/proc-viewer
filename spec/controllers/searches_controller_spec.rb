@@ -49,9 +49,17 @@ describe SearchesController do
   end
 
   describe "POST create" do
+    def valid_search_attributes
+      {"search" => {"keywords" => "foobar"}}
+    end
+
     context "まだログインしていないとき" do
+      it "session[:search_keywords] に検索キーワードを設定する" do
+        post :create, valid_search_attributes, {}
+        expect(session[:search_keywords]).to eq(valid_search_attributes["search"]["keywords"])
+      end
       it "ログイン画面へリダイレクトする" do
-        post :create, {}, {}
+        post :create, valid_search_attributes, {}
         response.should redirect_to(new_login_url)
       end
     end
@@ -62,7 +70,7 @@ describe SearchesController do
       end
 
       it "Search オブジェクトが作成される" do
-        expect { post :create, {"search" => {"keywords" => "foobar"}}, {}}.to change(Search, :count).by(1)
+        expect { post :create, valid_search_attributes, {}}.to change(Search, :count).by(1)
       end
 
       it "新しく生成した Search オブジェクトを @search に代入する" do
