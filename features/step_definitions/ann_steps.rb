@@ -13,7 +13,8 @@ Given(/^警報の一覧のページを表示している$/) do
 end
 
 Given(/^警報パネルに割り当てられていない警報がある$/) do
-  pending # express the regexp above with the code you wish you had
+  @ann = Ann.create!(name: "foo")
+  expect(@ann.panel).to be_nil
 end
 
 When(/^警報名称を入力する$/) do
@@ -54,7 +55,7 @@ When(/^警報の一覧のページを表示する$/) do
 end
 
 When(/^その警報の編集画面を表示する$/) do
-  pending # express the regexp above with the code you wish you had
+  visit(edit_ann_url @ann)
 end
 
 When(/^アプリケーションのページを表示する$/) do
@@ -75,7 +76,7 @@ Then(/^正常に警報が作成されたメッセージが表示されている$
 end
 
 Then(/^正常に警報が編集されたされたメッセージが表示される$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_selector('p#notice', text: "Ann was successfully updated.")
 end
 
 Then(/^詳細ページでは、警報を割り当てた警報パネルへのリンクがある$/) do
@@ -123,6 +124,7 @@ Then(/^警報パネルの番号と場所は設定されていないメッセー�
   expect(page).to have_selector('#ann_panel_location', text: %r|\(未設定\)|)
 end
 
-Then(/^警報パネルの番号は "(.*?)"、警報の場所は "(.*?)" となっている$/) do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Then(/^警報パネルの番号は "(.*?)"、警報の場所は "(.*?)" となっている$/) do |number, location|
+  expect(page).to have_selector '#ann_panel', text: %r|#{number}|
+  expect(page).to have_selector '#ann_panel_location', text: %r|#{location}|
 end
