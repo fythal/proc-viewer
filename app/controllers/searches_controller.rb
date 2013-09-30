@@ -12,6 +12,7 @@ class SearchesController < ApplicationController
   # POST /searches.json
   def create
     @search = Search.new(search_params)
+    @search.user = current_user
 
     respond_to do |format|
       if @search.save
