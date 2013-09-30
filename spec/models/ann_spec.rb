@@ -401,4 +401,28 @@ describe Ann do
       end
     end
   end
+
+  describe "#search" do
+    before(:each) do
+      Ann.create!(name: "foo 故障")
+      Ann.create!(name: "bar 故障")
+    end
+
+    describe "マッチするキーワードが与えられた" do
+      it "マッチする警報の配列が返される" do
+        search_result = Ann.search("foo")
+        expect(search_result).to be_kind_of(Array)
+        expect(search_result).not_to be_empty
+        expect(search_result.first.name).to eq("foo 故障")
+      end
+    end
+
+    describe "マッチするキーワードが与えられなかった" do
+      it "空の配列を返す" do
+        search_result = Ann.search("baz")
+        expect(search_result).to be_kind_of(Array)
+        expect(search_result).to be_empty
+      end
+    end
+  end
 end

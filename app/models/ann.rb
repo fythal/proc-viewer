@@ -83,4 +83,8 @@ class Ann < ActiveRecord::Base
     end
     false
   end
+
+  def self.search(keywords)
+    Ann.where('name like ?', "%#{keywords}%").to_a
+  end
 end
