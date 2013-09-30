@@ -9,6 +9,7 @@ end
 
 When(/^ログイン画面が表示されるので、そこで自分の名前 "(.*?)" を選択する$/) do |name|
   select name
+  click_button "Create Login"
 end
 
 Then(/^ログインの画面にリダイレクトされる$/) do
