@@ -18,15 +18,15 @@ class LoginsController < ApplicationController
       if @login.save
         session[:current_login_id] = @login.id
 
-        begin
-          @search = Search.create(search_params)
-        rescue ActionController::ParameterMissing
+        if session[:search_keywords]
+          (@search = Search.create(keywords: session[:search_keywords])) && session[:search_keywords] = nil
         end
 
         format.html do
           if @search
             redirect_to @search, notice: "ようこそ、#{@user.name} さん"
           else
+            flash[:notice] = "ようこそ、#{@user.name} さん"
             render action: 'show'
           end
         end
@@ -40,10 +40,6 @@ class LoginsController < ApplicationController
 
   def login_params
     params.require(:login).permit(:user_id, :new_user_name)
-  end
-
-  def search_params
-    params.require(:search).permit(:keywords)
   end
 
   def set_user
