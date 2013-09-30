@@ -79,6 +79,15 @@ describe SearchesController do
         assigns(:search).should be_persisted
       end
 
+      it "生成した Search オブジェクトに検索語を設定する" do
+        post :create, valid_search_attributes, valid_session
+        expect(assigns(:search).keywords).to eq(valid_search_attributes["search"]["keywords"])
+      end
+      it "生成した Search オブジェクトにユーザー情報を設定する" do
+        post :create, valid_search_attributes, valid_session
+        expect(assigns(:search).user.name).to eq("foo")
+      end
+
       it "検索結果のページにリダイレクトする" do
         post :create, valid_search_attributes, valid_session
         response.should redirect_to(Search.last)
