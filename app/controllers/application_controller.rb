@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
 
   def identify_user
     unless current_user
+      unless search_params.nil?
+        session[:search_keywords] = search_params[:keywords]
+      end
       redirect_to new_login_url, notice: "Please log in"
     end
   end
