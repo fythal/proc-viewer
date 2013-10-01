@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe ProceduresController do
 
-  let(:valid_attributes) { { "revision" => "0" } }
+  let(:valid_attributes) { { "revision" => "0", "path" => "/foo/bar.pdf" } }
 
   let(:valid_session) { {} }
 
