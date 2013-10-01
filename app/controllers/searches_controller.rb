@@ -11,7 +11,7 @@ class SearchesController < ApplicationController
   # POST /searches
   # POST /searches.json
   def create
-    @search = Search.new(search_params)
+    @search = Search.new(search_params.merge(user: current_user))
 
     respond_to do |format|
       if @search.save
