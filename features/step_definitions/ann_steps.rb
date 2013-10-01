@@ -20,7 +20,9 @@ end
 Given(/^その警報には (\d+)年(\d+)月(\d+)日改訂で改定番号 (\d+) の手順書がアップロードされている$/) do |year, month, day, revision|
   revised_on = Date.new(year.to_i, month.to_i, day.to_i)
   revision = revision.to_i
-  @ann.procedures.create!(revised_on: revised_on, revision: revision)
+  procedure = Procedure.new(revised_on: revised_on, revision: revision, ann: @ann)
+  procedure.path = procedure.construct_filename
+  procedure.save
 end
 
 When(/^警報名称を入力する$/) do
@@ -140,7 +142,11 @@ Then(/^警報パネルの番号は "(.*?)"、警報の場所は "(.*?)" とな�
 end
 
 Then(/^その警報の手順書として、改定番号 (\d+)、改訂日(\d+)年(\d+)月(\d+)日、(.*) から始まるファイル名が表示される$/) do |revision, year, month, day, fileheader|
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_content(revision)
+  expect(page).to have_content(year)
+  expect(page).to have_content(month)
+  expect(page).to have_content(day)
+  expect(page).to have_content(fileheader)
 end
 
 Then(/^(\d+) つの手順書のファイル名はリンクとなっており、手順書を表示できるようになっている$/) do |procedures|
