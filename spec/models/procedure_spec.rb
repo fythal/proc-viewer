@@ -40,7 +40,7 @@ describe Procedure do
 
       @ann = Ann.create!(name: "foo")
       Panel.assign(@ann, panel: "n1", to: "a1")
-      @procedure = Procedure.create!(revision: 6, ann: @ann)
+      @procedure = Procedure.create!(revision: 6, ann: @ann, path: "/foo/bar.jpg")
       @proc_dir = Rails.public_path.join("procs")
     end
 

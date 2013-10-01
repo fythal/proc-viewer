@@ -33,8 +33,12 @@ describe "procedures/new" do
       describe "警報には手順書が割り当てられている" do
         it "最新の手順書の改定番号が表示される" do
           assign(:ann, stub_model(Ann, :name => "MyAnnName",
-                                  :procedure => stub_model(Procedure, revision: 1, id: 101),
-                                  :procedures => [stub_model(Procedure, revision: 0, id: 100), stub_model(Procedure, revision: 1, id: 101),]))
+                                  :procedure => stub_model(Procedure, revision: 1, id: 101, path: "/foo/bar.jpg"),
+                                  :procedures =>
+                                  [
+                                    stub_model(Procedure, revision: 0, id: 100, path: "/foo/bar.jpg"),
+                                    stub_model(Procedure, revision: 1, id: 101,path: "/foo/bar.jpg" ),
+                                  ]))
           render
           assert_select "#prev_revision", text: /1/
         end
