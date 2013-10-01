@@ -24,7 +24,7 @@ describe SearchesController do
 
   describe "GET show" do
     before(:each) do
-      @search = Search.create!(keywords: "foobar")
+      @search = Search.create!(keywords: "foobar", user: stub_model(User, "name" => "foo"))
       @search_result = ["foo", "bar"]
       Ann.stub(:search).with("foobar").and_return(@search_result)
 

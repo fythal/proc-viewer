@@ -19,7 +19,7 @@ class LoginsController < ApplicationController
         session[:current_login_id] = @login.id
 
         if session[:search_keywords]
-          (@search = Search.create(keywords: session[:search_keywords])) && session[:search_keywords] = nil
+          (@search = Search.create(keywords: session[:search_keywords], user: @user)) && session[:search_keywords] = nil
         end
 
         format.html do
