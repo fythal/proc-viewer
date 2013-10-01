@@ -22,7 +22,7 @@ describe LoginsController do
       {"login" => {"user_id" => "1", "new_user_name" => ""}}
     end
     before(:each) do
-      User.stub(:find).with("1").and_return(stub_model(Ann, id: 1, name: "foo"))
+      User.stub(:find).with("1").and_return(stub_model(User, id: 1, name: "foo"))
       Ann.stub(:search).and_return([stub_model(Ann, name: "foo-bar")])
     end
     it "Login オブジェクトを生成する" do
