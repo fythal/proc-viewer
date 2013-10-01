@@ -12,7 +12,7 @@ class LoginsController < ApplicationController
 
   # POST /logins
   def create
-    @login = Login.new(user_id: @user.to_param)
+    @login = Login.new(user: @user)
 
     respond_to do |format|
       if @login.save
