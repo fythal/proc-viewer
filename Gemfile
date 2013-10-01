@@ -59,3 +59,5 @@ group :test do
   gem "launchy"
     # ウェブブラウザを起動してくれる
 end
+
+gem 'colorize_unpermitted_parameters'
