@@ -8,7 +8,6 @@ class Ann < ActiveRecord::Base
   has_one :panel, through: :location
 
   validates :name, presence: true
-  validates :name, uniqueness: true
   validate :panel_and_location_if_assigned
 
   def procedure_header
