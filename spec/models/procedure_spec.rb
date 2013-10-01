@@ -32,6 +32,37 @@ describe Procedure do
     end
   end
 
+  describe "#construct_filename" do
+    before(:each) do
+      @procedure = Procedure.new(revision: 6)
+      @ann = stub_model(Ann, :procedure_header => "ann-m1-a1")
+      @procedure.ann = @ann
+    end
+    it "割り当てられている警報に procedure_header メソッドを送る" do
+      @ann.should_receive(:procedure_header)
+      @procedure.construct_filename
+    end
+    it "procedure_header メソッドの返り値を返す" do
+      expect(@procedure.construct_filename).to match /^ann-m1-a1/
+    end
+    it "手順書のファイル名は、手順書の改定番号 (3桁) を含んでいる" do
+      expect(@procedure.construct_filename).to match /r006/
+    end
+
+    context "警報と関連付けられていないとき" do
+      it "警報パネルの情報の部分は zz-zz となる" do
+        @procedure.ann = nil
+        expect(@procedure.construct_filename).to match /zz-zz/
+      end
+    end
+    context "手順書の改定番号が設定されていないとき" do
+      it "手順書のファイル名の手順書の改定番号の部分は \"r999\" となる" do
+        @procedure.revision = nil
+        expect(@procedure.construct_filename).to match /r999/
+      end
+    end
+  end
+
   describe "#write" do
     before(:each) do
       @tempfile = Tempfile.new(['foo', '.pdf'])

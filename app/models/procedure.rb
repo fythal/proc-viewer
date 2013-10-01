@@ -23,9 +23,17 @@ class Procedure < ActiveRecord::Base
     self.path.nil? ? nil : self.path.sub(%r|.*/|, "")
   end
 
+  def construct_filename
+    fn = []
+    fn << (self.ann ? self.ann.procedure_header : Ann.procedure_dummy_header)
+    fn << "r%03d" % (revision or 999)
+    fn << Time.now.strftime('%Y-%m-%d-%H_%M_%S').to_s
+    fn.join("-") + ".pdf"
+  end
+
   def write(uploaded_file)
     pathname = Pathname.new("/procs")
-    self.path = pathname.join("#{ann.procedure_header}-#{revision ? "r%03d" % revision : "r999"}-#{Time.now.strftime('%Y-%m-%d-%H_%M_%S')}.pdf").to_s
+    self.path = pathname.join(construct_filename).to_s
     File.open(self.system_path, 'wb') do |file|
       file.write(uploaded_file.read)
     end
