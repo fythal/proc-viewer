@@ -33,7 +33,11 @@ describe "anns/show" do
     before(:each) do
       assign(:ann, stub_model(Ann,
                               :name => "Name",
-                              :procedure => stub_model(Procedure, :path => "/procs/bar.pdf")))
+                              :procedure => stub_model(Procedure, :path => "/procs/bar.pdf"),
+                              :procedures => [
+                                stub_model(Procedure, :path => "/foo/bar.pdf", :revision => 0, :revised_on => Date.new(1999,9,11)),
+                                stub_model(Procedure, :path => "/foo/bar.pdf", :revision => 1, :revised_on => Date.new(2011,8,15)),
+                              ]))
     end
 
     it "手順書へのリンクがある" do
@@ -52,6 +56,17 @@ describe "anns/show" do
         assert_select "a[href=?]", "/procs/bar.pdf"
       end
     end
+
+    it "最新も含め過去の手順書がリストアップされている" do
+      render
+      assert_select "#ann_procedures" do
+        assert_select "td.revision", :text => "0"
+        assert_select "td.revision", :text => "1"
+        assert_select "td.revised_on", :text => /1999.*9.*11/
+        assert_select "td.revised_on", :text => /2011.*8.*15/
+        assert_select "td.file a[href=?]", "/foo/bar.pdf", 2
+      end
+    end
   end
 
   context "警報の場所を示す @location が設定されている" do
@@ -65,5 +80,4 @@ describe "anns/show" do
       assert_select "#ann_panel_location", :text => /a1/
     end
   end
-
 end
