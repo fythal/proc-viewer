@@ -31,6 +31,16 @@ class Procedure < ActiveRecord::Base
     fn.join("-") + ".pdf"
   end
 
+  private
+
+  def path=(newname)
+    raise Errno::ENOENT, "No procedure file associated" if path.nil?
+    newpath = "#{Rails.public_path}#{newname}"
+    raise Errno::EEXIST, "File exists (#{newpath})" if File.exist?(newpath)
+    File.rename(system_path, newpath)
+    self[:path] = newname
+  end
+
   def write(uploaded_file)
     pathname = Pathname.new("/procs")
     self.path = pathname.join(construct_filename).to_s

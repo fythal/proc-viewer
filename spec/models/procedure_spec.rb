@@ -63,6 +63,53 @@ describe Procedure do
     end
   end
 
+  describe "#path=" do
+    it "例外を発生する (プライベートメソッドのため)" do
+      procedure = Procedure.new
+      expect { procedure.path = "/foo/bar.pdf" }.to raise_error NoMethodError
+    end
+
+    it "プライベートメソッドであるというメッセージを例外に設定する (プライベートメソッドのため)" do
+      procedure = Procedure.new
+      begin
+        procedure.path = "/foo/bar.pdf"
+      rescue NoMethodError
+        expect($!.to_s).to match /^private method/
+      end
+    end
+
+    describe "手順書ファイルが存在する場合" do
+      it "path の値を変更する" do
+        procedure = Procedure.new
+        procedure.send(:write_attribute, :path, "/foo/bar.pdf")
+        expect(procedure.path).to eq("/foo/bar.pdf")
+      end
+
+      it "手順書ファイルの名称を変更する" do
+        procedure = Procedure.new
+        procedure.send(:write_attribute, :path, "/foo/bar.pdf")
+        expect(File).to receive(:rename).with("#{Rails.public_path}/foo/bar.pdf", "#{Rails.public_path}/foo/bazz.pdf")
+        procedure.send(:path=, "/foo/bazz.pdf")
+      end
+    end
+
+    describe "手順書ファイルが存在しない場合" do
+      it "例外 Errno::ENOENT を発生する" do
+        procedure = Procedure.new
+        expect { procedure.send(:path=, "/foo/bar.pdf") }.to raise_error Errno::ENOENT
+      end
+    end
+
+    describe "すでに存在しているファイルと同じ名前に設定しようとする" do
+      it "例外 Errno::EEXIST を発生する" do
+        procedure = Procedure.new
+        procedure.send(:write_attribute, :path, "/foo/bar.pdf")
+        File.stub(:exist?).with("#{Rails.public_path}/foo/bazz.pdf").and_return(true)
+        expect { procedure.send(:path=, "/foo/bazz.pdf") }.to raise_error Errno::EEXIST
+      end
+    end
+  end
+
   describe "#write" do
     before(:each) do
       @tempfile = Tempfile.new(['foo', '.pdf'])
