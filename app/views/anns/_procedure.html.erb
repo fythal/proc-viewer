@@ -1,0 +1,5 @@
+<tr>
+  <td class="revision"><%= procedure.revision %></td>
+  <td class="revised_on"><%= I18n.l(procedure.revised_on) rescue I18n.t(:unset) %></td>
+  <td class="file"><%= link_to procedure.filename, procedure.path %></td>
+</tr>

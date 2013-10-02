@@ -28,5 +28,23 @@
   <%= @ann.location or "(未設定)" %>
 </p>
 
+<p>
+  <div id="ann_procedures">
+    <strong><%= t(:procedures) %>: </strong>
+    <% unless @ann.procedures.empty? %>
+    <table>
+      <tr>
+        <th>改訂番号</th>
+        <th>改訂日</th>
+        <th>手順書ファイルへのリンク</th>
+      </tr>
+      <%= render partial: "procedure", collection: @ann.procedures.sort.reverse %>
+    </table>
+    <% else %>
+    "手順書はありませんよ"
+    <% end %>
+  </div>
+</p>
+
 <%= link_to t(:edit), edit_ann_path(@ann) %> |
 <%= link_to t(:back), anns_path %>
