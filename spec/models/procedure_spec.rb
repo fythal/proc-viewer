@@ -2,10 +2,12 @@
 require 'spec_helper'
 
 describe Procedure do
+
   describe "#file_path" do
     context "path 属性が設定されている場合" do
       it "Rails の public ディレクトリ + path を返す" do
-        procedure = Procedure.new(path: "/foo/bar")
+        procedure = Procedure.new
+        procedure.send(:write_attribute, :path, "/foo/bar")
         expect(procedure.file_path).to eq(Rails.public_path.join(procedure.path.sub(%r|^/|, "")).to_s)
       end
     end
@@ -20,14 +22,16 @@ describe Procedure do
 
   describe "#system_path" do
     it "path 属性から生成したシステムのパスを返す" do
-      procedure = Procedure.create!(path: "/procs/foo.pdf")
+      procedure = Procedure.new
+      procedure.send(:write_attribute, :path, "/procs/foo.pdf")
       expect(procedure.system_path).to eq("/Users/kueda/dev/proc-viewer/public/procs/foo.pdf")
     end
   end
 
   describe "#filename" do
     it "path 属性から生成したファイル名を返す" do
-      procedure = Procedure.create!(path: "/procs/foo.pdf")
+      procedure = Procedure.new
+      procedure.send(:write_attribute, :path, "/procs/foo.pdf")
       expect(procedure.filename).to eq("foo.pdf")
     end
   end
@@ -78,7 +82,7 @@ describe Procedure do
       end
     end
 
-    describe "手順書ファイルが存在する場合" do
+    describe "path 属性が nil 以外のとき (手順書ファイルが存在しているはず)" do
       it "path の値を変更する" do
         procedure = Procedure.new
         procedure.send(:write_attribute, :path, "/foo/bar.pdf")
@@ -93,10 +97,11 @@ describe Procedure do
       end
     end
 
-    describe "手順書ファイルが存在しない場合" do
-      it "例外 Errno::ENOENT を発生する" do
+    describe "path 属性が nil のとき (手順書ファイルは存在しない)" do
+      it "path の値を設定する" do
         procedure = Procedure.new
-        expect { procedure.send(:path=, "/foo/bar.pdf") }.to raise_error Errno::ENOENT
+        procedure.send(:path=, "/foo/bar.pdf")
+        expect(procedure.path).to eq("/foo/bar.pdf")
       end
     end
 
@@ -118,7 +123,8 @@ describe Procedure do
 
       @ann = Ann.create!(name: "foo")
       Panel.assign(@ann, panel: "n1", to: "a1")
-      @procedure = Procedure.create!(revision: 6, ann: @ann, path: "/foo/bar.jpg")
+
+      @procedure = Procedure.new(revision: 6, ann: @ann)
       @proc_dir = Rails.public_path.join("procs")
     end
 

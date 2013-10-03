@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe ProceduresController do
 
-  let(:valid_attributes) { { "revision" => "0", "path" => "/foo/bar.pdf" } }
+  let(:valid_attributes) { { "revision" => "0" } }
 
   let(:valid_session) { {} }
 
@@ -101,14 +101,14 @@ describe ProceduresController do
       it "assigns a newly created but unsaved procedure as @procedure" do
         # Trigger the behavior that occurs when invalid params are submitted
         Procedure.any_instance.stub(:save).and_return(false)
-        post :create, {:procedure => { "path" => "invalid value" }}, valid_session
+        post :create, {:procedure => { "revision" => "invalid value" }}, valid_session
         assigns(:procedure).should be_a_new(Procedure)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Procedure.any_instance.stub(:save).and_return(false)
-        post :create, {:procedure => { "path" => "invalid value" }}, valid_session
+        post :create, {:procedure => { "revision" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -144,7 +144,7 @@ describe ProceduresController do
         procedure = Procedure.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Procedure.any_instance.stub(:save).and_return(false)
-        put :update, {:id => procedure.to_param, :procedure => { "path" => "invalid value" }}, valid_session
+        put :update, {:id => procedure.to_param, :procedure => valid_attributes}, valid_session
         assigns(:procedure).should eq(procedure)
       end
 
@@ -152,7 +152,7 @@ describe ProceduresController do
         procedure = Procedure.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Procedure.any_instance.stub(:save).and_return(false)
-        put :update, {:id => procedure.to_param, :procedure => { "path" => "invalid value" }}, valid_session
+        put :update, {:id => procedure.to_param, :procedure => valid_attributes}, valid_session
         response.should render_template("edit")
       end
     end
@@ -161,9 +161,7 @@ describe ProceduresController do
   describe "DELETE destroy" do
     it "destroys the requested procedure" do
       procedure = Procedure.create! valid_attributes
-      expect {
-        delete :destroy, {:id => procedure.to_param}, valid_session
-      }.to change(Procedure, :count).by(-1)
+      expect { delete :destroy, {:id => procedure.to_param}, valid_session }.to change(Procedure, :count).by(-1)
     end
 
     it "redirects to the procedures list" do
