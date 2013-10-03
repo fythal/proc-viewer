@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131003204752) do
+ActiveRecord::Schema.define(version: 20131003213043) do
 
   create_table "anns", force: true do |t|
     t.string   "name"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20131003204752) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "board_id"
-    t.integer  "height"
-    t.integer  "width"
+    t.integer  "_height"
+    t.integer  "_width"
   end
 
   create_table "procedures", force: true do |t|
