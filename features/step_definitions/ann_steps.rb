@@ -154,6 +154,6 @@ end
 
 Then(/^(\d+) つの手順書のファイル名はリンクとなっており、手順書を表示できるようになっている$/) do |procedures|
   @procedures.each do |procedure|
-    expect(page).to have_link procedure.filename, href: ann_procedure_path(@ann, procedure)
+    expect(page).to have_link procedure.filename, href: procedure.path
   end
 end
