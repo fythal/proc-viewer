@@ -21,8 +21,11 @@ Given(/^その警報には (\d+)年(\d+)月(\d+)日改訂で改定番号 (\d+) �
   revised_on = Date.new(year.to_i, month.to_i, day.to_i)
   revision = revision.to_i
   procedure = Procedure.new(revised_on: revised_on, revision: revision, ann: @ann)
-  procedure.path = procedure.construct_filename
+  procedure.send(:write_attribute, :path, procedure.construct_filename)
   procedure.save
+
+  @procedures ||= []
+  @procedures << procedure
 end
 
 When(/^警報名称を入力する$/) do
@@ -150,5 +153,7 @@ Then(/^その警報の手順書として、改定番号 (\d+)、改訂日(\d+)�
 end
 
 Then(/^(\d+) つの手順書のファイル名はリンクとなっており、手順書を表示できるようになっている$/) do |procedures|
-  pending # express the regexp above with the code you wish you had
+  @procedures.each do |procedure|
+    expect(page).to have_link procedure.filename, href: ann_procedure_path(@ann, procedure)
+  end
 end
