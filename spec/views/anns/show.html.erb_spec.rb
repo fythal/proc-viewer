@@ -31,29 +31,27 @@ describe "anns/show" do
 
   context "警報に手順書が関連付けられている" do
     before(:each) do
-      assign(:ann, stub_model(Ann,
-                              :name => "Name",
-                              :procedure => stub_model(Procedure, :path => "/procs/bar.pdf"),
-                              :procedures => [
-                                stub_model(Procedure, :path => "/foo/bar.pdf", :revision => 0, :revised_on => Date.new(1999,9,11)),
-                                stub_model(Procedure, :path => "/foo/bar.pdf", :revision => 1, :revised_on => Date.new(2011,8,15)),
-                              ]))
+      procs = assign(:procedures,
+                     [stub_model(Procedure, :id => 2, :path => "/foo/bar.pdf", :revision => 0, :revised_on => Date.new(1999,9,11)),
+                       stub_model(Procedure, :id => 2, :path => "/foo/bar.pdf", :revision => 1, :revised_on => Date.new(2011,8,15))])
+
+      assign(:ann, stub_model(Ann, :id => 1, :name => "Name", :procedure => procs.last, :procedures => procs))
     end
 
     it "手順書へのリンクがある" do
       render
-      assert_select "a[href=?]", "/procs/bar.pdf"
+      assert_select "a[href=?]", "/foo/bar.pdf"
     end
 
     it "手順書へのリンクにはファイル名が表示されている" do
       render
-      assert_select "a[href=?]", "/procs/bar.pdf", :text => "bar.pdf"
+      assert_select "a[href=?]", "/foo/bar.pdf", :text => "bar.pdf"
     end
 
     it "手順書へのリンクは #ann_procedure 要素の中に入っている" do
       render
       assert_select "#ann_procedure" do
-        assert_select "a[href=?]", "/procs/bar.pdf"
+        assert_select "a[href=?]", "/foo/bar.pdf"
       end
     end
 
