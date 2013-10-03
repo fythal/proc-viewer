@@ -31,21 +31,24 @@ class Procedure < ActiveRecord::Base
     fn.join("-") + ".pdf"
   end
 
-  private
-
-  def path=(newname)
-    raise Errno::ENOENT, "No procedure file associated" if path.nil?
-    newpath = "#{Rails.public_path}#{newname}"
-    raise Errno::EEXIST, "File exists (#{newpath})" if File.exist?(newpath)
-    File.rename(system_path, newpath)
-    self[:path] = newname
-  end
-
   def write(uploaded_file)
     pathname = Pathname.new("/procs")
     self.path = pathname.join(construct_filename).to_s
     File.open(self.system_path, 'wb') do |file|
       file.write(uploaded_file.read)
+    end
+  end
+
+  private
+
+  def path=(newname)
+    newpath = "#{Rails.public_path}#{newname}"
+    raise Errno::EEXIST, "File exists (#{newpath})" if File.exist?(newpath)
+    begin
+      File.rename(system_path, newpath)
+    rescue
+    ensure
+      self[:path] = newname
     end
   end
 end
