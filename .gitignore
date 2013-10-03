@@ -31,3 +31,6 @@
 TODO
 PROGRESS
 INVALID_CASES
+
+# Ignore files which end with '.new'
+*.new
