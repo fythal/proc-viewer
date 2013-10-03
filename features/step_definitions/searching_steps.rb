@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+Given(/^あるユーザーとしてログインする$/) do
+  visit new_login_path
+  fill_in 'login_new_user_name', with: "foo"
+  click_button 'Create Login'
+end
+
 When(/^「(.*)」というキーワードを入力する$/) do |keywords|
   fill_in 'search_keywords', :with => keywords
 end
@@ -20,7 +26,7 @@ Then(/^そのページに検索用フィールドが表示される$/) do
 end
 
 Then(/^検索結果のページが表示される$/) do
-  expect(current_path).to match %r|^/users/\d+/searches/\d+$|
+  expect(current_path).to match %r|^/searches/\d+$|
 end
 
 Then(/^検索結果が画面に表示される$/) do
