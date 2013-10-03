@@ -80,4 +80,18 @@ describe "anns/show" do
       assert_select "#ann_panel_location", :text => /a1/
     end
   end
+
+  context "警報に手順書が関連付けられているが、手順書には日付が設定されていない" do
+    before(:each) do
+      assign(:ann, stub_model(Ann,
+                              :name => "Name",
+                              :procedure => stub_model(Procedure, :path => "/procs/bar.pdf"),
+                              :procedures => [stub_model(Procedure, :path => "/foo/bar.pdf", :revision => 0)]))
+    end
+
+    it "手順書の改訂日の表示欄に \"(未設定)\" と表示する" do
+      render
+      assert_select ".revised_on", :text => "(未設定)"
+    end
+  end
 end
