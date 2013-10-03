@@ -1,8 +1,6 @@
 class Procedure < ActiveRecord::Base
   belongs_to :ann
 
-  validates! :path, presence: true
-
   def latest_revision
     proc = self
     while (!proc.next_revision.nil?)
