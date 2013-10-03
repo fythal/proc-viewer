@@ -11,7 +11,7 @@ class Ann < ActiveRecord::Base
   validate :panel_and_location_if_assigned
 
   def procedure_header
-    "ann-#{panel.nil? ? "zz" : panel.number}-#{location.nil? ? "zz" : location.location}"
+    "ann-#{panel.nil? ? "zz" : panel.number}-#{(location.nil? or location.location.blank?) ? "zz" : location.location}"
   end
 
   def self.procedure_dummy_header
