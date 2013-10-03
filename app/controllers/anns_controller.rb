@@ -43,11 +43,8 @@ class AnnsController < ApplicationController
         if procedure_params[:procedure]
           # 手順書についての処理
           uploaded = procedure_params[:procedure]
-          path = File.join('/procs', uploaded.original_filename.to_s + Time.now.strftime('-%Y-%m-%d-%H_%M_%S') + ".pdf").to_s
-          procedure = Procedure.new(path: path, ann: @ann)
-          File.open(procedure.file_path, "wb") do |file|
-            file.write(uploaded.read)
-          end
+          procedure = Procedure.new(ann: @ann)
+          procedure.write(uploaded)
           procedure.save
         end
 
@@ -110,6 +107,6 @@ class AnnsController < ApplicationController
   end
 
   def procedure_params
-    params.require(:ann).permit(:procedure)
+    params.require(:ann).permit(:procedure, :revision, :revised_on, :prev_revision_id)
   end
 end
