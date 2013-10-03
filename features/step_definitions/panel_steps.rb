@@ -10,8 +10,8 @@ Given(/^そのパネルは盤 (.*) にある$/) do |board_name|
 end
 
 Given(/^そのパネルは縦 (\d+)、横 (\d+) の大きさを持つ$/) do |height, width|
-  @panel.height = height
-  @panel.width  = width
+  @panel.height = height.to_i
+  @panel.width  = width.to_i
 end
 
 Given(/^そのパネルの (.*) に警報が割り当てられている$/) do |location|
