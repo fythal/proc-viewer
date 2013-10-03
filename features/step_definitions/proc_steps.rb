@@ -84,6 +84,10 @@ When(/^手順書の新規作成のリンクをクリックする$/) do
   click_link I18n.t("new_procedure_for_the_ann")
 end
 
+When(/^「(.*)」というリンクをクリックする$/) do |link_title|
+  click_link link_title
+end
+
 Then(/^情報が更新された警報が表示される$/) do
   expect(page.status_code).to eq(200)
   expect(page.current_path).to eq(ann_path(@ann))
