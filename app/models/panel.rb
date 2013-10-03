@@ -1,6 +1,7 @@
 class Panel < ActiveRecord::Base
   has_many :locations
   has_many :anns, through: :locations
+  belongs_to :board
 
   before_destroy :ensure_not_referenced_by_any_ann
 
