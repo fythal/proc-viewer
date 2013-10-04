@@ -6,10 +6,10 @@
 </p>
 
 <table>
-  <% 1.upto(@panel.height) do %>
+  <% 1.upto(@panel.height) do |y| %>
   <tr>
-  <% 1.upto(@panel.width) do %>
-  <td id="loc_a1"><a href="/foo/bar.pdf">bar.pdf</a></td>
+  <% 1.upto(@panel.width) do |x| %>
+  <td id="<%= loc_id(x, y) %>"><a href="/foo/bar.pdf">bar.pdf</a></td>
   <% end %>
   </tr>
   <% end %>

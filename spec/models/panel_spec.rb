@@ -314,4 +314,12 @@ describe Panel do
       end
     end
   end
+
+  describe "#height=" do
+    it "height が設定した値を返す" do
+      panel = Panel.new(height: 3)
+      expect(panel.height).to eq(3)
+    end
+  end
+
 end

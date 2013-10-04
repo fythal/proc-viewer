@@ -50,11 +50,11 @@ class Panel < ActiveRecord::Base
   end
 
   def height=(value)
-    _height = value
+    self._height = value
   end
 
   def width=(value)
-    _width = value
+    self._width = value
   end
 
   private

@@ -36,3 +36,7 @@ end
 Then(/^そのパネルの (.*) には手順書のリンクが含まれている$/) do |location|
   expect(page).to have_selector("table td#loc_#{location.downcase} a", text: "bar.pdf")
 end
+
+Then(/^そのパネルの (.*) には手順書のリンクが含まれていない$/) do |location|
+  expect(page).not_to have_selector("table td#loc_#{location.downcase} a", text: "bar.pdf")
+end

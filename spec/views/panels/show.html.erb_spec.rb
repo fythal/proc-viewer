@@ -13,6 +13,10 @@ describe "panels/show" do
     ann = stub_model(Ann, name: "foo", procedures: [procedure])
 
     @panel.assign(ann, to: "a1")
+    @panel.assign(ann, to: "a2")
+    @panel.assign(ann, to: "a3")
+    @panel.assign(ann, to: "b1")
+    @panel.assign(ann, to: "b3")
   end
 
   it "警報パネルの名称を表示する" do
