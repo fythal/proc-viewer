@@ -262,27 +262,54 @@ describe Panel do
       context "パネルには Location オブジェクトが関連付けられていない" do
         it "nil を返す" do
           panel = Panel.new
-          expect(panel.height).to be_nil
+          expect(panel.height).to eq(0)
         end
       end
 
       context "パネルには Location オブジェクトが関連付けられている" do
-        it "Location オブジェクトの y 属性の最大を返す"
+        it "Location オブジェクトの y 属性の最大を返す" do
+          locs = []
+          locs << stub_model(Location, y: 1)
+          locs << stub_model(Location, y: 8)
+          locs << stub_model(Location, y: 2)
+          panel = Panel.new
+          panel.locations = locs
+          expect(panel.height).to eq(8)
+        end
       end
     end
 
     context "_height に値が設定されている" do
       context "パネルには Location オブジェクトが関連付けられていない" do
-        it "_height の値を返す"
+        it "_height の値を返す" do
+          panel = Panel.new(_height: 8)
+          expect(panel.height).to eq(8)
+        end
       end
 
       context "パネルには Location オブジェクトが関連付けられている" do
         context "Location オブジェクトの y 属性の最大が _height より大きいとき" do
-          it "Location オブジェクトの y 属性の最大値を返す"
+          it "Location オブジェクトの y 属性の最大値を返す" do
+            locs = []
+            locs << stub_model(Location, y: 1)
+            locs << stub_model(Location, y: 8)
+            locs << stub_model(Location, y: 2)
+            panel = Panel.new(_height: 3)
+            panel.locations = locs
+            expect(panel.height).to eq(8)
+          end
         end
 
         context "Location オブジェクトの y 属性の最大が _height より小さいとき" do
-          it "_height の値を返す"
+          it "_height の値を返す" do
+            locs = []
+            locs << stub_model(Location, y: 1)
+            locs << stub_model(Location, y: 8)
+            locs << stub_model(Location, y: 2)
+            panel = Panel.new(_height: 20)
+            panel.locations = locs
+            expect(panel.height).to eq(20)
+          end
         end
       end
     end

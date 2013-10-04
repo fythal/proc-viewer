@@ -29,6 +29,34 @@ class Panel < ActiveRecord::Base
     Location.exists?(['location = ? and panel_id = ?', loc, self]) ? true : false
   end
 
+  def height
+    locmax = max_height_of_locations
+    _height.nil? ? locmax : [_height, locmax].max
+  end
+
+  def max_height_of_locations
+    return 0 if locations.empty?
+    locations.map(&:y).max
+  end
+
+  def width
+    locmax = max_width_of_locations
+    _width.nil? ? locmax : [_width, locmax].max
+  end
+
+  def max_width_of_locations
+    return 0 if locations.empty?
+    locations.map(&:x).max
+  end
+
+  def height=(value)
+    _height = value
+  end
+
+  def width=(value)
+    _width = value
+  end
+
   private
 
   def self.relating(specifier)
