@@ -12,6 +12,7 @@ end
 Given(/^そのパネルは縦 (\d+)、横 (\d+) の大きさを持つ$/) do |height, width|
   @panel.height = height.to_i
   @panel.width  = width.to_i
+  @panel.save
 end
 
 Given(/^そのパネルの (.*) に警報が割り当てられている$/) do |location|
@@ -28,10 +29,10 @@ end
 
 Then(/^縦 (\d+)、横 (\d+) の表が表示される$/) do |height, width|
   expect(page).to have_selector('table')
-  expect(page).to have_selector('table tr'), height.to_i
-  expect(page).to have_selector('table td'), height.to_i * width.to_i
+  expect(page).to have_selector('table tr', :count => height.to_i)
+  expect(page).to have_selector('table td', :count => height.to_i * width.to_i)
 end
 
 Then(/^そのパネルの (.*) には手順書のリンクが含まれている$/) do |location|
-  expect(page).to have_selector("table td#loc_#{location.downcase} a", text: "/foo/bar.pdf")
+  expect(page).to have_selector("table td#loc_#{location.downcase} a", text: "bar.pdf")
 end
