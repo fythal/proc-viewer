@@ -255,4 +255,36 @@ describe Panel do
       end
     end
   end
+
+
+  describe "#height" do
+    context "_height が nil" do
+      context "パネルには Location オブジェクトが関連付けられていない" do
+        it "nil を返す" do
+          panel = Panel.new
+          expect(panel.height).to be_nil
+        end
+      end
+
+      context "パネルには Location オブジェクトが関連付けられている" do
+        it "Location オブジェクトの y 属性の最大を返す"
+      end
+    end
+
+    context "_height に値が設定されている" do
+      context "パネルには Location オブジェクトが関連付けられていない" do
+        it "_height の値を返す"
+      end
+
+      context "パネルには Location オブジェクトが関連付けられている" do
+        context "Location オブジェクトの y 属性の最大が _height より大きいとき" do
+          it "Location オブジェクトの y 属性の最大値を返す"
+        end
+
+        context "Location オブジェクトの y 属性の最大が _height より小さいとき" do
+          it "_height の値を返す"
+        end
+      end
+    end
+  end
 end
