@@ -9,7 +9,7 @@
   <% @panel.anns(array: true).each_with_index do |anns, y0| %>
   <tr>
     <% anns.each_with_index do |ann, x0| %>
-    <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_to(ann.procedure.filename, ann.procedure.path) unless ann.nil? %></td>
+    <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_or_name(ann) %></td>
     <% end %>
   </tr>
   <% end %>
