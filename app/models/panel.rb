@@ -8,6 +8,8 @@ class Panel < ActiveRecord::Base
   validates :number, presence: true
   validates :number, uniqueness: true
 
+  alias_method :anns_orig, :anns
+
   def self.assign(ann, panel_and_location)
     panel = relating(panel_and_location[:panel])
     location = Location.new(ann: ann, panel: panel, location: panel_and_location[:to])
@@ -55,6 +57,21 @@ class Panel < ActiveRecord::Base
 
   def width=(value)
     self._width = value
+  end
+
+  def anns(value = false)
+    if value.kind_of?(Hash)
+      if value[:array]
+        (1..height).inject([]) do |result, y|
+          result << (1..width).inject([]) do |result, x|
+            loc = locations.where('x = ? and y = ?', x, y).first
+            result << (loc.nil? ? nil : loc.ann)
+          end
+        end
+      end
+    else
+      anns_orig(value)
+    end
   end
 
   private
