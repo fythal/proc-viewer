@@ -6,11 +6,11 @@
 </p>
 
 <table>
-  <% 1.upto(@panel.height) do |y| %>
+  <% @panel.anns(array: true).each_with_index do |anns, y0| %>
   <tr>
-  <% 1.upto(@panel.width) do |x| %>
-  <td id="<%= loc_id(x, y) %>"><a href="/foo/bar.pdf">bar.pdf</a></td>
-  <% end %>
+    <% anns.each_with_index do |ann, x0| %>
+    <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_to(ann.procedure.filename, ann.procedure.path) unless ann.nil? %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>

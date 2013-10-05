@@ -322,4 +322,36 @@ describe Panel do
     end
   end
 
+  describe "#anns(option)" do
+    describe "引数なし" do
+      it "anns_orig を呼出す" do
+        panel = Panel.new
+        panel.should_receive(:anns_orig)
+        panel.anns
+      end
+    end
+
+    describe "引数が true/false" do
+      it "anns_orig を呼出す" do
+        panel = Panel.new
+        panel.should_receive(:anns_orig)
+        panel.anns(true)
+      end
+    end
+
+    describe "引数が :array" do
+      it "2次元配列を返す" do
+        panel = Panel.new(width: 3, height: 3)
+        expect(panel.anns(array: true)).to be_kind_of(Array)
+        expect(panel.anns(array: true).first).to be_kind_of(Array)
+      end
+
+      it "配列の大きさは警報パネルと同じ" do
+        panel = Panel.new(width: 3, height: 3)
+        expect(panel.anns(array: true).size).to eq(3)
+        expect(panel.anns(array: true).first.size).to eq(3)
+      end
+    end
+  end
+
 end
