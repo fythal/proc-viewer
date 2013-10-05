@@ -3,20 +3,22 @@ require 'spec_helper'
 
 describe "panels/show" do
   before(:each) do
-    @panel = assign(:panel, stub_model(Panel,
-                                       :number => "Number",
-                                       :height => 3,
-                                       :width  => 3,
-                                       ))
-    procedure = stub_model(Procedure)
-    procedure.stub(:path).and_return("/foo/bar.pdf")
-    ann = stub_model(Ann, name: "foo", procedures: [procedure])
+    procedure = stub_model(Procedure, path: "/foo/bar.pdf", filename: "bar.pdf")
+    ann = stub_model(Ann, name: "foo", procedure: procedure)
+    ann_array = [[ann, nil, ann], [nil, ann, nil], [ann, nil, ann]]
 
-    @panel.assign(ann, to: "a1")
-    @panel.assign(ann, to: "a2")
-    @panel.assign(ann, to: "a3")
-    @panel.assign(ann, to: "b1")
-    @panel.assign(ann, to: "b3")
+    panel = stub_model(Panel,
+                       :number => "Number",
+                       :height => 3,
+                       :width  => 3,
+                       )
+    panel.stub(:anns).with({array: true}).and_return(ann_array)
+    @panel = assign(:panel, panel)
+  end
+
+  it "基本データ設定" do
+    expect(@panel.anns(array: true)).to be_kind_of(Array)
+    expect(@panel.anns(array: true).first).to be_kind_of(Array)
   end
 
   it "警報パネルの名称を表示する" do
