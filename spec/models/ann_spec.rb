@@ -201,7 +201,8 @@ describe Ann do
     context "引数が文字列のとき" do
       it "Location の location 属性が引数の文字列に値が設定される" do
         ann = Ann.create(valid_ann_attributes)
-        ann.location = "a1"
+        panel = Panel.create!(number: "foo")
+        panel.assign(ann, to: "a1")
         expect(ann.location.location).to eq("a1")
       end
     end
@@ -229,8 +230,8 @@ describe Ann do
     context "location 属性が設定されている" do
       before(:each) do
         @ann = Ann.create!(valid_ann_attributes)
-        location = Location.create!(location: "a1")
-        @ann.location = location
+        panel = Panel.create!(number: "foo")
+        panel.assign(@ann, to: "a1")
       end
       describe "#panel_number"
       describe "#panel_number="
@@ -263,7 +264,8 @@ describe Ann do
     context "Location の関連がされているとき" do
       it "Location の location 属性が返される" do
         ann = Ann.create!(valid_ann_attributes)
-        ann.location = Location.new(location: "a1")
+        panel = Panel.create!(number: "foo")
+        panel.assign(ann, to: "a1")
 
         expect(ann.panel_location).to eq("a1")
       end

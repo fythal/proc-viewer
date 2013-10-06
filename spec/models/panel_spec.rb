@@ -204,9 +204,10 @@ describe Panel do
   describe "#assigned?(loc)" do
     context "関連する Location オブジェクトの中で loc を location 属性に持っているものがある" do
       it "true を返す" do
+        ann = stub_model(Ann)
         panel = Panel.create!(valid_panel_attributes)
-        panel.locations << Location.create(valid_location_attributes)
-        expect(panel.assigned?("a1")).to be_true
+        panel.assign(ann, to: valid_location_attributes[:location])
+        expect(panel.assigned?(valid_location_attributes[:location])).to be_true
       end
     end
 

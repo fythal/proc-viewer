@@ -69,8 +69,11 @@ describe "anns/show" do
 
   context "警報の場所を示す @location が設定されている" do
     before(:each) do
-      location = stub_model(Location, to_s: "a1", location: "a1")
-      assign(:ann, stub_model(Ann, location: location))
+      ann = stub_model(Ann)
+      panel = stub_model(Panel)
+      location = stub_model(Location, to_s: "a1", location: "a1", ann: ann, panel: panel)
+      ann.stub(:location).and_return(location)
+      assign(:ann, ann)
     end
 
     it "警報の場所を #ann_panel_location に表示する" do
