@@ -3,6 +3,9 @@ class Location < ActiveRecord::Base
   belongs_to :ann
 
   validates :location, presence: true
+  validates_presence_of :ann, :panel, :x, :y
+  validates_uniqueness_of :x, scope: [:panel_id, :y]
+  validates_uniqueness_of :y, scope: [:panel_id, :x]
 
   def to_s
     location

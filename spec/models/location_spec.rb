@@ -2,6 +2,55 @@
 require 'spec_helper'
 
 describe Location do
+
+  describe "妥当性確認" do
+    describe "x" do
+      it "数字は妥当" do
+        location = Location.new(x: 1)
+        location.valid?
+        expect(location).to have_no_error_on(:x)
+      end
+
+      it "nil は不当" do
+        location = Location.new
+        location.valid?
+        expect(location).to have_any_error_on(:x)
+      end
+
+      it "同じ panel_id, x, y の Location オブジェクトの存在は不当" do
+        panel = Panel.create!(number: "foo")
+        ann   = Ann.create!(name: "foo")
+        other = Location.create!(panel: panel, x: 1, y: 1, ann: ann)
+        loc   = Location.new(panel: panel, x: 1, y: 1, ann: ann)
+        loc.valid?
+        expect(loc).to have_any_error_on(:x)
+      end
+    end
+
+    describe "y" do
+      it "数字は妥当" do
+        location = Location.new(y: 1)
+        location.valid?
+        expect(location).to have_no_error_on(:y)
+      end
+
+      it "nil は不当" do
+        location = Location.new
+        location.valid?
+        expect(location).to have_any_error_on(:y)
+      end
+
+      it "同じ panel_id, x, y の Location オブジェクトの存在は不当" do
+        panel = Panel.create!(number: "foo")
+        ann   = Ann.create!(name: "foo")
+        other = Location.create!(panel: panel, x: 1, y: 1, ann: ann)
+        loc   = Location.new(panel: panel, x: 1, y: 1, ann: ann)
+        loc.valid?
+        expect(loc).to have_any_error_on(:y)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "設定された場所 (location) を返す" do
       loc = Location.new(location: "a1")
