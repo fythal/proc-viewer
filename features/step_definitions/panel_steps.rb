@@ -19,12 +19,25 @@ Given(/^そのパネルの (.*) に警報が割り当てられている$/) do |l
   ann = Ann.create!(name: "foobar")
   procedure = Procedure.create!
   procedure.send(:write_attribute, :path, "/foo/bar.pdf")
+  ann.procedures << procedure
 
   @panel.assign(ann, to: location)
 end
 
 When(/^その表の詳細画面を表示する$/) do
   visit panel_path(@panel)
+end
+
+When(/^その警報パネルの編集画面を表示する$/) do
+  visit edit_panel_path(@panel)
+end
+
+When(/^警報パネルの番号として (.*) を入力する$/) do |name|
+  fill_in 'panel_number', with: name
+end
+
+When(/^編集の実行のボタンをクリックする$/) do
+  click_button 'Update Panel'
 end
 
 Then(/^縦 (\d+)、横 (\d+) の表が表示される$/) do |height, width|
@@ -34,9 +47,13 @@ Then(/^縦 (\d+)、横 (\d+) の表が表示される$/) do |height, width|
 end
 
 Then(/^そのパネルの (.*) には手順書のリンクが含まれている$/) do |location|
-  expect(page).to have_selector("table td#loc_#{location.downcase} a", text: "bar.pdf")
+  expect(page).to have_selector("table td#loc_#{location.downcase} a", text: "foobar")
 end
 
 Then(/^そのパネルの (.*) には手順書のリンクが含まれていない$/) do |location|
-  expect(page).not_to have_selector("table td#loc_#{location.downcase} a", text: "bar.pdf")
+  expect(page).not_to have_selector("table td#loc_#{location.downcase} a", text: "foobar")
+end
+
+Then(/^警報パネルの番号が (.*) に変更される$/) do |number|
+  expect(@panel.number).to eq(number)
 end
