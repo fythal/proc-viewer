@@ -6,7 +6,7 @@ class PanelsController < ApplicationController
   # GET /panels
   # GET /panels.json
   def index
-    @panels = Panel.all
+    @boards = Board.all.to_a
   end
 
   # GET /panels/1
