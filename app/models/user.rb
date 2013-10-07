@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+#
+# ユーザー・クラス
+#
 class User < ActiveRecord::Base
   has_many :logins
   has_many :searches
