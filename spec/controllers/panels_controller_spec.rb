@@ -32,10 +32,12 @@ describe PanelsController do
   let(:valid_session) { {} }
 
   describe "GET index" do
-    it "assigns all panels as @panels" do
-      panel = Panel.create! valid_attributes
+    it "@boards に盤の配列を割り当てる" do
+      board = Board.create! name: "foo-board"
+      board.panels.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:panels).should eq([panel])
+      expect(assigns(:boards)).to be_kind_of(Array)
+      expect(assigns(:boards).first).to be_kind_of(Board)
     end
   end
 
