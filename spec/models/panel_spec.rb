@@ -355,4 +355,15 @@ describe Panel do
     end
   end
 
+  describe "#<=>(other)" do
+    before(:each) do
+      @panel = Panel.new(number: "zzz")
+      @other = Panel.new(number: "aaa")
+    end
+    it "number を基にソートをする" do
+      expect(@panel <=> @other).to eq(1)
+      expect(@other <=> @panel).to eq(-1)
+    end
+  end
+
 end

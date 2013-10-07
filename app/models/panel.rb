@@ -141,6 +141,10 @@ class Panel < ActiveRecord::Base
     end
   end
 
+  def <=>(other)
+    number <=> other.number
+  end
+
   private
 
   #
