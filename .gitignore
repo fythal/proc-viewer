@@ -34,3 +34,6 @@ INVALID_CASES
 
 # Ignore files which end with '.new'
 *.new
+
+# Ignore files under doc dir.  They are able to automatically generate by 'rake doc:app'
+doc
