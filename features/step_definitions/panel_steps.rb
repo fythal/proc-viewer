@@ -54,6 +54,10 @@ Then(/^そのパネルの (.*) には手順書のリンクが含まれていな�
   expect(page).not_to have_selector("table td#loc_#{location.downcase} a", text: "foobar")
 end
 
+Then(/^警報パネルの番号として (.*) が表示される$/) do |number|
+  expect(page).to have_content(number)
+end
+
 Then(/^警報パネルの番号が (.*) に変更される$/) do |number|
-  expect(@panel.number).to eq(number)
+  expect(Panel.find(@panel.to_param).number).to eq(number)
 end
