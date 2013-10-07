@@ -1,4 +1,4 @@
-# -*- coding: nil -*-
+# -*- coding: utf-8 -*-
 
 # == 検索
 #
