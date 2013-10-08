@@ -1,0 +1,88 @@
+ann:
+  - name: "HPCP (A) トリップ"
+    panel_number: m2
+    panel_location: a1
+  - name: "HPCP (A) 電気故障"
+    panel_number: m2
+    panel_location: b1
+  - name: "HPCP (A) 吸込圧力低"
+    panel_number: m2
+    panel_location: c1
+  - name: "HPCP (A) 吐出圧力低"
+    panel_number: m2
+    panel_location: d1
+  - name: "HPCP (A) 軸受油圧低"
+    panel_number: m2
+    panel_location: e1
+  - name: "HPCP (B) トリップ"
+    panel_number: m2
+    panel_location: a2
+  - name: "HPCP (B) 電気故障"
+    panel_number: m2
+    panel_location: b2
+  - name: "HPCP (B) 吸込圧力低"
+    panel_number: m2
+    panel_location: c2
+  - name: "HPCP (B) 吐出圧力低"
+    panel_number: m2
+    panel_location: d2
+  - name: "HPCP (B) 軸受油圧低"
+    panel_number: m2
+    panel_location: e2
+  - name: "HPCP (C) トリップ"
+    panel_number: m2
+    panel_location: a3
+  - name: "HPCP (C) 電気故障"
+    panel_number: m2
+    panel_location: b3
+  - name: "HPCP (C) 吸込圧力低"
+    panel_number: m2
+    panel_location: c3
+  - name: "HPCP (C) 吐出圧力低"
+    panel_number: m2
+    panel_location: d3
+  - name: "HPCP (C) 軸受油圧低"
+    panel_number: m2
+    panel_location: e3
+  - name: "復水系/給水系制御電源喪失"
+    panel_number: m2
+    panel_location: d4
+  - name: "HPCP 補助油ポンプ不待機"
+    panel_number: m2
+    panel_location: e4
+  - name: "M/D-RFP シール水制御盤異常"
+    panel_number: m2
+    panel_location: e5
+  - name: "M/D-RFP (A) トリップ"
+    panel_number: m2
+    panel_location: a6
+  - name: "M/D-RFP (A) 電気故障"
+    panel_number: m2
+    panel_location: b6
+  - name: "M/D-RFP (A) 吸込流量低"
+    panel_number: m2
+    panel_location: c6
+  - name: "M/D-RFP (A) 吸込圧力低"
+    panel_number: m2
+    panel_location: d6
+  - name: "M/D-RFP (A) 軸受油圧低"
+    panel_number: m2
+    panel_location: b7
+  - name: "M/D-RFP 補助油ポンプ不待機"
+    panel_number: m2
+    panel_location: e7
+  - name: "M/D-RFP (B) トリップ"
+    panel_number: m2
+    panel_location: a8
+  - name: "M/D-RFP (B) 電気故障"
+    panel_number: m2
+    panel_location: b8
+  - name: "M/D-RFP (B) 吸込流量低"
+    panel_number: m2
+    panel_location: c8
+  - name: "M/D-RFP (B) 吸込圧力低"
+    panel_number: m2
+    panel_location: d8
+  - name: "M/D-RFP (B) 軸受油圧低"
+    panel_number: m2
+    panel_location: b9

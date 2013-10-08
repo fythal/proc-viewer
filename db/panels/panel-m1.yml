@@ -1,0 +1,127 @@
+ann:
+  - name: "CRD ポンプ (A) トリップ"
+    panel_number: m1
+    panel_location: a1
+  - name: "CRD ポンプ (A) 電気故障"
+    panel_number: m1
+    panel_location: b1
+  - name: "CRD ポンプ (A) 吸込圧力低"
+    panel_number: m1
+    panel_location: c1
+  - name: "CRD ポンプ潤滑油温度高"
+    panel_number: m1
+    panel_location: d1
+  - name: "CRD サクションフィルタ差圧高"
+    panel_number: m1
+    panel_location: e1
+  - name: "CRD ポンプ (B) トリップ"
+    panel_number: m1
+    panel_location: a2
+  - name: "CRD ポンプ (B) 電気故障"
+    panel_number: m1
+    panel_location: b2
+  - name: "CRD ポンプ (B) 吸込圧力低"
+    panel_number: m1
+    panel_location: c2
+  - name: "CRD ポンプ潤滑油圧力低"
+    panel_number: m1
+    panel_location: d2
+  - name: "CRD 駆動水フィルタ差圧高"
+    panel_number: m1
+    panel_location: e2
+  - name: "CRD アキュムレータ圧力低/水位高"
+    panel_number: m1
+    panel_location: a3
+  - name: "CRD 充てん水圧力高/低"
+    panel_number: m1
+    panel_location: b3
+  - name: "CRD 冷却水/RPV差圧高高"
+    panel_number: m1
+    panel_location: c3
+  - name: "制御棒駆動機構周辺温度高"
+    panel_number: m1
+    panel_location: d3
+  - name: "CRD 加熱器盤異常"
+    panel_number: m1
+    panel_location: e3
+  - name: "復水器 (A) ホットウェル水位高"
+    panel_number: m1
+    panel_location: a4
+  - name: "復水器 (A) ホットウェル水位低"
+    panel_number: m1
+    panel_location: b4
+  - name: "CRD 冷却水/RPV 差圧高"
+    panel_number: m1
+    panel_location: c4
+  - name: "CRD 冷却水/RPV 差圧低"
+    panel_number: m1
+    panel_location: d4
+  - name: "CRD 加熱器出口温度高高"
+    panel_number: m1
+    panel_location: e4
+  - name: "復水器 (B) ホットウェル水位高"
+    panel_number: m1
+    panel_location: a5
+  - name: "復水器 (B) ホットウェル水位低"
+    panel_number: m1
+    panel_location: b5
+  - name: "CRD 引抜け防止インターロック許可位置"
+    panel_number: m1
+    panel_location: d5
+  - name: "原子炉系制御装置異常"
+    panel_number: m1
+    panel_location: e5
+  - name: "復水器 (C) ホットウェル水位高"
+    panel_number: m1
+    panel_location: a6
+  - name: "復水器 (C) ホットウェル水位低"
+    panel_number: m1
+    panel_location: b6
+  - name: "復水貯蔵槽水位高"
+    panel_number: m1
+    panel_location: c6
+  - name: "復水貯蔵槽水位低"
+    panel_number: m1
+    panel_location: d6
+  - name: "復水貯蔵槽漏えい"
+    panel_number: m1
+    panel_location: e6
+  - name: "LPCP (A) トリップ"
+    panel_number: m1
+    panel_location: a7
+  - name: "LPCP (A) 電気故障"
+    panel_number: m1
+    panel_location: b7
+  - name: "LPCP (A) 吐出圧力低"
+    panel_number: m1
+    panel_location: c7
+  - name: "LPCP (A) シール水流量低"
+    panel_number: m1
+    panel_location: d7
+  - name: "LPCP (B) トリップ"
+    panel_number: m1
+    panel_location: a8
+  - name: "LPCP (B) 電気故障"
+    panel_number: m1
+    panel_location: b8
+  - name: "LPCP (B) 吐出圧力低"
+    panel_number: m1
+    panel_location: c8
+  - name: "LPCP (B) シール水流量低"
+    panel_number: m1
+    panel_location: d8
+  - name: "LPCP (C) トリップ"
+    panel_number: m1
+    panel_location: a9
+  - name: "LPCP (C) 電気故障"
+    panel_number: m1
+    panel_location: b9
+  - name: "LPCP (C) 吐出圧力低"
+    panel_number: m1
+    panel_location: c9
+  - name: "LPCP (C) シール水流量低"
+    panel_number: m1
+    panel_location: d9
+  - name: "ユニット監視制御盤コントローラ故障"
+    panel_number: m1
+    panel_location: e9
