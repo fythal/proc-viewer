@@ -1,0 +1,76 @@
+ann:
+  - name: "制御棒引抜阻止"
+    panel_location: a1
+    panel_number: m7
+
+  - name: "制御棒過引抜"
+    panel_location: b1
+    panel_number: m7
+
+  - name: "制御棒ドリフト"
+    panel_location: c1
+    panel_number: m7
+
+  - name: "RMCS 重故障"
+    panel_location: a2
+    panel_number: m7
+
+  - name: "RMCS 表示・操作部動作不良"
+    panel_location: b2
+    panel_number: m7
+
+  - name: "RMCS RPIS システム軽故障"
+    panel_location: c2
+    panel_number: m7
+
+  - name: "RPIS 重故障"
+    panel_location: a3
+    panel_number: m7
+
+  - name: "制御棒駆動機構温度高"
+    panel_location: b3
+    panel_number: m7
+
+  - name: "RSS 切替スイッチ RSS 位置"
+    panel_location: a4
+    panel_number: m7
+
+  - name: "ドライウェルエアロックドア開"
+    panel_location: c4
+    panel_number: m7
+
+  - name: "主蒸気隔離弁 A チャンネル閉"
+    panel_location: a5
+    panel_number: m7
+
+  - name: "主蒸気止め弁 A チャンネル閉"
+    panel_location: b5
+    panel_number: m7
+
+  - name: "主蒸気隔離弁 B チャンネル閉"
+    panel_location: a6
+    panel_number: m7
+
+  - name: "主蒸気止め弁 B チャンネル閉"
+    panel_location: b6
+    panel_number: m7
+
+  - name: "スクラムタイミングレコーダ盤異常"
+    panel_location: a7
+    panel_number: m7
+
+  - name: "主蒸気止め弁閉 (RPT 用)"
+    panel_location: b7
+    panel_number: m7
+
+  - name: "過渡現象記録装置重故障"
+    panel_location: a8
+    panel_number: m7
+
+  - name: "過渡現象記録装置軽故障"
+    panel_location: b8
+    panel_number: m7
+
+  - name: "過渡現象記録装置データ収録中"
+    panel_location: c8
+    panel_number: m7

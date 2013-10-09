@@ -1,0 +1,176 @@
+ann:
+  - name: "サプレッションプール水 (A) 温度高高"
+    panel_location: a1
+    panel_number: m8
+
+  - name: "サプレッションプール水 (A) 温度高"
+    panel_location: b1
+    panel_number: m8
+
+  - name: "サプレッションプール水位高/低"
+    panel_location: c1
+    panel_number: m8
+
+  - name: "サプレッションチェンバ温度高"
+    panel_location: d1
+    panel_number: m8
+
+  - name: "圧力容器ベローシール温度高"
+    panel_location: e1
+    panel_number: m8
+
+  - name: "サプレッションプール水 (B) 温度高高"
+    panel_location: a2
+    panel_number: m8
+
+  - name: "サプレッションプール水 (B) 温度高"
+    panel_location: b2
+    panel_number: m8
+
+  - name: "ドライウェルクーラ入口空気温度高"
+    panel_location: c2
+    panel_number: m8
+
+  - name: "ドライウェルクーラ出口空気温度高"
+    panel_location: d2
+    panel_number: m8
+
+  - name: "プロセス放射線モニタテスト中"
+    panel_location: e2
+    panel_number: m8
+
+  - name: "原子炉建屋換気系排気放射能高高"
+    panel_location: a3
+    panel_number: m8
+
+  - name: "原子炉建屋換気系排気放射能高"
+    panel_location: b3
+    panel_number: m8
+
+  - name: "原子炉建屋換気系排気放射能下限/動作不能"
+    panel_location: d3
+    panel_number: m8
+
+  - name: "プラント出力設定装置軽故障"
+    panel_location: e3
+    panel_number: m8
+
+  - name: "排気筒高レンジ放射能高高"
+    panel_location: a4
+    panel_number: m8
+
+  - name: "排気筒高レンジ放射能高"
+    panel_location: b4
+    panel_number: m8
+
+  - name: "主蒸気管放射能高"
+    panel_location: c4
+    panel_number: m8
+
+  - name: "主蒸気管放射能下限/動作不能"
+    panel_location: d4
+    panel_number: m8
+
+  - name: "プラント出力設定装置自動除外"
+    panel_location: e4
+    panel_number: m8
+
+  - name: "排気筒放射能高高"
+    panel_location: a5
+    panel_number: m8
+
+  - name: "排気筒放射能高"
+    panel_location: b5
+    panel_number: m8
+
+  - name: "燃料取替エリア排気放射能高高"
+    panel_location: c5
+    panel_number: m8
+
+  - name: "燃料取替エリア排気放射能高"
+    panel_location: d5
+    panel_number: m8
+
+  - name: "燃料取替エリア排気放射能下限/動作不能"
+    panel_location: e5
+    panel_number: m8
+
+  - name: "SGTS 排ガス高レンジ高高"
+    panel_location: a6
+    panel_number: m8
+
+  - name: "SGTS 排ガス高レンジ高"
+    panel_location: b6
+    panel_number: m8
+
+  - name: "OG 系ホールドアップ塔出口放射能高高"
+    panel_location: c6
+    panel_number: m8
+
+  - name: "OG 系ホールドアップ塔出口放射能高"
+    panel_location: d6
+    panel_number: m8
+
+  - name: "OG 系ホールドアップ塔出口放射能下限/動作不能"
+    panel_location: e6
+    panel_number: m8
+
+  - name: "SGTS 排ガス放射能高高"
+    panel_location: a7
+    panel_number: m8
+
+  - name: "SGTS 排ガス放射能高"
+    panel_location: b7
+    panel_number: m8
+
+  - name: "RW 系排水放射能高高"
+    panel_location: c7
+    panel_number: m8
+
+  - name: "RW 系排水放射能高"
+    panel_location: d7
+    panel_number: m8
+
+  - name: "RW 系放射能下限/動作不能"
+    panel_location: e7
+    panel_number: m8
+
+  - name: "計算機重故障"
+    panel_location: a8
+    panel_number: m8
+
+  - name: "計算機軽故障"
+    panel_location: b8
+    panel_number: m8
+
+  - name: "計算機監視給復水系不待機"
+    panel_location: c8
+    panel_number: m8
+
+  - name: "計算機監視安全系作動除外"
+    panel_location: d8
+    panel_number: m8
+
+  - name: "計算機熱出力監視警報"
+    panel_location: e8
+    panel_number: m8
+
+  - name: "計算機監視項目警報"
+    panel_location: a9
+    panel_number: m8
+
+  - name: "計算機早期異常診断警報"
+    panel_location: b9
+    panel_number: m8
+
+  - name: "計算機炉心監視異常"
+    panel_location: c9
+    panel_number: m8
+
+  - name: "計算機監視 D/G 作動除外"
+    panel_location: d9
+    panel_number: m8
+
+  - name: "計算機検出器故障"
+    panel_location: e9
+    panel_number: m8

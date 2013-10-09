@@ -1,0 +1,68 @@
+ann:
+  - name: "A 系原子炉自動スクラム"
+    panel_location: a1
+    panel_number: m6
+
+  - name: "B 系原子炉手動スクラム"
+    panel_location: b1
+    panel_number: m6
+
+  - name: "B 系原子炉自動スクラム"
+    panel_location: a2
+    panel_number: m6
+
+  - name: "B 系原子炉手動スクラム"
+    panel_location: b2
+    panel_number: m6
+
+  - name: "原子炉圧力高トリップ"
+    panel_location: a3
+    panel_number: m6
+
+  - name: "原子炉水位低低トリップ"
+    panel_location: b3
+    panel_number: m6
+
+  - name: "ドライウェル圧力高トリップ"
+    panel_location: a4
+    panel_number: m6
+
+  - name: "スクラム排出容器水位高トリップ"
+    panel_location: b4
+    panel_number: m6
+
+  - name: "スクラム排出容器水位高トリップバイパス"
+    panel_location: c4
+    panel_number: m6
+
+  - name: "主蒸気管放射能高高トリップ"
+    panel_location: a5
+    panel_number: m6
+
+  - name: "中性子束計装トリップ"
+    panel_location: b5
+    panel_number: m6
+
+  - name: "地震加速度大トリップ"
+    panel_location: a6
+    panel_number: m6
+
+  - name: "主蒸気隔離弁閉トリップ"
+    panel_location: b6
+    panel_number: m6
+
+  - name: "主蒸気隔離弁閉トリップバイパス"
+    panel_location: c6
+    panel_number: m6
+
+  - name: "蒸気加減弁急速閉トリップ"
+    panel_location: b7
+    panel_number: m6
+
+  - name: "蒸気加減弁・主蒸気止め弁閉トリップバイパス"
+    panel_location: c7
+    panel_number: m6
+
+  - name: "主蒸気止め弁閉トリップ"
+    panel_location: b8
+    panel_number: m6

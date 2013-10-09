@@ -1,0 +1,120 @@
+ann:
+  - name: "復水器真空度低"
+    panel_location: a1
+    panel_number: m9
+
+  - name: "高圧油ポンプ (A) 過負荷/トリップ"
+    panel_location: a2
+    panel_number: m9
+
+  - name: "高圧油圧ユニット油面高/低"
+    panel_location: b2
+    panel_number: m9
+
+  - name: "高圧油圧ユニット油面高高"
+    panel_location: c2
+    panel_number: m9
+
+  - name: "EHC 制御油漏えい"
+    panel_location: d2
+    panel_number: m9
+
+  - name: "高圧油ポンプ不待機"
+    panel_location: e2
+    panel_number: m9
+
+  - name: "高圧油ポンプ (B) 過負荷/トリップ"
+    panel_location: a3
+    panel_number: m9
+
+  - name: "タービン制御油圧低"
+    panel_location: b3
+    panel_number: m9
+
+  - name: "EHC ラインフィルタ差圧高"
+    panel_location: c3
+    panel_number: m9
+
+  - name: "高圧油圧ユニット油温度高/低"
+    panel_location: d3
+    panel_number: m9
+
+  - name: "高圧油ポンプ自動起動"
+    panel_location: e3
+    panel_number: m9
+
+  - name: "リフト油ポンプ吐出圧力低"
+    panel_location: b4
+    panel_number: m9
+
+  - name: "リフト油ポンプ吐出フィルタ差圧高"
+    panel_location: c4
+    panel_number: m9
+
+  - name: "ターニングモータ過負荷トリップ"
+    panel_location: a5
+    panel_number: m9
+
+  - name: "ターニング油ポンプ過負荷/トリップ"
+    panel_location: b5
+    panel_number: m9
+
+  - name: "ターニングギアカップリング不良"
+    panel_location: c5
+    panel_number: m9
+
+  - name: "ターニングロースピード装置異常"
+    panel_location: d5
+    panel_number: m9
+
+  - name: "タービン発電機軸受温度高"
+    panel_location: a6
+    panel_number: m9
+
+  - name: "吸込油ポンプ過負荷トリップ"
+    panel_location: a7
+    panel_number: m9
+
+  - name: "非常用油ポンプ過負荷/トリップ"
+    panel_location: b7
+    panel_number: m9
+
+  - name: "タービン軸受油圧低"
+    panel_location: c7
+    panel_number: m9
+
+  - name: "非常用油ポンプ起動"
+    panel_location: d7
+    panel_number: m9
+
+  - name: "タービン主油タンク油面高/低"
+    panel_location: a8
+    panel_number: m9
+
+  - name: "タービン主油タンク油面高高"
+    panel_location: b8
+    panel_number: m9
+
+  - name: "タービン主油タンク入口油流量低"
+    panel_location: c8
+    panel_number: m9
+
+  - name: "主油タンクガス抽出機過負荷トリップ"
+    panel_location: d8
+    panel_number: m9
+
+  - name: "油清浄機油面高/低"
+    panel_location: a9
+    panel_number: m9
+
+  - name: "油清浄機ガス抽出機過負荷トリップ"
+    panel_location: b9
+    panel_number: m9
+
+  - name: "タービンろ過ポンプ過負荷トリップ"
+    panel_location: c9
+    panel_number: m9
+
+  - name: "タービン系油ポンプ・ターニング装置プルロック"
+    panel_location: e9
+    panel_number: m9
