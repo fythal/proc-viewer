@@ -1,0 +1,156 @@
+ann:
+  - name: "格納容器隔離弁手動隔離押釦隔離位置"
+    panel_number: m4
+    panel_location: a1
+
+  - name: "A 系選択制御棒挿入"
+    panel_number: m4
+    panel_location: b1
+
+  - name: "B 系選択制御棒挿入"
+    panel_number: m4
+    panel_location: c1
+
+  - name: "A 系選択制御棒挿入論理電源喪失"
+    panel_number: m4
+    panel_location: d1
+
+  - name: "B 系選択制御棒挿入論理電源喪失"
+    panel_number: m4
+    panel_location: e1
+
+  - name: "再循環 (A) 流量制限"
+    panel_number: m4
+    panel_location: a2
+
+  - name: "PLR ポンプモータ (A) 電圧低"
+    panel_number: m4
+    panel_location: b2
+
+  - name: "再循環流量制御主制御器自動モード除外"
+    panel_number: m4
+    panel_location: c2
+
+  - name: "再循環 (A) 周波数ロック"
+    panel_number: m4
+    panel_location: d2
+
+  - name: "再循環 (A) ランバック作動除外"
+    panel_number: m4
+    panel_location: e2
+
+  - name: "再循環流量制御装置重故障"
+    panel_number: m4
+    panel_location: a3
+
+  - name: "再循環流量制御装置軽故障"
+    panel_number: m4
+    panel_location: b3
+
+  - name: "再循環流量制御主制御器自動下限"
+    panel_number: m4
+    panel_location: c3
+
+  - name: "キャビテーション制限領域"
+    panel_number: m4
+    panel_location: d3
+
+  - name: "再循環流量制御ホールド"
+    panel_number: m4
+    panel_location: e3
+
+  - name: "再循環 (B) 流量制限"
+    panel_number: m4
+    panel_location: a4
+
+  - name: "PLR ポンプモータ (B) 電圧低"
+    panel_number: m4
+    panel_location: b4
+
+  - name: "再循環 (B) 周波数ロック"
+    panel_number: m4
+    panel_location: d4
+
+  - name: "再循環 (B) ランバック作動除外"
+    panel_number: m4
+    panel_location: e4
+
+  - name: "SRM 高/機器動作不能"
+    panel_number: m4
+    panel_location: a5
+
+  - name: "SRM ペリオド短"
+    panel_number: m4
+    panel_location: b5
+
+  - name: "SRM 下限"
+    panel_number: m4
+    panel_location: c5
+
+  - name: "SRM 検出器不許可時引抜"
+    panel_number: m4
+    panel_location: d5
+
+  - name: "TIP 爆発弁閉/電源喪失"
+    panel_number: m4
+    panel_location: e5
+
+  - name: "IRM A 系高高/機器動作不能"
+    panel_number: m4
+    panel_location: a6
+
+  - name: "IRM B 系高高/機器動作不能"
+    panel_number: m4
+    panel_location: b6
+
+  - name: "IRM 高"
+    panel_number: m4
+    panel_location: c6
+
+  - name: "IRM 下限"
+    panel_number: m4
+    panel_location: d6
+
+  - name: "安定性制限領域"
+    panel_number: m4
+    panel_location: a7
+
+  - name: "運転領域制限バイパス中"
+    panel_number: m4
+    panel_location: b7
+
+  - name: "RBM 高/機器動作不能"
+    panel_number: m4
+    panel_location: c7
+
+  - name: "RBM 下限"
+    panel_number: m4
+    panel_location: d7
+
+  - name: "APRM チャンネル (A) (C) (E) 高高/機器動作不能"
+    panel_number: m4
+    panel_location: a8
+
+  - name: "APRM チャンネル (B) (D) (F) 高高/機器動作不能"
+    panel_number: m4
+    panel_location: b8
+
+  - name: "APRM 高"
+    panel_number: m4
+    panel_location: c8
+
+  - name: "APRM 下限"
+    panel_number: m4
+    panel_location: d8
+
+  - name: "APRM 流量ユニット異常"
+    panel_number: m4
+    panel_location: b9
+
+  - name: "LPRM 高"
+    panel_number: m4
+    panel_location: c9
+
+  - name: "LPRM 下限"
+    panel_number: m4
+    panel_location: d9

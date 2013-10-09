@@ -1,0 +1,40 @@
+ann:
+  - name: "トリップチャンネル盤 RPS-IA テスト中/機器異常"
+    panel_location: a3
+    panel_number: m5
+
+  - name: "トリップチャンネル盤 RPS-IIA テスト中/機器異常"
+    panel_location: b3
+    panel_number: m5
+
+  - name: "トリップチャンネル盤 RPS-IB テスト中/機器異常"
+    panel_location: a4
+    panel_number: m5
+
+  - name: "トリップチャンネル盤 RPS-IIB テスト中/機器異常"
+    panel_location: b4
+    panel_number: m5
+
+  - name: "バックアップスクラム弁電源喪失"
+    panel_location: a5
+    panel_number: m5
+
+  - name: "スクラムパイロット弁空気ヘッダ圧力高/低"
+    panel_location: b5
+    panel_number: m5
+
+  - name: "スクラム排出容器 (A) 水位高"
+    panel_location: a6
+    panel_number: m5
+
+  - name: "スクラム排出容器 (B) 水位高"
+    panel_location: b6
+    panel_number: m5
+
+  - name: "ドライウェル圧力高/低"
+    panel_location: a7
+    panel_number: m5
+
+  - name: "モードスイッチ停止トリップバイパス"
+    panel_location: a8
+    panel_number: m5
