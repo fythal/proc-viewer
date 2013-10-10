@@ -1,5 +1,7 @@
 ProcViewer::Application.routes.draw do
 
+  resources :boards
+
   resources :boards do
     resources :panels
   end
