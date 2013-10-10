@@ -99,7 +99,7 @@ class AnnsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ann_params
-    params.require(:ann).permit(:name, :pdf, :panel)
+    params.require(:ann).permit(:name)
   end
 
   def panel_params
