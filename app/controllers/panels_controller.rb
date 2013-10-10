@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class PanelsController < ApplicationController
   before_action :set_panel, only: [:show, :edit, :update, :destroy]
 
@@ -6,7 +7,7 @@ class PanelsController < ApplicationController
   # GET /panels
   # GET /panels.json
   def index
-    @boards = Board.all.to_a
+    @boards = Board.all
   end
 
   # GET /panels/1
