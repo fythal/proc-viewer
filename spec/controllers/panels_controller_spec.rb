@@ -36,7 +36,7 @@ describe PanelsController do
       board = Board.create! name: "foo-board"
       board.panels.create! valid_attributes
       get :index, {}, valid_session
-      expect(assigns(:boards)).to be_kind_of(Array)
+      expect(assigns(:boards)).to be_kind_of(ActiveRecord::Relation)
       expect(assigns(:boards).first).to be_kind_of(Board)
     end
   end
