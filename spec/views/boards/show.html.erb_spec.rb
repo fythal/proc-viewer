@@ -3,13 +3,13 @@ require 'spec_helper'
 describe "boards/show" do
   before(:each) do
     @board = assign(:board, stub_model(Board,
-      :name => "Name"
+      :code => "MyCode", :name => "Name",
     ))
   end
 
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
+    rendered.should match(/Code/)
     rendered.should match(/Name/)
   end
 end

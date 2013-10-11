@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Code</th>
       <th>Name</th>
       <th></th>
       <th></th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @boards.each do |board| %>
       <tr>
+        <td><%= board.code %></td>
         <td><%= board.name %></td>
         <td><%= link_to 'Show', board %></td>
         <td><%= link_to 'Edit', edit_board_path(board) %></td>
