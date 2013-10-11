@@ -1,0 +1,139 @@
+- code: H11-P700
+- code: H11-P701
+- code: H11-P702
+- code: H11-P657
+  name: AM 設備制御盤
+- code: H21-P204A
+  name: 主発電機自動電圧調整器
+- code: H21-P211
+  name: M/D RFP シール水制御盤
+- code: H21-P212
+  name: T/D RFP シール水制御盤
+- code: H21-P037
+  name: CRD 加熱器盤
+- code: H11-P704-2
+- code: H11-P704-1
+- code: H11-P703
+- code: H11-P669
+  name: サンプ制御盤
+- code: H11-P648
+  name: 床漏えい検出系盤
+- code: H11-P678-2
+  name: 常用換気空調系盤
+- code: H11-P693
+  name: A 系非常用換気空調系盤 (ESS-I)
+- code: H11-P694
+  name: B 系非常用換気空調系盤 (ESS-II)
+- code: H12-P695
+  name: HPCS 系非常用換気空調系盤 (ESS-III)
+- code: H11-P697
+  name: FPC・MUWF 系制御盤
+- code: H11-P600
+  name: 放射線モニタ記録計盤
+- code: H11-P638
+  name: 格納容器内雰囲気モニタ盤 (区分 I)
+- code: H11-P639
+  name: 格納容器内雰囲気モニタ盤 (区分 II)
+- code: H21-P351A
+  name: HNCW 冷凍機 (A) 制御盤
+- code: H21-P351B
+  name: HNCW 冷凍機 (B) 制御盤
+- code: H21-P351C
+  name: HNCW 冷凍機 (C) 制御盤
+- code: H21-P351D
+  name: HNCW 冷凍機 (D) 制御盤
+- code: H21-P600H
+  name: ディーゼル発電機 4HPCS 制御盤 ESS-III
+- code: R42-P053
+  name: 窒素ガス配管ヒータ制御盤
+- code: R42-P006H
+  name: 直流 125V HPCS 充電器盤常用 ESS-III
+- code: R42-P008H
+  name: 直流 125V HPCS 充電器盤予備 ESS-III
+- code: H21-P350A
+  name: HECW 冷凍機 (A) 制御盤
+- code: H21-P350B
+  name: HECW 冷凍機 (B) 制御盤
+- code: H21-P350C
+  name: HECW 冷凍機 (C) 制御盤
+- code: H21-P350D
+  name: HECW 冷凍機 (D) 制御盤
+- code: H21-P400
+  name: 原子炉水サンプリングトランスミッタ盤
+- code: H21-P050
+  name: CUW・FPC F/D 制御盤
+- code: H21-P614B
+  name: RSW 系 (B) ストレーナ制御盤
+- code: H21-P614A
+  name: RSW 系 (A) ストレーナ制御盤
+- code: H21-P352
+  name: M/B 換気空調系制御盤
+- code: H11-P705
+- code: H11-P920
+  name: 4号 OF 洞道換気空調系盤
+- code: H11-P670-2
+  name: CF/CD 制御盤
+- code: H11-P682
+  name: 気体廃棄物処理系盤
+- code: H21-P617
+  name: IA 空気圧縮機制御盤
+- code: H21-P616
+  name: IA 除湿装置制御盤
+- code: H21-P618
+  name: SA 用空気圧縮機制御盤
+- code: H21-P203
+  name: 発電機冷却監視盤
+- code: H21-P213
+  name: 酸素注入装置
+- code: H21-P408
+  name: 復水給水系サンプリングトランスミッタ盤
+- code: H21-P210-1
+  name: 排ガス制御盤 1
+- code: H22-P497
+  name: 排ガス水素サンプル分析計校正ラック
+- code: H21-P219
+  name: 主変圧器冷却ファン制御盤
+- code: H21-P221
+  name: 4号 MTr 防災制御盤
+- code: H21-P218A
+  name: 所内変圧器 4A 冷却装置制御盤
+- code: H21-P218B
+  name: 所内変圧器 4B 冷却装置制御盤
+- code: ''
+  name: 4号 500kV CV ケーブル監視盤 (南側開閉所補助建屋)
+- code: H21-P737
+  name: スクリーン制御盤
+- code: H21-P615
+  name: TSW ストレーナ制御盤
+- code: H21-P620
+  name: 電解鉄イオン供給装置制御盤
+- code: H21-P220
+  name: 復水器連続洗浄装置制御盤 (Y/D)
+- code: H11-P706
+- code: R46-P001A
+  name: プラントバイタル交流電源装置 4A ESS-I
+- code: R46-P001B
+  name: プラントバイタル交流電源装置 4B ESS-II
+- code: H21-P600A
+  name: ディーゼル発電機 4A 制御盤 ESS-I
+- code: R42-P006A
+  name: 直流 125V 充電器盤 4A ESS-I
+- code: R42-P008
+  name: 直流 125V 充電器盤予備
+- code: R46-P002-1
+  name: 計算機用無停電電源装置 4A
+- code: H21-P600B
+  name: ディーゼル発電機 4B 制御盤 ESS-II
+- code: R42-P006B
+  name: 直流 125V 充電器盤 4B ESS-II
+- code: R46-P002-2
+  name: 計算機用無停電電源装置 4B
+- code: R42-P003
+  name: 直流 250V 充電器盤常用
+- code: R42-P004
+  name: 直流 250V 充電器盤予備
+- code: R51-P001
+  name: ページング装置
+- code: 4H14-P601
+- code: 2H14-P602
+- code: H21-P101

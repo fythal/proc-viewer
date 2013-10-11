@@ -1,0 +1,168 @@
+ann:
+  - name: "タービン振動大トリップ"
+    panel_location: a1
+    panel_number: m10
+
+  - name: "タービン振動大停止域"
+    panel_location: b1
+    panel_number: m10
+
+  - name: "タービン振動大注意域"
+    panel_location: c1
+    panel_number: m10
+
+  - name: "タービン振動監視装置故障"
+    panel_location: d1
+    panel_number: m10
+
+  - name: "タービン監視補助盤異常"
+    panel_location: e1
+    panel_number: m10
+
+  - name: "タービン過速度トリップ"
+    panel_location: a2
+    panel_number: m10
+
+  - name: "タービンバックアップ過速度トリップ"
+    panel_location: b2
+    panel_number: m10
+
+  - name: "タービン伸び差大"
+    panel_location: c2
+    panel_number: m10
+
+  - name: "タービン過速度トリップリセット"
+    panel_location: d2
+    panel_number: m10
+
+  - name: "タービン過速度トリップロックアウト"
+    panel_location: e2
+    panel_number: m10
+
+  - name: "タービン制御油圧低トリップ"
+    panel_location: a3
+    panel_number: m10
+
+  - name: "主油ポンプ吐出圧力低トリップ"
+    panel_location: b3
+    panel_number: m10
+
+  - name: "タービンマスタートリップ油圧低"
+    panel_location: c3
+    panel_number: m10
+
+  - name: "タービンスラスト軸受摩耗トリップ"
+    panel_location: a4
+    panel_number: m10
+
+  - name: "復水器真空度低トリップ"
+    panel_location: b4
+    panel_number: m10
+
+  - name: "タービンスラスト軸受摩耗トリップ回路除外"
+    panel_location: d4
+    panel_number: m10
+
+  - name: "タービン真空度低トリップリセット"
+    panel_location: e4
+    panel_number: m10
+
+  - name: ""
+    panel_location: a5
+    panel_number: m10
+
+  - name: ""
+    panel_location: b5
+    panel_number: m10
+
+  - name: ""
+    panel_location: c5
+    panel_number: m10
+
+  - name: ""
+    panel_location: d5
+    panel_number: m10
+
+  - name: ""
+    panel_location: e5
+    panel_number: m10
+
+  - name: ""
+    panel_location: a6
+    panel_number: m10
+
+  - name: ""
+    panel_location: b6
+    panel_number: m10
+
+  - name: ""
+    panel_location: c6
+    panel_number: m10
+
+  - name: ""
+    panel_location: d6
+    panel_number: m10
+
+  - name: ""
+    panel_location: e6
+    panel_number: m10
+
+  - name: ""
+    panel_location: a7
+    panel_number: m10
+
+  - name: ""
+    panel_location: b7
+    panel_number: m10
+
+  - name: ""
+    panel_location: c7
+    panel_number: m10
+
+  - name: ""
+    panel_location: d7
+    panel_number: m10
+
+  - name: ""
+    panel_location: e7
+    panel_number: m10
+
+  - name: ""
+    panel_location: a8
+    panel_number: m10
+
+  - name: ""
+    panel_location: b8
+    panel_number: m10
+
+  - name: ""
+    panel_location: c8
+    panel_number: m10
+
+  - name: ""
+    panel_location: d8
+    panel_number: m10
+
+  - name: ""
+    panel_location: e8
+    panel_number: m10
+
+  - name: ""
+    panel_location: a9
+    panel_number: m10
+
+  - name: ""
+    panel_location: b9
+    panel_number: m10
+
+  - name: ""
+    panel_location: c9
+    panel_number: m10
+
+  - name: ""
+    panel_location: d9
+    panel_number: m10
+
+  - name: ""
+    panel_location: e9
+    panel_number: m10
