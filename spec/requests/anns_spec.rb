@@ -35,4 +35,15 @@ describe "Anns" do
       expect(ann["name"]).to eq("Foo")
     end
   end
+
+  describe "GET /anns.json" do
+    it "必要なパラメータが含まれている" do
+      Ann.create!(name: "foo")
+
+      get anns_path, format: "json"
+      ann = JSON.parse(response.body).first
+      ["name", "id"].each { |key| expect(ann).to have_key(key) }
+    end
+  end
+
 end
