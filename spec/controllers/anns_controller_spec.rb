@@ -172,6 +172,7 @@ describe AnnsController do
       after(:each) do
         File.unlink(assigns(:ann).procedure.system_path)
       end
+
       it "新しい手順書オブジェクトを作成する" do
         attributes = valid_ann_attributes.merge(attributes_for_procedure)
         expect { post :create, {:ann => attributes}, valid_session }.to change(Procedure, :count).by(1)
