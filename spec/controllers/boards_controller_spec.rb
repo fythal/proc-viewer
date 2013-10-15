@@ -27,4 +27,13 @@ describe BoardsController do
     end
   end
 
+
+  describe "PUT update" do
+    it "updates the requested board" do
+      board = Board.create! valid_attributes
+      Board.any_instance.should_receive(:update).with({ "code" => "MyNewCode", "name" => "MyNewName" })
+      put :update, {:id => board.to_param, :board => { "code" => "MyNewCode", "name" => "MyNewName" }}, valid_session
+    end
+  end
+
 end
