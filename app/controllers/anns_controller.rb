@@ -98,15 +98,19 @@ class AnnsController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
+  def permitted_params
+    params.require(:ann).permit(:name, :panel_number, :panel_location, :procedure, :revision, :revised_on, :prev_revision_id)
+  end
+
   def ann_params
-    params.require(:ann).permit(:name)
+    permitted_params.slice(:name)
   end
 
   def panel_params
-    params.require(:ann).permit(:panel_number, :panel_location)
+    permitted_params.slice(:panel_number, :panel_location)
   end
 
   def procedure_params
-    params.require(:ann).permit(:procedure, :revision, :revised_on, :prev_revision_id)
+    permitted_params.slice(:procedure, :revision, :revised_on, :prev_revision_id)
   end
 end
