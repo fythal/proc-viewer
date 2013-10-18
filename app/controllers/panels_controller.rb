@@ -73,6 +73,6 @@ class PanelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def panel_params
-      params.require(:panel).permit(:number)
+      params.require(:panel).permit(:number, :width, :height)
     end
 end
