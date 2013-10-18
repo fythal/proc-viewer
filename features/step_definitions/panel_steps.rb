@@ -103,11 +103,11 @@ Then(/^警報パネルの部分は、パネルの詳細のページへのリン�
 end
 
 Then(/^警報パネルの幅が (\d+) に設定される$/) do |width|
-  expect(@panel.width).to eq(width)
+  expect(@panel.width).to eq(width.to_i)
 end
 
 Then(/^警報パネルの高さが (\d+) に設定される$/) do |height|
-  expect(@panel.height).to eq(height)
+  expect(@panel.height).to eq(height.to_i)
 end
 
 Then(/^警報パネルの盤に (.*) が設定される$/) do |board|
