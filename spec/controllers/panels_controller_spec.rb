@@ -125,6 +125,18 @@ describe PanelsController do
         expect(assigns(:panel).number).to eq("foo")
       end
 
+      it "width 属性をアップデートする" do
+        panel = Panel.create! valid_attributes
+        put :update, {:id => panel.to_param, :panel => { :width => "5" }}, valid_session
+        expect(assigns(:panel).width).to eq(5)
+      end
+
+      it "height 属性をアップデートする" do
+        panel = Panel.create! valid_attributes
+        put :update, {:id => panel.to_param, :panel => { :height => "5" }}, valid_session
+        expect(assigns(:panel).height).to eq(5)
+      end
+
       it "redirects to the panel" do
         panel = Panel.create! valid_attributes
         put :update, {:id => panel.to_param, :panel => valid_attributes}, valid_session
