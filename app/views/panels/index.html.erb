@@ -1,20 +1,22 @@
 <h1>Listing panels</h1>
 
-<ul>
-  <% @boards.each do |board| %>
-  <li><%= board.name %>
-    <table>
-      <tbody>
-        <tr>
-          <% board.panels.each do |panel| %>
-          <td class="panel"><%= link_to panel.number, panel_path(panel) %></td>
-          <% end %>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <% end %>
-</ul>
+<div id="list_of_panels">
+  <ul>
+    <% @boards.sort.each do |board| %>
+    <li class="board"><%= "#{board.code}  #{board.name}" %>
+      <table>
+        <tbody>
+          <tr>
+            <% board.panels.each do |panel| %>
+            <td class="panel"><%= link_to panel.number, panel_path(panel) %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <% end %>
+  </ul>
+</div>
 
 <br>
 
