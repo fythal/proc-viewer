@@ -38,7 +38,7 @@ describe "panels/show" do
 
   it "テーブルに 9 つの td 要素を描画する" do
     render
-    assert_select "table tr td", 9
+    assert_select "table tr td", 3 + 3 * 3
   end
 
   it "テーブルの td 要素には、場所情報を含む id を設定する" do
