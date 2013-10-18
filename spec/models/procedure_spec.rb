@@ -179,4 +179,15 @@ describe Procedure do
       end
     end
   end
+
+  describe "#update_path" do
+    it "Procedure#construct_filename を呼出す" do
+      procedure = Procedure.new
+      ann = Ann.create!(name: "foo")
+      Panel.assign(ann, panel: "m1", to: "a1")
+      ann.procedures << procedure
+      procedure.should_receive(:construct_filename).and_return("ann-m1-a1-r999-2013-10-18-13_25_05.pdf")
+      procedure.update_path
+    end
+  end
 end

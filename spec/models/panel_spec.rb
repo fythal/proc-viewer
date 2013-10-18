@@ -24,82 +24,137 @@ describe Panel do
   #
 
   describe "Panel.assign(ann, panel_and_location)" do
-    describe "警報は保存されていない" do
-      before(:each) { @ann = Ann.new(valid_ann_attributes) }
+    context "警報がパネルに割り当てられていない" do
+      before(:each) do
+        @ann = Ann.create!(valid_ann_attributes)
+      end
 
-      describe "パネルの番号は空白、場所は空白を指定する" do
-        def params
-          { panel: "", to: ""}
-        end
+      it "Panel オブジェクトを一つ増やす" do
+        expect { Panel.assign(@ann, panel: "n1", to: "a1") }.to change(Panel, :count).by(1)
+      end
 
-        it "false を返す" do
-          expect(Panel.assign(@ann, params)).to be_false
-        end
-        it "警報の location には invalid な Locaiton オブジェクトを設定" do
-          Panel.assign(@ann, params)
-          expect(@ann.location).to be_kind_of(Location)
-          expect(@ann.location).not_to be_valid
-        end
-        it "警報の panel には invalid な Panel オブジェクトを設定" do
-          Panel.assign(@ann, params)
-          expect(@ann.location.panel).to be_kind_of(Panel)
-          expect(@ann.location.panel).not_to be_valid
-        end
-        it "Panel オブジェクトを生成しない" do
-          expect { Panel.assign(@ann, params) }.to change(Panel, :count).by(0)
-        end
-        it "Location オブジェクトを生成しない" do
-          expect { Panel.assign(@ann, params) }.to change(Location, :count).by(0)
-        end
+      it "@ann.panel に Panel オブジェクトを設定する" do
+        Panel.assign(@ann, panel: "n1", to: "a1")
+        expect(@ann.panel).to be_kind_of(Panel)
+      end
+
+      it "@ann.panel.number にパネルの番号を設定する" do
+        Panel.assign(@ann, panel: "n1", to: "a1")
+        expect(@ann.panel.number).to eq("n1")
+      end
+
+      it "Location オブジェクトを一つ増やす" do
+        expect { Panel.assign(@ann, panel: "n1", to: "a1") }.to change(Location, :count).by(1)
+      end
+
+      it "@ann.location に Location オブジェクトを設定する" do
+        Panel.assign(@ann, panel: "n1", to: "a1")
+        expect(@ann.location).to be_kind_of(Location)
+      end
+
+      it "@ann.location.location に場所を設定する" do
+        Panel.assign(@ann, panel: "n1", to: "a1")
+        expect(@ann.location.location).to eq("a1")
+      end
+
+      it "@ann に rename_proedures メッセージを送る (手順書のファイル名の変更依頼)" do
+        @ann.should_receive(:rename_procedures)
+        Panel.assign(@ann, panel: "n1", to: "a1")
       end
     end
 
-    describe "警報は保存されている" do
-      before(:each) { @ann = Ann.create!(valid_ann_attributes) }
+    context "警報がすでにパネルに割り当てられている" do
+      describe "同じパネルの空いている場所に割り当てる" do
+        before(:each) do
+          @ann = Ann.create!(valid_ann_attributes)
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          @panel = @ann.panel
+          @location = @ann.location
+        end
 
-      describe "パネルの番号を指定する" do
-        describe "指定した番号のパネルが存在している"      # その場合は Panel#assign でスペックを規定
-        describe "指定した番号のパネルは存在していない" do
-          before(:each) do
-            expect(Panel.find_by_number(valid_panel_attributes[:number])).to be_nil
-            def new_location
-              "a1"
-            end
-            def params
-              { panel: valid_panel_number, to: new_location }
-            end
-          end
+        it "Panel オブジェクトの数は変化しない" do
+          expect { Panel.assign(@ann, panel: "m1", to: "b2") }.to change(Panel, :count).by(0)
+        end
 
-          it "Location オブジェクトが関連付ける" do
-            Panel.assign(@ann, params)
-            expect(@ann.location).to be_kind_of(Location)
-          end
-          it "Locaiton オブジェクトの location 属性を設定する" do
-            Panel.assign(@ann, params)
-            expect(@ann.location.location).to eq(new_location)
-          end
-          it "新規の Locaiton オブジェクトをデータベースに保存する" do
-            expect {Panel.assign(@ann, params)}.to change(Location, :count).by(1)
-          end
-          it "警報パネルオブジェクトは作成する。これには location メソッド経由でアクセスできる" do
-            Panel.assign(@ann, params)
-            expect(@ann.location.panel).not_to be_nil
-          end
-          it "警報パネルオブジェクトは作成する。Ann#panel メソッドで直接アクセスできる" do
-            Panel.assign(@ann, params)
-            expect(@ann.panel).not_to be_nil
-            expect(@ann.panel.number).to eq(valid_panel_number)
-          end
-          it "警報パネルオブジェクトはデータベースには保存されていない" do
-            expect { Panel.assign(@ann, params) }.to change(Panel, :count).by(1)
-          end
-          it "true を返す" do
-            expect { Panel.assign(@ann, params) }.to be_true
-          end
+        it "@ann.panel を前と同じ Panel オブジェクトのままにする" do
+          Panel.assign(@ann, panel: "m1", to: "b2")
+          expect(@ann.panel).to eq(@panel)
+        end
+
+        it "@ann.panel.number にパネルの番号を設定する" do
+          Panel.assign(@ann, panel: "m1", to: "b2")
+          expect(@ann.panel.number).to eq("m1")
+        end
+
+        it "Location オブジェクトの数は変化しない (一つ増えて、一つ減る)" do
+          expect { Panel.assign(@ann, panel: "m1", to: "b2") }.to change(Location, :count).by(0)
+        end
+
+        it "@ann.location に割り当て前と違う Location オブジェクトを設定する" do
+          Panel.assign(@ann, panel: "m1", to: "b2")
+          expect(@ann.location).not_to eq(@location)
+        end
+
+        it "@ann.location.location に場所を設定する" do
+          Panel.assign(@ann, panel: "m1", to: "b2")
+          expect(@ann.location.location).to eq("b2")
+        end
+
+        it "前の場所オブジェクトには destroy メッセージを送る" do
+          @location.should_receive(:destroy)
+          Panel.assign(@ann, panel: "m1", to: "b2")
+        end
+
+        it "@ann に rename_proedures メッセージを送る (手順書のファイル名の変更依頼)" do
+          @ann.should_receive(:rename_procedures)
+          Panel.assign(@ann, panel: "m1", to: "b2")
+        end
+      end
+
+      describe "同じパネルの同じ場所に割り当てる" do
+        before(:each) do
+          @ann = Ann.create!(valid_ann_attributes)
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          @panel = @ann.panel
+          @location = @ann.location
+        end
+
+        it "Panel オブジェクトの数は変化しない" do
+          expect { Panel.assign(@ann, panel: "m1", to: "a1") }.to change(Panel, :count).by(0)
+        end
+
+        it "@ann.panel を前と同じ Panel オブジェクトのままにする" do
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          expect(@ann.panel).to eq(@panel)
+        end
+
+        it "@ann.panel.number にパネルの番号を設定する" do
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          expect(@ann.panel.number).to eq("m1")
+        end
+
+        it "Location オブジェクトの数は変化しない" do
+          expect { Panel.assign(@ann, panel: "m1", to: "a1") }.to change(Location, :count).by(0)
+        end
+
+        it "場所オブジェクトは前と同じものを @ann.location に割り当てる (再利用)" do
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          expect(@ann.location).to eq(@location)
+        end
+
+        it "@ann.location.location に場所を設定する" do
+          Panel.assign(@ann, panel: "m1", to: "a1")
+          expect(@ann.location.location).to eq("a1")
+        end
+
+        it "@ann に rename_proedures メッセージを送る (手順書のファイル名の変更依頼)" do
+          @ann.should_receive(:rename_procedures)
+          Panel.assign(@ann, panel: "m1", to: "a1")
         end
       end
     end
   end
+
 
   describe "#assign(ann, location)" do
     before(:each) do

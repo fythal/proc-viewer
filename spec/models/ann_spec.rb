@@ -430,4 +430,13 @@ describe Ann do
       end
     end
   end
+
+  describe "#rename_procedures" do
+    it "自分に属しているすべての手順書オブジェクトに update_path メッセージを送る" do
+      ann = Ann.create!(name: "foo")
+      ann.procedures = [Procedure.new, Procedure.new]
+      ann.procedures.each { |pr| pr.should_receive(:update_path) }
+      ann.rename_procedures
+    end
+  end
 end

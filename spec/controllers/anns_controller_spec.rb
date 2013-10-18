@@ -208,7 +208,8 @@ describe AnnsController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do
+
+    describe "名称属性の変更" do
       it "updates the requested ann" do
         ann = Ann.create! valid_ann_attributes
         # Assuming there are no other anns in the database, this
@@ -226,60 +227,105 @@ describe AnnsController do
         assigns(:ann).should eq(ann)
       end
 
-      describe "@panel の代入" do
-        it "警報がパネルに割り当てられていなければ、@panel に nil を代入する" do
-          ann = Ann.create! valid_ann_attributes
-          ann.stub(:panel).and_return(nil)
-          put :update, {:id => ann.to_param, :ann => valid_ann_attributes}, valid_session
-          expect(assigns(:panel)).to be_nil
-        end
-
-        it "警報がパネルに割り当てられていれば、@panel にパネルをセットする" do
-          ann = Ann.create! valid_ann_attributes
-          panel = Panel.create! number: valid_ann_and_panel_attributes[:panel_number]
-          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-          expect(assigns(:panel)).to eq(panel)
-        end
-      end
-
       it "redirects to the ann" do
         ann = Ann.create! valid_ann_attributes
         put :update, {:id => ann.to_param, :ann => valid_ann_attributes}, valid_session
         response.should redirect_to(ann)
       end
 
-      describe "パラメータに警報パネルとその場所を与える" do
-        it "@panel に警報パネルのパラメータが設定されている" do
-          ann = Ann.create! valid_ann_attributes
-          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-          expect(assigns(:panel).number).to eq(valid_panel_attributes[:panel_number])
+      it "警報がパネルに割り当てられていなければ、@panel に nil を代入する" do
+        ann = Ann.create! valid_ann_attributes
+        ann.stub(:panel).and_return(nil)
+        put :update, {:id => ann.to_param, :ann => valid_ann_attributes}, valid_session
+        expect(assigns(:panel)).to be_nil
+      end
+
+    end
+
+    describe "警報パネルへの配置" do
+      context "警報が警報パネルにまだ割り当てられていない" do
+        before(:each) do
+          @ann = Ann.create! valid_ann_attributes
+          @attributes = valid_ann_attributes.merge valid_panel_attributes
         end
 
-        it "@panel.location.location に警報パネルの場所のパラメータが設定されている" do
-          ann = Ann.create! valid_ann_attributes
-          put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
-          expect(assigns(:panel).locations.map(&:location)).to include(valid_panel_attributes[:panel_location])
+        it "要求した警報を @ann にアサインする" do
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+          assigns(:ann).should eq(@ann)
+        end
+
+        it "警報を警報パネルに割り当てる" do
+          Panel.should_receive(:assign)
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+        end
+
+        it "@panel に @ann.panel の返り値をアサインする" do
+        end
+
+        it "@ann へリダイレクトする" do
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+          response.should redirect_to(@ann)
+        end
+      end
+
+      context "警報が警報パネルに割り当てられている" do
+        before(:each) do
+          @ann = Ann.create! valid_ann_attributes
+          Panel.assign(@ann, valid_panel_attributes)
+          @attributes = valid_ann_attributes.merge(panel_number:"m1", panel_location: "b1")
+        end
+
+        it "要求した警報を @ann にアサインする" do
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+          assigns(:ann).should eq(@ann)
+        end
+
+        it "警報を警報パネルに割り当てる" do
+          Panel.should_receive(:assign)
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+        end
+
+        it "@panel に @ann.panel の返り値をアサインする" do
+        end
+
+        it "@ann へリダイレクトする" do
+          put :update, {:id => @ann.to_param, :ann => @attributes}, valid_session
+          response.should redirect_to(@ann)
         end
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the ann as @ann" do
-        ann = Ann.create! valid_ann_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Ann.any_instance.stub(:save).and_return(false)
-        put :update, {:id => ann.to_param, :ann => { "name" => "invalid value" }}, valid_session
-        assigns(:ann).should eq(ann)
-      end
+    #   describe "パラメータに警報パネルとその場所を与える" do
+    #     it "@panel に警報パネルのパラメータが設定されている" do
+    #       ann = Ann.create! valid_ann_attributes
+    #       put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
+    #       expect(assigns(:panel).number).to eq(valid_panel_attributes[:panel_number])
+    #     end
 
-      it "re-renders the 'edit' template" do
-        ann = Ann.create! valid_ann_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Ann.any_instance.stub(:save).and_return(false)
-        put :update, {:id => ann.to_param, :ann => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
-      end
-    end
+    #     it "@panel.location.location に警報パネルの場所のパラメータが設定されている" do
+    #       ann = Ann.create! valid_ann_attributes
+    #       put :update, {:id => ann.to_param, :ann => valid_ann_and_panel_attributes}, valid_session
+    #       expect(assigns(:panel).locations.map(&:location)).to include(valid_panel_attributes[:panel_location])
+    #     end
+    #   end
+
+    # describe "with invalid params" do
+    #   it "assigns the ann as @ann" do
+    #     ann = Ann.create! valid_ann_attributes
+    #     # Trigger the behavior that occurs when invalid params are submitted
+    #     Ann.any_instance.stub(:save).and_return(false)
+    #     put :update, {:id => ann.to_param, :ann => { "name" => "invalid value" }}, valid_session
+    #     assigns(:ann).should eq(ann)
+    #   end
+
+    #   it "re-renders the 'edit' template" do
+    #     ann = Ann.create! valid_ann_attributes
+    #     # Trigger the behavior that occurs when invalid params are submitted
+    #     Ann.any_instance.stub(:save).and_return(false)
+    #     put :update, {:id => ann.to_param, :ann => { "name" => "invalid value" }}, valid_session
+    #     response.should render_template("edit")
+    #   end
+    # end
   end
 
   describe "DELETE destroy" do
