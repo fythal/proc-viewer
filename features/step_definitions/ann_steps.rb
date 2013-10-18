@@ -28,6 +28,15 @@ Given(/^その警報には (\d+)年(\d+)月(\d+)日改訂で改定番号 (\d+) �
   @procedures << procedure
 end
 
+Given(/^警報パネル "(.*?)" の "(.*?)" の場所に警報が割り当てられている$/) do |panel, location|
+  @ann = Ann.create!(name: "foobar")
+  Panel.assign(@ann, panel: panel, to: location)
+  expect(@ann.panel).not_to be_nil
+  expect(@ann.panel.number).to eq(panel)
+  expect(@ann.location).not_to be_nil
+  expect(@ann.location.location).to eq(location)
+end
+
 When(/^警報名称を入力する$/) do
   fill_in('ann_name', with: "CRD ポンプトリップ")
 end
