@@ -144,23 +144,23 @@ describe PanelsController do
       end
     end
 
-    # describe "with invalid params" do
-    #   it "assigns the panel as @panel" do
-    #     panel = Panel.create! valid_attributes
-    #     # Trigger the behavior that occurs when invalid params are submitted
-    #     Panel.any_instance.stub(:save).and_return(false)
-    #     put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
-    #     assigns(:panel).should eq(panel)
-    #   end
+    describe "with invalid params" do
+      it "警報パネルを @panel にアサインする" do
+        panel = Panel.create! valid_attributes
+        # Trigger the behavior that occurs when invalid params are submitted
+        Panel.any_instance.stub(:save).and_return(false)
+        put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
+        assigns(:panel).should eq(panel)
+      end
 
-    #   it "re-renders the 'edit' template" do
-    #     panel = Panel.create! valid_attributes
-    #     # Trigger the behavior that occurs when invalid params are submitted
-    #     Panel.any_instance.stub(:save).and_return(false)
-    #     put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
-    #     response.should render_template("edit")
-    #   end
-    # end
+      it "編集画面を再描画する" do
+        panel = Panel.create! valid_attributes
+        # Trigger the behavior that occurs when invalid params are submitted
+        Panel.any_instance.stub(:save).and_return(false)
+        put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
+        response.should render_template("edit")
+      end
+    end
   end
 
   describe "DELETE destroy" do
