@@ -55,10 +55,22 @@ When(/^警報パネル一覧のページを描画する$/) do
   visit panels_path
 end
 
+When(/^警報パネルの幅として (\d+) を入力する$/) do |width|
+  fill_in 'panel_width', with: width
+end
+
+When(/^警報パネルの高さとして (\d+) を入力する$/) do |height|
+  fill_in 'panel_height', with: height
+end
+
+When(/^警報パネルの盤に (.*) を選択する$/) do |board|
+  select board
+end
+
 Then(/^縦 (\d+)、横 (\d+) の表が表示される$/) do |height, width|
   expect(page).to have_selector('table')
   expect(page).to have_selector('table tr', :count => height.to_i)
-  expect(page).to have_selector('table td', :count => height.to_i * width.to_i)
+  expect(page).to have_selector('table td', :count => height.to_i * (width.to_i + 1))
 end
 
 Then(/^そのパネルの (.*) には手順書のリンクが含まれている$/) do |location|
@@ -88,4 +100,16 @@ end
 
 Then(/^警報パネルの部分は、パネルの詳細のページへのリンクとなっている$/) do
   expect(page).to have_selector ".panel a"
+end
+
+Then(/^警報パネルの幅が (\d+) に設定される$/) do |width|
+  expect(@panel.width).to eq(width)
+end
+
+Then(/^警報パネルの高さが (\d+) に設定される$/) do |height|
+  expect(@panel.height).to eq(height)
+end
+
+Then(/^警報パネルの盤に (.*) が設定される$/) do |board|
+  expect(@panel.board.name).to eq(board)
 end
