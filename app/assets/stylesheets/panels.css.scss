@@ -33,3 +33,18 @@ table.panel {
     }
   }
 }
+
+#list_of_panels li.board {
+  color: #bbb;
+  margin: 1em;
+  font-size: small;
+  table {
+    border-spacing: 1em 0.3em;
+    font-size: x-large;
+
+    td {
+      font-color: red;
+      font-size: large;
+    }
+  }
+}
