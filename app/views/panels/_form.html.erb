@@ -26,7 +26,7 @@
   <div class="field">
     <% raise "empty boards" if @boards.nil? %>
     <%= f.label :board_id %><br>
-    <%= f.select :board_id, @boards.map { |b| ["(#{b.code}) #{b.name}", b.id] }, { include_blank: true } %>
+    <%= f.select :board_id, @boards.sort.map { |b| ["#{b.code}  #{b.name}", b.id] }, { include_blank: true } %>
   </div>
   <div class="actions">
     <%= f.submit %>

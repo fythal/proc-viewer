@@ -23,8 +23,8 @@ describe "panels/edit" do
 
       # 盤の選択メニュー
       assert_select "select", :name => "panel[board_id]" do
-        assert_select "option[value='100']"
-        assert_select "option[value='200']"
+        assert_select "option[value='100']", :text => "bar-1  Bar 1 ですよ"
+        assert_select "option[value='200']", :text => "bar-2  Bar 2 ですよ"
       end
     end
   end
