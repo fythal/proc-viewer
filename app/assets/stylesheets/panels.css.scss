@@ -1,3 +1,35 @@
 // Place all the styles related to the Panels controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.panel {
+  margin: 0em 2em;
+  padding: 0.6em 2em 2em 1em;
+  border-spacing: 0.5em;
+  background-color: #695;
+
+  thead {
+    th {
+      heigth: 0em;
+      color: white;
+    }
+  }
+  
+  tr {
+    td.vertical_header {
+      padding: 0 0.8em 0 0;
+      width: 1%;
+      color: white;
+      background-color: #695;
+    }
+
+    td {
+      height: 5em;
+      margin: 0.5em;
+      width: 8%;
+      background-color: #fff;
+      padding: 0.5em;
+      text-align: center;
+    }
+  }
+}

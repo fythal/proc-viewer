@@ -5,14 +5,24 @@
   <%= @panel.number %>
 </p>
 
-<table>
-  <% @panel.anns(array: true).each_with_index do |anns, y0| %>
-  <tr>
-    <% anns.each_with_index do |ann, x0| %>
-    <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_or_name(ann) %></td>
+<table class="panel">
+  <thead>
+    <!-- 横方向のヘッダー -->
+    <th></th>
+    <% 1.upto(@panel.width) do |index| %>
+    <th><%= index %></th>
     <% end %>
-  </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @panel.anns(array: true).each_with_index do |anns, y0| %>
+    <tr>
+      <td class="vertical_header"><%= (y0+1).to_s.tr('1-9', 'A-I') %></td>
+      <% anns.each_with_index do |ann, x0| %>
+      <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_or_name(ann) %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= link_to 'Edit', edit_panel_path(@panel) %> |
