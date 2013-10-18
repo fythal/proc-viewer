@@ -96,6 +96,11 @@ class Procedure < ActiveRecord::Base
     end
   end
 
+  def update_path
+    pathname = Pathname.new("/procs")
+    self.path = pathname.join(construct_filename).to_s
+  end
+
   private
 
   def path=(newname)

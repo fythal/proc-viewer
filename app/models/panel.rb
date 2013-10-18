@@ -38,16 +38,40 @@ class Panel < ActiveRecord::Base
   # 警報パネルに警報を割り当てるクラスメソッド
   #
   def self.assign(ann, panel_and_location)
+    return false if panel_and_location[:panel].nil? or panel_and_location[:to].nil?
+
     panel = relating(panel_and_location[:panel])
-    location = Location.new(ann: ann, panel: panel, location: panel_and_location[:to])
+
+    # 割り当てようとする場所 (文字列)
+    assigning_location = panel_and_location[:to]
+
+    # 元の場所は削除する
+    ann.location.destroy if ann.location.present? and ann.location.location != assigning_location
+
+    search_param = { panel_id: panel.id, location: assigning_location }
+    if panel.persisted?
+      # パネルから場所オブジェクトがすでに作成されていないか探してみる。なかったら作る
+      location = Location.find_or_initialize_by(search_param) { |loc| loc.ann = ann }
+    else
+      # パネルが新設の場合、場所オブジェクトも作成する
+      location = Location.new(ann: ann, panel: panel, location: assigning_location)
+    end
 
     begin
+      # ann がデータベースに保存されていなくても ann から場所にアクセス
+      # できるようにする
       ann.location = location
     rescue ActiveRecord::RecordNotSaved
       return false
     end
     ann.panel(true)
-    ann.location.valid?
+
+    if ann.location.valid?
+      ann.rename_procedures
+      true
+    else
+      false
+    end
   end
 
   #

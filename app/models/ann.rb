@@ -51,6 +51,10 @@ class Ann < ActiveRecord::Base
     location.location rescue nil
   end
 
+  def rename_procedures
+    procedures.each { |pr| pr.update_path }
+  end
+
   private
 
   def panel_and_location_if_assigned
