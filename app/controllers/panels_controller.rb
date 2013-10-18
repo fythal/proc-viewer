@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class PanelsController < ApplicationController
   before_action :set_panel, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_all_boards, only: [:index, :new, :edit]
 
   skip_before_action :identify_user
 
@@ -8,7 +9,6 @@ class PanelsController < ApplicationController
   # GET /panels.json
   def index
     @panels = Panel.all
-    @boards = Board.all
   end
 
   # GET /panels/1
@@ -71,8 +71,12 @@ class PanelsController < ApplicationController
       @panel = Panel.find(params[:id])
     end
 
+    def fetch_all_boards
+      @boards = Board.all
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def panel_params
-      params.require(:panel).permit(:number, :width, :height)
+      params.require(:panel).permit(:number, :width, :height, :board_id)
     end
 end

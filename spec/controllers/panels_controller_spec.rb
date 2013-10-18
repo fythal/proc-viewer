@@ -54,6 +54,13 @@ describe PanelsController do
       get :new, {}, valid_session
       assigns(:panel).should be_a_new(Panel)
     end
+
+    it "すべての盤オブジェクトを @boards にアサインする" do
+      board = stub_model(Board, code: "foo", name: "bar")
+      Board.stub(:all).and_return([board])
+      get :new, {}, valid_session
+      expect(assigns(:boards)).to eq([board])
+    end
   end
 
   describe "GET edit" do
@@ -61,6 +68,14 @@ describe PanelsController do
       panel = Panel.create! valid_attributes
       get :edit, {:id => panel.to_param}, valid_session
       assigns(:panel).should eq(panel)
+    end
+
+    it "すべての盤オブジェクトを @boards にアサインする" do
+      board = stub_model(Board, code: "foo", name: "bar")
+      Board.stub(:all).and_return([board])
+      panel = Panel.create! valid_attributes
+      get :edit, {id: panel.to_param}, valid_session
+      expect(assigns(:boards)).to eq([board])
     end
   end
 
@@ -135,6 +150,12 @@ describe PanelsController do
         panel = Panel.create! valid_attributes
         put :update, {:id => panel.to_param, :panel => { :height => "5" }}, valid_session
         expect(assigns(:panel).height).to eq(5)
+      end
+
+      it "board_id 属性 (所属する盤) をアップデートする" do
+        panel = Panel.create! valid_attributes
+        put :update, {:id => panel.to_param, :panel => { :board_id => "100" }}, valid_session
+        expect(assigns(:panel).board_id).to eq(100)
       end
 
       it "redirects to the panel" do
