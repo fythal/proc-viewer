@@ -2,11 +2,13 @@
 
 # == 警報パネルの場所
 #
-# 場所 (Location オブジェクト) は、警報パネル (Panel オブジェクト) と
-# 警報 (Ann オブジェクト) を関連付ける。
+# 場所 (Location オブジェクト) は、警報パネル (Panel オブジェクト) と、
+# 警報 (Ann オブジェクト) または一括警報 (Panel オブジェクト) を関連付
+# ける。
 #
 # === 属性
-# - ann_id (+Integer+)
+# - item_id (+Integer+)
+# - item_type (+String+)
 # - panel_id (+Integer+)
 # - location (+String+)
 # - x (+Integer+)
@@ -15,7 +17,7 @@
 # === 妥当性
 # Location オブジェクトの妥当性は以下の条件に関して評価される。
 #
-# - ann_id が設定され、かつオブジェクトが存在している。
+# - item_id が設定され、かつオブジェクト (Ann または Panel) が存在している。 (polymorphic)
 # - panel_id が設定され、かつオブジェクトが存在している。
 # - location が設定されている。
 # - x, y が設定されている。
@@ -23,10 +25,11 @@
 
 class Location < ActiveRecord::Base
   belongs_to :panel
-  belongs_to :ann
+  belongs_to :item, polymorphic: true
 
   validates :location, presence: true
-  validates_presence_of :ann, :panel, :x, :y
+  validates_presence_of :item
+  validates_presence_of :panel, :x, :y
   validates_uniqueness_of :x, scope: [:panel_id, :y]
   validates_uniqueness_of :y, scope: [:panel_id, :x]
 

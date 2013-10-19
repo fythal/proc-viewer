@@ -19,12 +19,38 @@ describe AnnsHelper do
         ann = stub_model(Ann, name: "foo", procedure: procedure)
         expect(helper.link_or_name(ann)).to match /^<a /
       end
+
       it "手順書へ名称を含む" do
         procedure = stub_model(Procedure, path: "/foo/bar.pdf", filename: "bar.pdf")
         ann = stub_model(Ann, name: "bazz", procedure: procedure)
         expect(helper.link_or_name(ann)).to match /bazz/
       end
+
+      it "リンクは ann クラスである" do
+        procedure = stub_model(Procedure, path: "/foo/bar.pdf", filename: "bar.pdf")
+        ann = stub_model(Ann, name: "foo", procedure: procedure)
+        expect(helper.link_or_name(ann)).to match /^<a [^>]*class=['"]ann["']/
+      end
     end
+
+    describe "引数が一括警報 (Panel オブジェクト) である" do
+      before(:each) do
+        @item = stub_model(Panel, name: "foo", number: "bar")
+      end
+
+      it "一括警報へのリンクを返す" do
+        expect(helper.link_or_name(@item)).to match /^<a /
+      end
+
+      it "name 属性の値を含む" do
+        expect(helper.link_or_name(@item)).to match />foo</
+      end
+
+      it "リンクは panel クラスである" do
+        expect(helper.link_or_name(@item)).to match /^<a [^>]*class=['"]panel["']/
+      end
+    end
+
     describe "引数が警報オブジェクトで手順書が設定されていない" do
       it "警報の名称を返す" do
         ann = stub_model(Ann, name: "bazz")

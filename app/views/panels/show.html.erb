@@ -14,11 +14,11 @@
     <% end %>
   </thead>
   <tbody>
-    <% @panel.anns(array: true).each_with_index do |anns, y0| %>
+    <% @panel.items(array: true).each_with_index do |items, y0| %>
     <tr>
       <td class="vertical_header"><%= num_to_alpha(y0+1) %></td>
-      <% anns.each_with_index do |ann, x0| %>
-      <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_or_name(ann) %></td>
+      <% items.each_with_index do |item, x0| %>
+      <td id="<%= loc_id(x0+1, y0+1) %>"><%= link_or_name(item) %></td>
       <% end %>
     </tr>
     <% end %>

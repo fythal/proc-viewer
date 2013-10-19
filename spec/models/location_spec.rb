@@ -20,8 +20,8 @@ describe Location do
       it "同じ panel_id, x, y の Location オブジェクトの存在は不当" do
         panel = Panel.create!(number: "foo")
         ann   = Ann.create!(name: "foo")
-        other = Location.create!(panel: panel, x: 1, y: 1, ann: ann)
-        loc   = Location.new(panel: panel, x: 1, y: 1, ann: ann)
+        other = Location.create!(panel: panel, x: 1, y: 1, item: ann)
+        loc   = Location.new(panel: panel, x: 1, y: 1, item: ann)
         loc.valid?
         expect(loc).to have_any_error_on(:x)
       end
@@ -43,8 +43,8 @@ describe Location do
       it "同じ panel_id, x, y の Location オブジェクトの存在は不当" do
         panel = Panel.create!(number: "foo")
         ann   = Ann.create!(name: "foo")
-        other = Location.create!(panel: panel, x: 1, y: 1, ann: ann)
-        loc   = Location.new(panel: panel, x: 1, y: 1, ann: ann)
+        other = Location.create!(panel: panel, x: 1, y: 1, item: ann)
+        loc   = Location.new(panel: panel, x: 1, y: 1, item: ann)
         loc.valid?
         expect(loc).to have_any_error_on(:y)
       end
@@ -113,6 +113,23 @@ describe Location do
         location = Location.new(x: nil,  y: nil)
         expect(location.location).to be_nil
       end
+    end
+  end
+
+  describe "#item=" do
+    before(:each) do
+      @location = Location.new
+      @ann = Ann.create!(name: "foo")
+      @subpanel = Panel.create!(number: "bar")
+    end
+
+    describe "警報オブジェクトを代入" do
+      it "エラーが発生しない" do
+        expect { @location.item = @ann }.not_to raise_error
+      end
+    end
+
+    describe "警報パネルオブジェクトを代入" do
     end
   end
 end

@@ -14,6 +14,7 @@
 # === 関連
 # - locations (場所)
 # - anns (場所を介する)
+# - panels (場所を介する)
 # - board (警報パネルが所属する盤)
 #
 # === 妥当性
@@ -23,21 +24,25 @@
 # - number は独自の値を持つ。
 
 class Panel < ActiveRecord::Base
-  has_many :locations
-  has_many :anns, through: :locations
   belongs_to :board
 
-  before_destroy :ensure_not_referenced_by_any_ann
+  has_many :locations
+  has_many :anns, through: :locations, source: :item, source_type: "Ann"
+  has_many :panels, through: :locations, source: :item, source_type: "Panel"
+
+  has_one :location, as: :item
+  has_one :panel, through: :location
+
+  before_destroy :ensure_not_referenced_by_any_item
 
   validates :number, presence: true
   validates :number, uniqueness: true
-
-  alias_method :anns_orig, :anns
+  validates_presence_of :name, if: Proc.new { |panel| panel.location.present? }
 
   #
-  # 警報パネルに警報を割り当てるクラスメソッド
+  # 警報パネル panel に警報または一括警報 item を割り当てるクラスメソッド
   #
-  def self.assign(ann, panel_and_location)
+  def self.assign(item, panel_and_location)
     return false if panel_and_location[:panel].nil? or panel_and_location[:to].nil?
 
     panel = relating(panel_and_location[:panel])
@@ -46,28 +51,28 @@ class Panel < ActiveRecord::Base
     assigning_location = panel_and_location[:to]
 
     # 元の場所は削除する
-    ann.location.destroy if ann.location.present? and ann.location.location != assigning_location
+    item.location.destroy if item.location.present? and item.location.location != assigning_location
 
     search_param = { panel_id: panel.id, location: assigning_location }
     if panel.persisted?
       # パネルから場所オブジェクトがすでに作成されていないか探してみる。なかったら作る
-      location = Location.find_or_initialize_by(search_param) { |loc| loc.ann = ann }
+      location = Location.find_or_initialize_by(search_param) { |loc| loc.item = item }
     else
       # パネルが新設の場合、場所オブジェクトも作成する
-      location = Location.new(ann: ann, panel: panel, location: assigning_location)
+      location = Location.new(item: item, panel: panel, location: assigning_location)
     end
 
     begin
-      # ann がデータベースに保存されていなくても ann から場所にアクセス
-      # できるようにする
-      ann.location = location
+      # 警報または一括警報がデータベースに保存されていなくても、それら
+      # オブジェクトから場所にアクセスできるようにする
+      item.location = location
     rescue ActiveRecord::RecordNotSaved
       return false
     end
-    ann.panel(true)
+    item.panel(true)
 
-    if ann.location.valid?
-      ann.rename_procedures
+    if item.kind_of?(Ann) and item.location.valid?
+      item.rename_procedures
       true
     else
       false
@@ -75,10 +80,10 @@ class Panel < ActiveRecord::Base
   end
 
   #
-  # 警報パネルに警報を割り当てるインスタンスメソッド
+  # 警報パネル panel に警報または一括警報 item を割り当てるインスタンスメソッド
   #
-  def assign(ann, location_hash)
-    Panel.assign(ann, location_hash.merge(panel: self))
+  def assign(item, location_hash)
+    Panel.assign(item, location_hash.merge(panel: self))
   end
 
   #
@@ -150,18 +155,18 @@ class Panel < ActiveRecord::Base
   # り、割り当てられているところには Ann オブジェクトが設定される。
   # 割り当てられていない場所には nil が設定される。
   #
-  def anns(value = false)
+  def items(value = false)
     if value.kind_of?(Hash)
       if value[:array]
         (1..height).inject([]) do |result, y|
           result << (1..width).inject([]) do |result, x|
             loc = locations.where('x = ? and y = ?', x, y).first
-            result << (loc.nil? ? nil : loc.ann)
+            result << (loc.nil? ? nil : loc.item)
           end
         end
       end
     else
-      anns_orig(value)
+      anns.to_a + panels.to_a
     end
   end
 
@@ -194,11 +199,11 @@ class Panel < ActiveRecord::Base
   # 置されている警報があった場合、警報パネルオブジェクト自体にエラーを
   # つける。
   #
-  def ensure_not_referenced_by_any_ann
-    if anns.empty?
+  def ensure_not_referenced_by_any_item
+    if items.empty?
       return true
     else
-      errors.add(:base, 'Anns present')
+      errors.add(:base, 'Items present')
       return false
     end
   end

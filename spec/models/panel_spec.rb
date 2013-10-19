@@ -19,6 +19,35 @@ describe Panel do
     { location: "a1"}
   end
 
+  describe "妥当性" do
+    context "number 属性が設定されている" do
+      it "妥当である" do
+        panel = Panel.new(valid_panel_attributes)
+        expect(panel).to be_valid
+      end
+    end
+
+    context "一括警報である" do
+      context "name 属性が設定されていない" do
+        it "妥当ではない" do
+          panel = Panel.new(valid_panel_attributes)
+          panel.location = Location.new
+          expect(panel).not_to be_valid
+        end
+      end
+
+      context "name 属性が設定されている" do
+        it "妥当である" do
+          panel = Panel.new(valid_panel_attributes)
+          panel.location = Location.new
+          panel.name = "foo"
+          expect(panel).to be_valid
+        end
+      end
+    end
+  end
+
+
   #
   # 警報パネルと窓に警報を割り当てる
   #
@@ -379,33 +408,17 @@ describe Panel do
   end
 
   describe "#anns(option)" do
-    describe "引数なし" do
-      it "anns_orig を呼出す" do
-        panel = Panel.new
-        panel.should_receive(:anns_orig)
-        panel.anns
-      end
-    end
-
-    describe "引数が true/false" do
-      it "anns_orig を呼出す" do
-        panel = Panel.new
-        panel.should_receive(:anns_orig)
-        panel.anns(true)
-      end
-    end
-
     describe "引数が :array" do
       it "2次元配列を返す" do
         panel = Panel.new(width: 3, height: 3)
-        expect(panel.anns(array: true)).to be_kind_of(Array)
-        expect(panel.anns(array: true).first).to be_kind_of(Array)
+        expect(panel.items(array: true)).to be_kind_of(Array)
+        expect(panel.items(array: true).first).to be_kind_of(Array)
       end
 
       it "配列の大きさは警報パネルと同じ" do
         panel = Panel.new(width: 3, height: 3)
-        expect(panel.anns(array: true).size).to eq(3)
-        expect(panel.anns(array: true).first.size).to eq(3)
+        expect(panel.items(array: true).size).to eq(3)
+        expect(panel.items(array: true).first.size).to eq(3)
       end
     end
   end
@@ -418,6 +431,22 @@ describe Panel do
     it "number を基にソートをする" do
       expect(@panel <=> @other).to eq(1)
       expect(@other <=> @panel).to eq(-1)
+    end
+  end
+
+  describe "location" do
+    before(:each) do
+      @subpanel = Panel.create!(number: "foobar")
+      @panel = Panel.create!(number: "foo")
+      @panel.assign(@subpanel, to: "a1")
+    end
+
+    it "Location オブジェクトを返す" do
+      expect(@subpanel.location).to be_kind_of(Location)
+    end
+
+    it "指定した場所に割り当てられている" do
+      expect(@subpanel.location.location).to eq("a1")
     end
   end
 

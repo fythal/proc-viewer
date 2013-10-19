@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131010210836) do
+ActiveRecord::Schema.define(version: 20131019130539) do
 
   create_table "anns", force: true do |t|
     t.string   "name"
@@ -27,13 +27,14 @@ ActiveRecord::Schema.define(version: 20131010210836) do
   end
 
   create_table "locations", force: true do |t|
-    t.integer  "ann_id"
     t.integer  "panel_id"
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "x"
     t.integer  "y"
+    t.integer  "item_id"
+    t.string   "item_type"
   end
 
   create_table "logins", force: true do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20131010210836) do
     t.integer  "board_id"
     t.integer  "_height"
     t.integer  "_width"
+    t.string   "name"
   end
 
   create_table "procedures", force: true do |t|

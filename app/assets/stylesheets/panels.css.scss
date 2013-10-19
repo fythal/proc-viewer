@@ -16,6 +16,7 @@ table.panel {
   }
   
   tr {
+    /* 警報パネルの左に表示される A, B, C... */
     td.vertical_header {
       padding: 0 0.8em 0 0;
       width: 1%;
@@ -30,9 +31,28 @@ table.panel {
       background-color: #fff;
       padding: 0.5em;
       text-align: center;
+      color: #999;
+    }
+
+    /* リンク */
+    a {
+      /* 下線を表示させない */
+      text-decoration: none;
+    }
+
+    /* 一括警報へのリンク */
+    a.panel {
+      color: #063;
+    }
+
+    /* マウスカーソルが上に乗っているとき */
+    a:hover {
+      color: white;
+      background-color: gray;
     }
   }
 }
+
 
 #list_of_panels li.board {
   color: #bbb;

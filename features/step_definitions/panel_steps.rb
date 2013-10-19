@@ -25,7 +25,7 @@ Given(/^そのパネルの (.*) に警報が割り当てられている$/) do |l
 end
 
 Given(/^そのパネルの (.*) に一括警報が割り当てられている$/) do |location|
-  @subpanel = Panel.create!(number: "foobar_panel")
+  @subpanel = Panel.create!(number: "foobar_panel", name: "foobar")
   @panel.assign(@subpanel, to: location)
 end
 
@@ -124,5 +124,5 @@ Then(/^警報パネルの盤に (.*) が設定される$/) do |board|
 end
 
 Then(/^そのパネルの (.*) には一括警報のリンクが含まれている$/) do |location|
-  expect(page).to have_selector "#loc_#{location.downcase}", text: @subpanel.number
+  expect(page).to have_selector "#loc_#{location.downcase}", text: @subpanel.name
 end
