@@ -24,6 +24,11 @@ Given(/^そのパネルの (.*) に警報が割り当てられている$/) do |l
   @panel.assign(ann, to: location)
 end
 
+Given(/^そのパネルの (.*) に一括警報が割り当てられている$/) do |location|
+  @subpanel = Panel.create!(number: "foobar_panel")
+  @panel.assign(@subpanel, to: location)
+end
+
 Given(/^盤 (.*) がある$/) do |name|
   Board.create!(name: name)
 end
@@ -36,6 +41,10 @@ Given(/^盤 (.*) には (.*) と (.*) の警報パネルが配置されている
 end
 
 When(/^その表の詳細画面を表示する$/) do
+  visit panel_path(@panel)
+end
+
+When(/^その警報パネルの詳細画面を表示する$/) do
   visit panel_path(@panel)
 end
 
@@ -112,4 +121,8 @@ end
 
 Then(/^警報パネルの盤に (.*) が設定される$/) do |board|
   expect(@panel.reload.board.name).to eq(board)
+end
+
+Then(/^そのパネルの (.*) には一括警報のリンクが含まれている$/) do |location|
+  expect(page).to have_selector "#loc_#{location.downcase}", text: @subpanel.number
 end
