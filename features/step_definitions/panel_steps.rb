@@ -111,5 +111,5 @@ Then(/^警報パネルの高さが (\d+) に設定される$/) do |height|
 end
 
 Then(/^警報パネルの盤に (.*) が設定される$/) do |board|
-  expect(@panel.board.name).to eq(board)
+  expect(@panel.reload.board.name).to eq(board)
 end
