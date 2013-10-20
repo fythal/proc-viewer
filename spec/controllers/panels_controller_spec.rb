@@ -235,6 +235,15 @@ describe PanelsController do
         put :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
+
+      it "すべての盤オブジェクトを @boards にアサインする" do
+        panel = Panel.create! valid_attributes
+        Panel.any_instance.stub(:save).and_return(false)
+        board = stub_model(Board, code: "foo", name: "bar")
+        Board.stub(:all).and_return([board])
+        post :update, {:id => panel.to_param, :panel => { "number" => "invalid value" }}, valid_session
+        expect(assigns(:boards)).to eq([board])
+      end
     end
   end
 
