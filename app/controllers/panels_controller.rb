@@ -2,7 +2,7 @@
 class PanelsController < ApplicationController
   before_action :set_super_panel, only: [:create, :update]
   before_action :set_panel, only: [:show, :edit, :update, :destroy]
-  before_action :fetch_all_boards, only: [:index, :new, :edit]
+  before_action :fetch_all_boards, only: [:index, :new, :edit, :create, :update]
 
   skip_before_action :identify_user
 
