@@ -1,0 +1,351 @@
+diff --git a/app/controllers/boards_controller.rb b/app/controllers/boards_controller.rb
+index f311acf..4026ac8 100644
+--- a/app/controllers/boards_controller.rb
++++ b/app/controllers/boards_controller.rb
+@@ -73,6 +73,6 @@ class BoardsController < ApplicationController
+ 
+     # Never trust parameters from the scary internet, only allow the white list through.
+     def board_params
+-      params.require(:board).permit(:number)
++      params.require(:board).permit(:code, :name)
+     end
+ end
+diff --git a/app/controllers/panels_controller.rb b/app/controllers/panels_controller.rb
+index 6a2de5a..976eb6e 100644
+--- a/app/controllers/panels_controller.rb
++++ b/app/controllers/panels_controller.rb
+@@ -7,6 +7,7 @@ class PanelsController < ApplicationController
+   # GET /panels
+   # GET /panels.json
+   def index
++    @panels = Panel.all
+     @boards = Board.all
+   end
+ 
+@@ -65,13 +66,13 @@ class PanelsController < ApplicationController
+   end
+ 
+   private
+-    # Use callbacks to share common setup or constraints between actions.
+-    def set_panel
+-      @panel = Panel.find(params[:id])
+-    end
++  # Use callbacks to share common setup or constraints between actions.
++  def set_panel
++    @panel = Panel.find(params[:id])
++  end
+ 
+-    # Never trust parameters from the scary internet, only allow the white list through.
+-    def panel_params
+-      params.require(:panel).permit(:number)
+-    end
++  # Never trust parameters from the scary internet, only allow the white list through.
++  def panel_params
++    params.require(:panel).permit(:number, :height, :width)
++  end
+ end
+diff --git a/app/views/anns/index.json.jbuilder b/app/views/anns/index.json.jbuilder
+index 0673084..13d50f7 100644
+--- a/app/views/anns/index.json.jbuilder
++++ b/app/views/anns/index.json.jbuilder
+@@ -1,4 +1,4 @@
+ json.array!(@anns) do |ann|
+-  json.extract! ann, :name, :panel_number, :panel_location
++  json.extract! ann, :name, :panel_number, :panel_location, :id
+   json.url ann_url(ann, format: :json)
+ end
+diff --git a/app/views/anns/show.json.jbuilder b/app/views/anns/show.json.jbuilder
+index f573ae8..ff377f2 100644
+--- a/app/views/anns/show.json.jbuilder
++++ b/app/views/anns/show.json.jbuilder
+@@ -1 +1 @@
+-json.extract! @ann, :name, :panel_number, :panel_location, :created_at, :updated_at
++json.extract! @ann, :name, :panel_number, :panel_location, :created_at, :updated_at, :id
+diff --git a/app/views/boards/index.json.jbuilder b/app/views/boards/index.json.jbuilder
+index 26edb96..cb595b6 100644
+--- a/app/views/boards/index.json.jbuilder
++++ b/app/views/boards/index.json.jbuilder
+@@ -1,4 +1,4 @@
+ json.array!(@boards) do |board|
+-  json.extract! board, :name
++  json.extract! board, :code, :name, :id
+   json.url board_url(board, format: :json)
+ end
+diff --git a/app/views/boards/show.json.jbuilder b/app/views/boards/show.json.jbuilder
+index 22275a7..264b56e 100644
+--- a/app/views/boards/show.json.jbuilder
++++ b/app/views/boards/show.json.jbuilder
+@@ -1 +1 @@
+-json.extract! @board, :name, :created_at, :updated_at
++json.extract! @board, :code, :name, :created_at, :updated_at, :id
+diff --git a/app/views/panels/index.json.jbuilder b/app/views/panels/index.json.jbuilder
+index 3608407..4d90f4a 100644
+--- a/app/views/panels/index.json.jbuilder
++++ b/app/views/panels/index.json.jbuilder
+@@ -1,4 +1,4 @@
+ json.array!(@panels) do |panel|
+-  json.extract! panel, :number
++  json.extract! panel, :number, :id, :height, :width
+   json.url panel_url(panel, format: :json)
+ end
+diff --git a/app/views/panels/show.json.jbuilder b/app/views/panels/show.json.jbuilder
+index 203c399..9518af7 100644
+--- a/app/views/panels/show.json.jbuilder
++++ b/app/views/panels/show.json.jbuilder
+@@ -1 +1 @@
+-json.extract! @panel, :number, :created_at, :updated_at
++json.extract! @panel, :number, :created_at, :updated_at, :id, :height, :width
+diff --git a/app/views/procedures/index.json.jbuilder b/app/views/procedures/index.json.jbuilder
+index a30c0e6..f9abcbb 100644
+--- a/app/views/procedures/index.json.jbuilder
++++ b/app/views/procedures/index.json.jbuilder
+@@ -1,4 +1,4 @@
+ json.array!(@procedures) do |procedure|
+-  json.extract! procedure, :path, :ann_id, :revision, :revised_on, :prev_revision_id
++  json.extract! procedure, :path, :ann_id, :revision, :revised_on, :id
+   json.url procedure_url(procedure, format: :json)
+ end
+diff --git a/app/views/procedures/show.json.jbuilder b/app/views/procedures/show.json.jbuilder
+index b8319fc..6f5097a 100644
+--- a/app/views/procedures/show.json.jbuilder
++++ b/app/views/procedures/show.json.jbuilder
+@@ -1 +1 @@
+-json.extract! @procedure, :path, :ann_id, :revision, :revised_on, :prev_revision_id, :created_at, :updated_at
++json.extract! @procedure, :path, :ann_id, :revision, :revised_on, :created_at, :updated_at, :id
+diff --git a/db/panels/ar.rb b/db/panels/ar.rb
+index 89f11a5..ddd85c9 100644
+--- a/db/panels/ar.rb
++++ b/db/panels/ar.rb
+@@ -6,4 +6,32 @@ require 'active_resource'
+ class Ann < ActiveResource::Base
+   self.site = 'http://localhost:3000'
+   self.include_root_in_json = true
++
++  def to_param
++    id rescue to_param_using_url
++  end
++end
++
++class Board < ActiveResource::Base
++  self.site = 'http://localhost:3000'
++  self.include_root_in_json = true
++
++  def to_param
++    id rescue to_param_using_url
++  end
++end
++
++class Panel < ActiveResource::Base
++  self.site = 'http://localhost:3000'
++  self.include_root_in_json = true
++
++  def to_param
++    id rescue to_param_using_url
++  end
++end
++
++class ActiveResource::Base
++  def to_param_using_url
++    (persisted? and url =~ %r|/anns/(\d+)|) ? $~[1] : nil
++  end
+ end
+diff --git a/db/panels/boards.yml b/db/panels/boards.yml
+index b70d4d9..1585f7d 100644
+--- a/db/panels/boards.yml
++++ b/db/panels/boards.yml
+@@ -1,6 +1,3 @@
+-- code: H11-P700
+-- code: H11-P701
+-- code: H11-P702
+ - code: H11-P657
+   name: AM 設備制御盤
+ - code: H21-P204A
+diff --git a/spec/controllers/boards_controller_spec.rb b/spec/controllers/boards_controller_spec.rb
+index 5e7d02a..e50553a 100644
+--- a/spec/controllers/boards_controller_spec.rb
++++ b/spec/controllers/boards_controller_spec.rb
+@@ -1,5 +1,94 @@
++# -*- coding: utf-8 -*-
+ require 'spec_helper'
+ 
+ describe BoardsController do
++  def attributes
++    {code: "MyCode", name: "MyName"}
++  end
++
++  def valid_session
++    {}
++  end
++
++  describe "POST create" do
++    it "オブジェクトを生成する" do
++      expect { post :create, {:board => attributes}, {} }.to change(Board, :count).by(1)
++    end
++
++    it "新しいオブジェクトを @board にアサインする" do
++      post :create, {:board => attributes}, {}
++      assigns(:board).should be_kind_of(Board)
++      assigns(:board).should be_persisted
++    end
++
++    it "生成されたオブジェクトの詳細画面へリダイレクトする" do
++      post :create, {:board => attributes}, {}
++      response.should redirect_to(assigns[:board])
++    end
++  end
++
++  describe "PUT update" do
++    describe "with valid params" do
++      it "updates the requested board" do
++        board = Board.create! attributes
++        # Assuming there are no other boards in the database, this
++        # specifies that the Board created on the previous line
++        # receives the :update_attributes message with whatever params are
++        # submitted in the request.
++        Board.any_instance.should_receive(:update).with({ "code" => "MyNewCode", "name" => "MyNewName" })
++        put :update, {:id => board.to_param, :board => { "code" => "MyNewCode", "name" => "MyNewName" }}, valid_session
++      end
++
++      it "assigns the requested board as @board" do
++        board = Board.create! attributes
++        put :update, {:id => board.to_param, :board => attributes}, valid_session
++        assigns(:board).should eq(board)
++      end
++
++      it "number 属性をアップデートする" do
++        board = Board.create! attributes
++        put :update, {:id => board.to_param, :board => { :code => "foo", :name => "bar" }}, valid_session
++        expect(assigns(:board).code).to eq("foo")
++        expect(assigns(:board).name).to eq("bar")
++      end
++
++      it "redirects to the board" do
++        board = Board.create! attributes
++        put :update, {:id => board.to_param, :board => attributes}, valid_session
++        response.should redirect_to(board)
++      end
++    end
++
++    # describe "with invalid params" do
++    #   it "assigns the board as @board" do
++    #     board = Board.create! attributes
++    #     # Trigger the behavior that occurs when invalid params are submitted
++    #     Board.any_instance.stub(:save).and_return(false)
++    #     put :update, {:id => board.to_param, :board => { "number" => "invalid value" }}, valid_session
++    #     assigns(:board).should eq(board)
++    #   end
++
++    #   it "re-renders the 'edit' template" do
++    #     board = Board.create! attributes
++    #     # Trigger the behavior that occurs when invalid params are submitted
++    #     Board.any_instance.stub(:save).and_return(false)
++    #     put :update, {:id => board.to_param, :board => { "number" => "invalid value" }}, valid_session
++    #     response.should render_template("edit")
++    #   end
++    # end
++  end
++
++  describe "DELETE destroy" do
++    it "destroys the requested board" do
++      board = Board.create! attributes
++      expect { delete :destroy, {:id => board.to_param}, valid_session }.to change(Board, :count).by(-1)
++    end
++
++    it "redirects to the boards list" do
++      board = Board.create! attributes
++      delete :destroy, {:id => board.to_param}, valid_session
++      response.should redirect_to(boards_url)
++    end
++  end
+ 
+ end
+diff --git a/spec/requests/anns_spec.rb b/spec/requests/anns_spec.rb
+index 778f038..78b1958 100644
+--- a/spec/requests/anns_spec.rb
++++ b/spec/requests/anns_spec.rb
+@@ -35,4 +35,17 @@ describe "Anns" do
+       expect(ann["name"]).to eq("Foo")
+     end
+   end
++
++  describe "GET /anns.json" do
++    it "パラメータが含まれている" do
++      Ann.create!(name: "foo")
++
++      get anns_path, format: "json"
++      board = JSON.parse(response.body).first
++      ["name", "id"].each do |key|
++        expect(board).to have_key(key)
++      end
++    end
++  end
++
+ end
+diff --git a/spec/requests/boards_spec.rb b/spec/requests/boards_spec.rb
+index 78c1189..13f8e45 100644
+--- a/spec/requests/boards_spec.rb
++++ b/spec/requests/boards_spec.rb
+@@ -8,7 +8,7 @@ describe "Boards" do
+ 
+       get boards_path, format: "json"
+       board = JSON.parse(response.body).first
+-      ["name", "code"].each do |key|
++      ["name", "code", "id"].each do |key|
+         expect(board).to have_key(key)
+       end
+     end
+diff --git a/spec/requests/panels_spec.rb b/spec/requests/panels_spec.rb
+index b488811..1c51a68 100644
+--- a/spec/requests/panels_spec.rb
++++ b/spec/requests/panels_spec.rb
+@@ -1,3 +1,4 @@
++# -*- coding: utf-8 -*-
+ require 'spec_helper'
+ 
+ describe "Panels" do
+@@ -7,5 +8,20 @@ describe "Panels" do
+       get panels_path
+       response.status.should be(200)
+     end
++
++    it "オブジェクトが生成される" do
++      expect { Panel.create!(number: "foo-${Time.now}", height: 3, width: 3) }.to change(Panel, :count).by(1)
++    end
++
++    it "パラメータが含まれている" do
++      Panel.create!(number: "foo-${Time.now}", height: 3, width: 3)
++
++      get panels_path, format: "json"
++      panel = JSON.parse(response.body).first
++      puts response.body
++      ["number", "height", "width"].each do |key|
++        expect(panel).to have_key(key)
++      end
++    end
+   end
+ end
+diff --git a/spec/requests/procedures_spec.rb b/spec/requests/procedures_spec.rb
+index 26ec87a..03c507e 100644
+--- a/spec/requests/procedures_spec.rb
++++ b/spec/requests/procedures_spec.rb
+@@ -1,3 +1,4 @@
++# -*- coding: utf-8 -*-
+ require 'spec_helper'
+ 
+ describe "Procedures" do
+@@ -7,5 +8,15 @@ describe "Procedures" do
+       get procedures_path
+       response.status.should be(200)
+     end
++
++    it "パラメータが含まれている" do
++      Procedure.create!(revision: 0, ann_id: 1, revised_on: "2000-1-1")
++
++      get procedures_path, format: "json"
++      procedure = JSON.parse(response.body).first
++      ["path", "revision", "ann_id", "revised_on", "id"].each do |key|
++        expect(procedure).to have_key(key)
++      end
++    end
+   end
+ end

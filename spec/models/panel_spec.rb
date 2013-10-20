@@ -450,4 +450,29 @@ describe Panel do
     end
   end
 
+  describe "#panel_number" do
+    context "親パネルに配置されている" do
+      it "親パネルの番号 (number) を返す" do
+        panel = Panel.create!(number: "foo", name: "bar")
+        superpanel = Panel.create!(number: "bazz")
+        superpanel.assign(panel, to: "a1")
+        expect(panel.panel_number).to eq("bazz")
+      end
+    end
+
+    context "親パネルに配置されていない" do
+      it "nil を返す" do
+        panel = Panel.create!(number: "foo")
+        expect(panel.panel_number).to be_nil
+      end
+    end
+  end
+
+  describe "#panel_location" do
+    it "#location メッセージを自身に送る" do
+      panel = Panel.create!(number: "foo", name: "bar")
+      panel.should_receive(:location)
+      panel.panel_location
+    end
+  end
 end

@@ -40,6 +40,10 @@ Given(/^盤 (.*) には (.*) と (.*) の警報パネルが配置されている
   expect(board.panels.count).to eq(2)
 end
 
+Given(/^一括警報 \(番号 (.*)\) がある$/) do |panel_number|
+  @panel = Panel.create!(number: panel_number)
+end
+
 When(/^その表の詳細画面を表示する$/) do
   visit panel_path(@panel)
 end
@@ -74,6 +78,22 @@ end
 
 When(/^警報パネルの盤に (.*) を選択する$/) do |board|
   select board
+end
+
+When(/^その一括警報の編集画面を表示する$/) do
+  visit edit_panel_path(@panel)
+end
+
+When(/^一括警報を割り当てる警報パネルとして (.*) を入力する$/) do |number|
+  fill_in 'panel_super_panel_number', with: number
+end
+
+When(/^一括警報を割り当てる場所として (.*) を入力する$/) do |location|
+  fill_in 'panel_super_panel_location', with: location
+end
+
+When(/^警報パネルに表示される名称として (.*) を入力する$/) do |name|
+  fill_in 'panel_name', with: name
 end
 
 Then(/^縦 (\d+)、横 (\d+) の表が表示される$/) do |height, width|
@@ -125,4 +145,16 @@ end
 
 Then(/^そのパネルの (.*) には一括警報のリンクが含まれている$/) do |location|
   expect(page).to have_selector "#loc_#{location.downcase}", text: @subpanel.name
+end
+
+Then(/^警報パネルとして (.*) が設定される$/) do |number|
+  expect(@panel.reload.panel.number).to eq(number)
+end
+
+Then(/^警報パネルの場所として (.*) が設定される$/) do |location|
+  expect(@panel.reload.location.location).to eq(location)
+end
+
+Then(/^一括警報の表示名称として (.*) が設定される$/) do |name|
+  expect(@panel.reload.name).to eq(name)
 end

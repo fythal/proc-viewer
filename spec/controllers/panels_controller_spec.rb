@@ -25,6 +25,7 @@ describe PanelsController do
   # Panel. As you add validations to Panel, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { { "number" => "n1" } }
+  let(:valid_attributes_for_super_panel) { { "pane_number" =>"m1", "pane_location" => "c1" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -99,21 +100,68 @@ describe PanelsController do
       end
     end
 
-    # describe "with invalid params" do
-    #   it "assigns a newly created but unsaved panel as @panel" do
-    #     # Trigger the behavior that occurs when invalid params are submitted
-    #     Panel.any_instance.stub(:save).and_return(false)
-    #     post :create, {:panel => { "number" => "invalid value" }}, valid_session
-    #     assigns(:panel).should be_a_new(Panel)
-    #   end
+    describe "一括警報作成のための値が params に渡されたとき" do
+      before (:each) do
+        @attributes = valid_attributes.merge(valid_attributes_for_super_panel)
+      end
 
-    #   it "re-renders the 'new' template" do
-    #     # Trigger the behavior that occurs when invalid params are submitted
-    #     Panel.any_instance.stub(:save).and_return(false)
-    #     post :create, {:panel => { "number" => "invalid value" }}, valid_session
-    #     response.should render_template("new")
-    #   end
-    # end
+      it "新しい Panel オブジェクトを生成する" do
+        expect { post :create, {:panel => @attributes}, valid_session }.to change(Panel, :count).by(1)
+      end
+
+      it "新しい Panel オブジェクトを @panel にアサインする" do
+        post :create, {:panel => @attributes}, valid_session
+        assigns(:panel).should be_a(Panel)
+        assigns(:panel).should be_persisted
+      end
+
+      it "Panel クラスは、親パネルに子パネルを配置するための assign メッセージを受け取る" do
+        Panel.should_receive(:assign)
+        post :create, {:panel => @attributes}, valid_session
+      end
+
+      it "新しい Panel オブジェクトの panel 属性は親の Panel オブジェクトである" do
+        post :create, {:panel => @attributes}, valid_session
+        expect(assigns(:panel).panel).to be_kind_of(Panel)
+        expect(assigns(:panel).panel).to be_persisted
+      end
+
+      it "新しい Panel オブジェクトは場所に配置されている" do
+        post :create, {:panel => @attributes}, valid_session
+        expect(assigns(:panel).location).to be_kind_of(Location)
+        expect(assigns(:panel).location.location).not_to be_blank
+      end
+
+      it "新しい Panel オブジェクトの詳細画面へリダイレクトする" do
+        post :create, {:panel => @attributes}, valid_session
+        response.should redirect_to(Panel.last)
+      end
+    end
+
+
+    describe "with invalid params" do
+      it "新しく生成されたが、まだ保存されていない警報パネルオブジェクトを @panel にアサインする" do
+        # Trigger the behavior that occurs when invalid params are submitted
+        Panel.any_instance.stub(:save).and_return(false)
+        post :create, {:panel => { "number" => "invalid value" }}, valid_session
+        assigns(:panel).should be_a_new(Panel)
+      end
+
+      it "new テンプレートを再描画する" do
+        # Trigger the behavior that occurs when invalid params are submitted
+        Panel.any_instance.stub(:save).and_return(false)
+        post :create, {:panel => { "number" => "invalid value" }}, valid_session
+        response.should render_template("new")
+      end
+
+      it "すべての盤オブジェクトを @boards にアサインする" do
+        Panel.any_instance.stub(:save).and_return(false)
+        board = stub_model(Board, code: "foo", name: "bar")
+        Board.stub(:all).and_return([board])
+        post :create, {:panel => { "number" => "invalid value" }}, valid_session
+        expect(assigns(:boards)).to eq([board])
+      end
+    end
   end
 
   describe "PUT update" do
@@ -156,6 +204,12 @@ describe PanelsController do
         panel = Panel.create! valid_attributes
         put :update, {:id => panel.to_param, :panel => { :board_id => "100" }}, valid_session
         expect(assigns(:panel).board_id).to eq(100)
+      end
+
+      it "親パネルをアップデートする" do
+        panel = Panel.create! valid_attributes
+        put :update, {:id => panel.to_param, :panel => { :panel_number => "foobar" }}, valid_session
+        expect(assigns(:panel).panel.number).to eq("foobar")
       end
 
       it "redirects to the panel" do

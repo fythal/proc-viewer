@@ -26,6 +26,11 @@ describe "panels/edit" do
         assert_select "option[value='100']", :text => "bar-1  Bar 1 ですよ"
         assert_select "option[value='200']", :text => "bar-2  Bar 2 ですよ"
       end
+
+      # 一括警報の場合の属性設定 (親パネルなど)
+      assert_select "input#panel_name[name=?]", "panel[name]"
+      assert_select "input#panel_panel_number[name=?]", "panel[panel_number]"
+      assert_select "input#panel_panel_location[name=?]", "panel[panel_location]"
     end
   end
 end

@@ -174,6 +174,34 @@ class Panel < ActiveRecord::Base
     number <=> other.number
   end
 
+  def panel_number
+    panel.present? ? panel.number : nil
+  end
+
+  def panel_number=(number)
+    raise NoMethodError
+  end
+
+  def panel_location
+    self.send(:location)
+  end
+
+  def panel_location=(loc)
+    self.location = loc
+  end
+
+  def location=(loc)
+    if loc.is_a?(String)
+      if self.location.nil?
+        self.location = Location.new(location: loc)
+      else
+        self.location.location = loc
+      end
+    else
+      super
+    end
+  end
+
   private
 
   #

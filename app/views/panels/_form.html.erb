@@ -28,6 +28,18 @@
     <%= f.label :board_id %><br>
     <%= f.select :board_id, @boards.sort.map { |b| ["#{b.code}  #{b.name}", b.id] }, { include_blank: true } %>
   </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :panel_number %><br>
+    <%= f.text_field :panel_number %>
+  </div>
+  <div class="field">
+    <%= f.label :panel_location %><br>
+    <%= f.text_field :panel_location %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
