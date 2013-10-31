@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20131019130539) do
     t.string   "path"
     t.integer  "ann_id"
     t.integer  "revision"
-    t.datetime "revised_on", limit: 255
+    t.datetime "revised_on"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

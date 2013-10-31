@@ -181,43 +181,92 @@ describe Panel do
           Panel.assign(@ann, panel: "m1", to: "a1")
         end
       end
+
+      describe "違うパネルの空いている場所に割り当てる" do
+        context "今割り当てられている警報パネルには 2 つの警報が割り当てられている" do
+          before(:each) do
+            Panel.assign(Ann.create!(name: "bar"),  panel: "foo", to: "a1")
+            Panel.assign(Ann.create!(name: "bazz"), panel: "foo", to: "a2")
+            @assigned_panel = Panel.find_by(number: "foo")
+            expect(@assigned_panel.items.count).to eq(2)
+          end
+
+          it "パネルを新しく生成する" do
+            item = @assigned_panel.items.first
+            expect { Panel.assign(item, panel: "foo-2", to: "a1") }.to change { Panel.count }.by(1)
+          end
+
+          it "これまで割り当てられていたパネルはまだ存在する" do
+            item = @assigned_panel.items.first
+            Panel.assign(item, panel: "foo-2", to: "a1")
+            expect(@assigned_panel).not_to be_destroyed
+          end
+        end
+      end
     end
   end
 
 
-  describe "#assign(ann, location)" do
-    before(:each) do
-      @ann = Ann.create!(valid_ann_attributes)
-      @panel = Panel.create!(valid_panel_attributes)
-      @location = valid_location_attributes[:location]
-    end
+  describe "#assign(item, location)" do
+    describe "警報をパネルに割り当てる" do
+      before(:each) do
+        @ann = Ann.create!(valid_ann_attributes)
+        @panel = Panel.create!(valid_panel_attributes)
+        @location = valid_location_attributes[:location]
+      end
 
-    describe "割り当てられていない場所に警報を割り当てる" do
-      it "警報を警報パネルと関連付ける" do
-        @panel.assign(@ann, to: @location)
-        expect(@ann.location.panel).to eq(@panel)
+      describe "割り当てられていない場所に警報を割り当てる" do
+        it "警報を警報パネルと関連付ける" do
+          @panel.assign(@ann, to: @location)
+          expect(@ann.location.panel).to eq(@panel)
+        end
+      end
+
+      describe "場所に空白が指定される" do
+        describe "警報が保存されている場合" do
+          it "false が返される" do
+            expect(@panel.assign(@ann, to: "")).to be_false
+          end
+        end
+        describe "警報が保存されていない場合" do
+          before(:each) do
+            # すでに属性が存在しているというエラーメッセージを避けるため
+            @ann.destroy
+            @ann = Ann.new(valid_ann_attributes)
+            @panel.assign(@ann, to: "")
+          end
+          it "警報の locaiton が設定される" do
+            expect(@ann.location).to be_kind_of(Location)
+          end
+          it "警報の location の location 属性を空白にする" do
+            expect(@ann.location.location).to eq("")
+          end
+        end
       end
     end
 
-    describe "場所に空白が指定される" do
-      describe "警報が保存されている場合" do
-        it "false が返される" do
-          expect(@panel.assign(@ann, to: "")).to be_false
-        end
+    describe "パネルをパネルに割り当てる (一括警報 → 現場盤)" do
+      before(:each) do
+        @panel = Panel.create!(valid_panel_attributes)
+        @super_panel = Panel.create!(number: "foobar")
+        @location = valid_location_attributes[:location]
       end
-      describe "警報が保存されていない場合" do
-        before(:each) do
-          # すでに属性が存在しているというエラーメッセージを避けるため
-          @ann.destroy
-          @ann = Ann.new(valid_ann_attributes)
-          @panel.assign(@ann, to: "")
-        end
-        it "警報の locaiton が設定される" do
-          expect(@ann.location).to be_kind_of(Location)
-        end
-        it "警報の location の location 属性を空白にする" do
-          expect(@ann.location.location).to eq("")
-        end
+
+      it "警報パネルを他の警報パネルを親として関連付ける" do
+        expect { @super_panel.assign(@panel, to: @location) }.to change { @super_panel.panels.size }.by(1)
+      end
+
+      it "親としていた他の警報パネルの関連付けを削除すると #panels の数が 1 つ減る" do
+        @super_panel.assign(@panel, to:@location)
+        expect(@super_panel.panels(true).size).to eq(1)
+        expect(Panel.find_by(number: "bazz")).to be_nil
+        new_super_panel = Panel.create!(number: "bazz")
+
+        expect(@super_panel.reload.panels.size).to eq(1)
+        new_super_panel.assign(@panel, to: @location)
+        expect(@super_panel.reload.panels(true).size).to eq(0)
+
+#        expect { new_super_panel.assign(@panel, to: @location) }.to change { @super_panel.panels(true).size }.by(-1)
       end
     end
 

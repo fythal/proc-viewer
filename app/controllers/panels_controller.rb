@@ -48,7 +48,9 @@ class PanelsController < ApplicationController
   # PATCH/PUT /panels/1
   # PATCH/PUT /panels/1.json
   def update
-    @super_panel.assign(@panel, to: location) if @super_panel.present?
+    if @super_panel
+      @super_panel.assign(@panel, to: params[:panel][:panel_location])
+    end
 
     respond_to do |format|
       if @panel.update(panel_params)

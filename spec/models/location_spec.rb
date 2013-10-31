@@ -132,4 +132,27 @@ describe Location do
     describe "警報パネルオブジェクトを代入" do
     end
   end
+
+  describe "#==" do
+    before(:each) do
+      @panel = Panel.create!(number: "foo")
+      @item  = Ann.create!(name: "bar")
+      @loc_one = Location.new(panel: @panel, item: @item, location: "a1")
+      @loc_two = Location.new(panel: @panel, item: @item, location: "a1")
+      expect(@loc_one.id).not_to eq(@loc_two.id)
+    end
+
+    context "両者のパラメータが同じ" do
+      it "true を返す" do
+        expect(@loc_one).to eq(@loc_two)
+      end
+    end
+
+    context "両者のパラメータが一箇所でも違っている" do
+      it "true を返す" do
+        @loc_two.location = "foo"
+        expect(@loc_one).not_to eq(@loc_two)
+      end
+    end
+  end
 end

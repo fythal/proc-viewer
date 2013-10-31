@@ -79,4 +79,12 @@ class Location < ActiveRecord::Base
       self[:location] = y.to_s.tr('1-8', 'a-h') + x.to_s
     end
   end
+
+  def ==(other)
+    return false unless (self.item_id == other.item_id)
+    return false unless (self.item_type == other.item_type)
+    return false unless (self.panel_id == other.panel_id)
+    return false unless (self.location == other.location)
+    true
+  end
 end

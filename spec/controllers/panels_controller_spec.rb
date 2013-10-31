@@ -10,7 +10,7 @@ require 'spec_helper'
 # controller code, this generated spec may or may not pass.
 #
 # It only uses APIs available in rails and/or rspec-rails.  There are a number
-# of tools you can use to make these specs even more expressive, but we're
+1# of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 #
 # Compared to earlier versions of this generator, there is very limited use of
@@ -25,7 +25,7 @@ describe PanelsController do
   # Panel. As you add validations to Panel, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { { "number" => "n1" } }
-  let(:valid_attributes_for_super_panel) { { "pane_number" =>"m1", "pane_location" => "c1" } }
+  let(:valid_attributes_for_super_panel) { { "name" => "hohoho", "panel_number" =>"m1", "panel_location" => "c1" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -102,38 +102,36 @@ describe PanelsController do
 
     describe "一括警報作成のための値が params に渡されたとき" do
       before (:each) do
-        @attributes = valid_attributes.merge(valid_attributes_for_super_panel)
+        @attributes_for_subpanel = valid_attributes.merge(valid_attributes_for_super_panel)
       end
 
       it "新しい Panel オブジェクトを生成する" do
-        expect { post :create, {:panel => @attributes}, valid_session }.to change(Panel, :count).by(1)
+        # 親パネルをあらかじめ生成しておく
+        Panel.create!(number: valid_attributes_for_super_panel["panel_number"])
+        expect { post :create, {:panel => @attributes_for_subpanel}, valid_session }.to change(Panel, :count).by(1)
       end
 
       it "新しい Panel オブジェクトを @panel にアサインする" do
-        post :create, {:panel => @attributes}, valid_session
+        post :create, {:panel => @attributes_for_subpanel}, valid_session
         assigns(:panel).should be_a(Panel)
         assigns(:panel).should be_persisted
       end
 
-      it "Panel クラスは、親パネルに子パネルを配置するための assign メッセージを受け取る" do
-        Panel.should_receive(:assign)
-        post :create, {:panel => @attributes}, valid_session
+      it "新しい Panel オブジェクトに親パネルを設定する" do
+        post :create, {:panel => @attributes_for_subpanel}, valid_session
+        expect(assigns(:panel).reload.panel).to be_a(Panel)
       end
 
-      it "新しい Panel オブジェクトの panel 属性は親の Panel オブジェクトである" do
-        post :create, {:panel => @attributes}, valid_session
-        expect(assigns(:panel).panel).to be_kind_of(Panel)
-        expect(assigns(:panel).panel).to be_persisted
-      end
-
-      it "新しい Panel オブジェクトは場所に配置されている" do
-        post :create, {:panel => @attributes}, valid_session
-        expect(assigns(:panel).location).to be_kind_of(Location)
-        expect(assigns(:panel).location.location).not_to be_blank
+      it "新しい Panel オブジェクトに場所を設定する" do
+        post :create, {:panel => @attributes_for_subpanel}, valid_session
+        expect(assigns(:panel).reload.location).to be_a(Location)
+        expect(assigns(:panel).reload.location.location).to eq(@attributes_for_subpanel["panel_location"])
       end
 
       it "新しい Panel オブジェクトの詳細画面へリダイレクトする" do
-        post :create, {:panel => @attributes}, valid_session
+        # 親パネルをあらかじめ生成しておく
+        Panel.create!(number: valid_attributes_for_super_panel["panel_number"])
+        post :create, {:panel => @attributes_for_subpanel}, valid_session
         response.should redirect_to(Panel.last)
       end
     end
@@ -206,16 +204,50 @@ describe PanelsController do
         expect(assigns(:panel).board_id).to eq(100)
       end
 
-      it "親パネルをアップデートする" do
-        panel = Panel.create! valid_attributes
-        put :update, {:id => panel.to_param, :panel => { :panel_number => "foobar" }}, valid_session
-        expect(assigns(:panel).panel.number).to eq("foobar")
-      end
-
-      it "redirects to the panel" do
+      it "生成されたパネルの詳細画面へリダイレクトする" do
         panel = Panel.create! valid_attributes
         put :update, {:id => panel.to_param, :panel => valid_attributes}, valid_session
         response.should redirect_to(panel)
+      end
+
+    end
+
+    describe "一括警報に関する設定" do
+      before(:each) do
+        # 一括警報を作成する
+        @panel = Panel.create!(valid_attributes)
+        location = valid_attributes_for_super_panel["panel_location"]
+        super_panel = Panel.find_or_initialize_by(number: valid_attributes_for_super_panel["panel_number"])
+        super_panel.assign(@panel, to: location)
+      end
+
+      describe "一括警報の警報の表示名称を変更する" do
+        it "新しい名称に変更される" do
+          put :update, {:id => @panel.to_param, :panel => { :name => "foobar" }}, valid_session
+          expect(@panel.reload.name).to eq("foobar")
+        end
+
+        it "変更されたパネルの詳細画面へリダイレクトする" do
+          put :update, {:id => @panel.to_param, :panel => { :name => "foobar" }}, valid_session
+          response.should redirect_to(@panel)
+        end
+      end
+
+      describe "一括警報の親パネルを違うものに変える" do
+        it "#panel は新しい親パネルを返す" do
+          new_super_panel_number = "b1"
+          new_location = "a1"
+          put :update, {:id => @panel.to_param, :panel => { panel_number: new_super_panel_number, panel_location: new_location }}, valid_session
+          expect(assigns(:panel).reload.panel).to be_a(Panel)
+          expect(Panel.find_by(number: new_super_panel_number)).not_to be_nil
+          expect(assigns(:panel).reload.panel).to eq(Panel.find_by(number: new_super_panel_number))
+        end
+
+        it "元の親パネルの #panels は 1 つ減少する" do
+          prev_super_panel = @panel.panel
+          new_super_panel_number = "b1"
+          expect { put :update, {:id => @panel.to_param, :panel => { panel_number: new_super_panel_number }}, valid_session }.to change { prev_super_panel.panels.to_a.size }.by(-1)
+        end
       end
     end
 

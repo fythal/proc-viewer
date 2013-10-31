@@ -40,50 +40,94 @@ class Panel < ActiveRecord::Base
   validates_presence_of :name, if: Proc.new { |panel| panel.location.present? }
 
   #
-  # 警報パネル panel に警報または一括警報 item を割り当てるクラスメソッド
+  # 警報パネル panel に警報または一括警報 item を割り当てるクラスメソッド。
   #
-  def self.assign(item, panel_and_location)
-    return false if panel_and_location[:panel].nil? or panel_and_location[:to].nil?
+  # item は、割り当てようとする Ann オブジェクトまたは Panel オブジェク
+  # ト。params はハッシュで、:panel で割り当て先の警報パネルを文字列で
+  # 指定する ("m1" など)。また :to で警報パネルの場所を指定する ("a1"
+  # や "1a" など)。
+  #
+  # パラメータが不足していたり、不正な値が指定された場合は例外
+  # RuntimeError を発生させる
+  #
+  def self.assign(item, params)
 
-    panel = relating(panel_and_location[:panel])
-
-    # 割り当てようとする場所 (文字列)
-    assigning_location = panel_and_location[:to]
-
-    # 元の場所は削除する
-    item.location.destroy if item.location.present? and item.location.location != assigning_location
-
-    search_param = { panel_id: panel.id, location: assigning_location }
-    if panel.persisted?
-      # パネルから場所オブジェクトがすでに作成されていないか探してみる。なかったら作る
-      location = Location.find_or_initialize_by(search_param) { |loc| loc.item = item }
+    if params[:panel].kind_of?(String)
+      panel = Panel.find_or_create_by(number: params.delete(:panel))
     else
-      # パネルが新設の場合、場所オブジェクトも作成する
-      location = Location.new(item: item, panel: panel, location: assigning_location)
+      panel = params.delete(:panel)
     end
 
-    begin
-      # 警報または一括警報がデータベースに保存されていなくても、それら
-      # オブジェクトから場所にアクセスできるようにする
-      item.location = location
-    rescue ActiveRecord::RecordNotSaved
-      return false
-    end
-    item.panel(true)
+    raise "Panel の生成または取得に失敗しました" if panel.nil?
 
-    if item.kind_of?(Ann) and item.location.valid?
-      item.rename_procedures
-      true
-    else
-      false
-    end
+    panel.assign(item, params)
+
+    #     return false if params[:panel].nil? or params[:to].nil?
+
+#     assigning_panel = relating(params[:panel])
+#     assigning_location = Location.new(item: item, panel: assigning_panel, location: params[:to])
+
+#     # 割り当てようとする場所 (文字列)
+# #    assigning_location = params[:to]
+
+#     # 元の場所は削除する
+#     item.location.destroy if item.location.present? and item.location.location != assigning_location
+
+#     search_param = { panel_id: assigning_panel.id, location: assigning_location }
+#     if assigning_panel.persisted?
+#       # パネルから場所オブジェクトがすでに作成されていないか探してみる。なかったら作る
+#       location = Location.find_or_initialize_by(search_param) { |loc| loc.item = item }
+#     else
+#       # パネルが新設の場合、場所オブジェクトも作成する
+#       location = Location.new(item: item, panel: assigning_panel, location: assigning_location)
+#     end
+
+#     begin
+#       # 警報または一括警報がデータベースに保存されていなくても、それら
+#       # オブジェクトから場所にアクセスできるようにする
+#       item.location = location
+#     rescue ActiveRecord::RecordNotSaved
+#       return false
+#     end
+#     item.panel(true)
+
+#     item.rename_procedures if item.kind_of?(Ann)
+#     item.location.valid? ? true : false
   end
 
   #
   # 警報パネル panel に警報または一括警報 item を割り当てるインスタンスメソッド
   #
-  def assign(item, location_hash)
-    Panel.assign(item, location_hash.merge(panel: self))
+  # 割り当てに「とりあえず」成功すれば、場所オブジェクトを返す。「とり
+  # あえず」とは、パラメータによっては、それが期待したものではないとい
+  # うことである。
+  #
+  # 失敗するパターン
+  #   - :to の値が範囲外 (これは location の validation で対処する？)
+  #
+  # もし :params に :to が含まれていないときや、item が nil のときは例
+  # 外 InvalidArgument が発生する。
+
+  def assign(item, params)
+
+    # :params に :to が含まれていない
+    raise InvalidArgument unless params[:to]
+    raise InvalidArgument if item.nil?
+
+    new_location = Location.find_or_initialize_by(panel: self, item: item, location: params[:to])
+
+    # item に場所がすでに設定されている
+    item.location.present? and item.location.destroy
+
+    begin
+      item.location = new_location
+    rescue ActiveRecord::RecordNotSaved
+    end
+
+#    item.location_changed
+#    panel.location_changed
+
+    new_location
   end
 
   #
@@ -216,7 +260,7 @@ class Panel < ActiveRecord::Base
     when Panel
       specifier
     when String
-      find_or_initialize_by(number: specifier)
+      find_or_create_by(number: specifier)
     else
       nil
     end
