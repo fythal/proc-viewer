@@ -30,7 +30,7 @@ end
 
 def generate_class(name)
   klass = Class.new(ActiveResource::Base) do
-    self.site = 'http://localhost:3000'
+    self.site = 'http://moxers.ddo.jp'
     self.include_root_in_json = true
   end
 
