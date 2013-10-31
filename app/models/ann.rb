@@ -4,6 +4,7 @@ class Ann < ActiveRecord::Base
 #  validates_uniqueness_of :window, :scope => :panel, :message => I18n.t(:ann_already_assigned_to_other_ann)
 
   has_many :procedures
+  has_one :latest_procedure, -> { order('revision DESC').limit(1) }, class_name: 'Procedure'
 
   has_one :location, as: :item
   has_one :panel, through: :location
